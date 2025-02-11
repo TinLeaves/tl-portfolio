@@ -3,7 +3,7 @@ import { SiNextdotjs, SiTailwindcss, SiPython, SiMysql, SiMongodb, SiJavascript 
 
 export default function About() {
     return (
-        <section id="about" className="min-h-screen flex flex-col items-center pt-20 bg-zinc-900 text-white">
+        <section id="about" className="min-h-screen flex flex-col items-center pt-20 bg-zinc-950 text-white">
             <div className="max-w-7xl mx-auto px-28 w-full">
                 {/* About Me */}
                 <div className="mb-16">
@@ -11,19 +11,25 @@ export default function About() {
                         About Me
                     </h2>
                     <p className="text-lg text-zinc-300 mt-4 px-14">
-                        Hi, I'm Steven, a developer based in Vancouver, British Columbia. I recently graduated with Distinction from BCIT's Computer Systems Technology program, specializing in Database Systems. I enjoy building intuitive interfaces and working with data to create meaningful solutions that make a difference.
+                        Hi, I'm <strong className="bg-gradient-to-r from-purple-400 to-pink-500 bg-clip-text text-transparent">Steven Lai</strong>, a developer based in Vancouver, British Columbia. 
+                        I recently graduated with Distinction from BCIT's <strong className="bg-gradient-to-r from-purple-400 to-pink-500 bg-clip-text text-transparent">Computer Systems Technology</strong> program, specializing in <strong className="bg-gradient-to-r from-purple-400 to-pink-500 bg-clip-text text-transparent">Database Systems</strong>. 
+                        I enjoy building intuitive interfaces and working with data to create meaningful solutions that make a difference.
                     </p>
                     <p className="text-lg text-zinc-300 mt-4 px-14">
-                        My focus is on developing applications that are both functional and easy to use. Right now, I'm building on my skills with the Google Advanced Data Analytics Certificate. I'm always open to new challenges and projects that help me grow.
+                        My focus is on developing applications that are both functional and easy to use. 
+                        Right now, I'm building on my skills with the Google Advanced Data Analytics Certificate. 
+                        I'm always open to new challenges and projects that help me grow.
                     </p>
                     <p className="text-lg text-zinc-300 mt-4 px-14">
-                        Outside of coding, I enjoy graphite sketching and hiking the stunning mountains around Vancouver. If you have any opportunities or would like to collaborate, let’s connect! Otherwise, feel free to explore the rest of my portfolio.
+                        Outside of coding, I enjoy graphite sketching and hiking the stunning mountains around Vancouver. 
+                        If you have any opportunities or would like to collaborate, let’s connect! 
+                        Otherwise, feel free to explore the rest of my portfolio.
                     </p>
                 </div>
 
                 {/* Skillsets */}
                 <div>
-                    <h3 className="text-3xl font-semibold text-center text-purple-400 mb-8">My Skillsets</h3>
+                    <h3 className="text-3xl font-semibold text-center bg-gradient-to-r from-purple-400 to-pink-600 bg-clip-text text-transparent mb-8">My Skillsets</h3>
                     <div className="flex flex-wrap justify-center gap-8">
                         <div className="flex flex-col items-center group">
                             <SiJavascript className="text-yellow-400 w-16 h-16 mb-2 group-hover:translate-y-[-8px] transition-transform duration-300" />
