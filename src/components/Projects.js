@@ -5,7 +5,7 @@ const ProjectCard = ({ project }) => {
         <div className="group relative overflow-hidden rounded-xl bg-zinc-900 border border-zinc-800 hover:border-purple-500/50 transition-all duration-300 shadow-lg hover:shadow-purple-500/10">
             <div className="absolute inset-0 bg-gradient-to-br from-purple-600/10 to-pink-600/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
 
-            <div className="p-4 sm:p-6 flex flex-col lg:flex-row gap-4 sm:gap-6">
+            <div className="p-4 sm:p-6 flex flex-col lg:flex-row gap-4 sm:gap-6 relative z-10">
                 {/* Content Section */}
                 <div className="flex-1 space-y-4 sm:space-y-6">
                     <div className="space-y-2 sm:space-y-4">
@@ -18,10 +18,12 @@ const ProjectCard = ({ project }) => {
                     </div>
 
                     {/* Action Links */}
-                    {viewLink && sourceLink ? (
-                        <div className="flex items-center gap-4 sm:gap-6">
+                    <div className="flex items-center gap-4 sm:gap-6">
+                        {viewLink && viewLink !== "#" && (
                             <a
                                 href={viewLink}
+                                target="_blank"
+                                rel="noopener noreferrer"
                                 className="inline-flex items-center text-xs sm:text-sm font-medium text-purple-400 hover:text-purple-300 transition-colors"
                             >
                                 View Project
@@ -29,8 +31,13 @@ const ProjectCard = ({ project }) => {
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                                 </svg>
                             </a>
+                        )}
+
+                        {sourceLink && sourceLink !== "#" && (
                             <a
                                 href={sourceLink}
+                                target="_blank"
+                                rel="noopener noreferrer"
                                 className="inline-flex items-center text-xs sm:text-sm font-medium text-zinc-400 hover:text-zinc-300 transition-colors"
                             >
                                 Source Code
@@ -38,8 +45,11 @@ const ProjectCard = ({ project }) => {
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                                 </svg>
                             </a>
-                        </div>
-                    ) : (
+                        )}
+                    </div>
+
+                    {/* If neither link exists */}
+                    {!viewLink && !sourceLink && (
                         <span className="inline-flex items-center text-xs sm:text-sm font-medium text-purple-400">
                             Coming Soon...
                             <svg className="ml-1 w-3 h-3 sm:w-4 sm:h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
