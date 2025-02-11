@@ -6,7 +6,7 @@ export default function Navbar() {
 
     useEffect(() => {
         const handleScroll = () => {
-            const sections = ["about", "projects", "contact"];
+            const sections = ["hero", "about", "projects", "contact"];
             let currentSection = "";
 
             sections.forEach((sectionId) => {
@@ -40,9 +40,12 @@ export default function Navbar() {
         <nav className="fixed top-0 w-full bg-zinc-950/80 backdrop-blur-md z-50 border-b border-zinc-800">
             <div className="max-w-7xl mx-auto px-6 py-4">
                 <div className="flex justify-between items-center">
-                    <span className="text-xl font-bold bg-gradient-to-r from-purple-400 to-pink-600 bg-clip-text text-transparent">
+                    <button 
+                        onClick={() => scrollToSection("hero")}
+                        className="text-xl font-bold bg-gradient-to-r from-purple-400 to-pink-600 bg-clip-text text-transparent"
+                    >
                         TL Project
-                    </span>
+                    </button>
                     <div className="flex gap-8">
                         {["about", "projects", "contact"].map((section) => (
                             <button
