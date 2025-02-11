@@ -8,7 +8,7 @@ export default function Hero() {
       <div className="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col lg:grid lg:grid-cols-2 lg:items-center gap-8 lg:gap-12">
           {/* Profile Image - Appears first on mobile */}
-          <div className="flex justify-center order-1 lg:order-2 lg:justify-end">
+          <div className="flex justify-center order-1 lg:order-2 lg:justify-start">
             <div className="w-48 h-48 sm:w-64 sm:h-64 lg:w-80 lg:h-80 rounded-full overflow-hidden ring-4 ring-purple-500/20">
               <Image
                 src="/profile.jpg"

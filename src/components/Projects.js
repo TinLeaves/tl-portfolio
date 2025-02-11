@@ -74,7 +74,7 @@ export default function Projects() {
             title: "Contoso Sales Dashboard",
             description:
                 "A business intelligence dashboard built using Power BI, analyzing sales trends from the Azure AdventureWorks Contoso dataset. Includes interactive visualizations for revenue, profit, and customer segmentation.",
-            videoId: "VIDEO_ID_HERE",
+            videoId: "M73to21g43E",
             viewLink: "#",
             sourceLink: "#",
         },
@@ -90,9 +90,9 @@ export default function Projects() {
             title: "Pokedex Web App",
             description:
                 "A fully responsive Pokedex web app that fetches Pokémon data from the PokeAPI. Built with Vanilla JavaScript, jQuery, and Bootstrap, featuring smooth UI interactions and real-time search.",
-            videoId: "VIDEO_ID_HERE",
-            viewLink: "#",
-            sourceLink: "#",
+            videoId: "hfm-nomlwww",
+            viewLink: "https://verdant-pudding-878ba0.netlify.app/",
+            sourceLink: "https://github.com/TinLeaves/Pokemon-Webapp",
         },
         {
             title: "More in the Future",
