@@ -13,18 +13,31 @@ export default function Navbar() {
                 const section = document.getElementById(sectionId);
                 if (section) {
                     const rect = section.getBoundingClientRect();
-                    if (rect.top <= 150 && rect.bottom >= 150) {
+
+                    // Check if hero section is out of view before highlighting 'about'
+                    if (sectionId === "about" && document.getElementById("hero")) {
+                        const hero = document.getElementById("hero");
+                        const heroRect = hero.getBoundingClientRect();
+                        if (heroRect.bottom <= 0 && rect.top <= window.innerHeight) {
+                            currentSection = sectionId;
+                        }
+                    }
+                    // Highlight other sections when they are in view
+                    else if (rect.top <= window.innerHeight && rect.bottom >= 0) {
                         currentSection = sectionId;
                     }
                 }
             });
 
-            setActiveSection(currentSection);
+            if (currentSection !== activeSection) {
+                setActiveSection(currentSection);
+                window.history.pushState(null, "", `#${currentSection}`);
+            }
         };
 
         window.addEventListener("scroll", handleScroll);
         return () => window.removeEventListener("scroll", handleScroll);
-    }, []);
+    }, [activeSection]);
 
     const scrollToSection = (sectionId) => {
         const section = document.getElementById(sectionId);
@@ -33,6 +46,8 @@ export default function Navbar() {
                 behavior: "smooth",
                 block: "start",
             });
+
+            window.history.pushState(null, "", `#${sectionId}`);
         }
     };
 
