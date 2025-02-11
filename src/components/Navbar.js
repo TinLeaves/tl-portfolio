@@ -1,6 +1,41 @@
-"use client"; // Needed for scrolling behavior in App Router
+"use client";
+import { useState, useEffect } from "react";
 
 export default function Navbar() {
+    const [activeSection, setActiveSection] = useState("");
+
+    useEffect(() => {
+        const handleScroll = () => {
+            const sections = ["about", "projects", "contact"];
+            let currentSection = "";
+
+            sections.forEach((sectionId) => {
+                const section = document.getElementById(sectionId);
+                if (section) {
+                    const rect = section.getBoundingClientRect();
+                    if (rect.top <= 150 && rect.bottom >= 150) {
+                        currentSection = sectionId;
+                    }
+                }
+            });
+
+            setActiveSection(currentSection);
+        };
+
+        window.addEventListener("scroll", handleScroll);
+        return () => window.removeEventListener("scroll", handleScroll);
+    }, []);
+
+    const scrollToSection = (sectionId) => {
+        const section = document.getElementById(sectionId);
+        if (section) {
+            section.scrollIntoView({
+                behavior: "smooth",
+                block: "start",
+            });
+        }
+    };
+
     return (
         <nav className="fixed top-0 w-full bg-zinc-950/80 backdrop-blur-md z-50 border-b border-zinc-800">
             <div className="max-w-7xl mx-auto px-6 py-4">
@@ -9,13 +44,17 @@ export default function Navbar() {
                         TL Project
                     </span>
                     <div className="flex gap-8">
-                        {['About', 'Projects', 'Contact'].map((item) => (
+                        {["about", "projects", "contact"].map((section) => (
                             <button
-                                key={item}
-                                onClick={() => scrollToSection(item.toLowerCase())}
-                                className="text-sm hover:text-purple-400 transition-colors"
+                                key={section}
+                                onClick={() => scrollToSection(section)}
+                                className={`text-sm transition-colors ${
+                                    activeSection === section
+                                        ? "text-purple-400"
+                                        : "text-white hover:text-purple-400"
+                                }`}
                             >
-                                {item}
+                                {section.charAt(0).toUpperCase() + section.slice(1)}
                             </button>
                         ))}
                     </div>
