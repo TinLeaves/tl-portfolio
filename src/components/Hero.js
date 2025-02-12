@@ -33,34 +33,38 @@ export default function Hero() {
 
             {/* Buttons */}
             <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center lg:justify-start">
-              <a 
-                href="#projects" 
+              <a
+                href="#projects"
                 className="group flex items-center justify-center gap-2 bg-purple-600 px-6 py-3 rounded-full hover:bg-purple-700 transition-all duration-300 text-sm sm:text-base"
               >
                 View Projects
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </a>
-              <button className="flex items-center justify-center gap-2 border border-zinc-700 px-6 py-3 rounded-full hover:bg-zinc-900 transition-all duration-300 text-sm sm:text-base">
+              <a
+                href="/Steven_Lai_Resume.pdf"
+                target="_blank"
+                className="flex items-center justify-center gap-2 border border-zinc-700 px-6 py-3 rounded-full hover:bg-zinc-900 transition-all duration-300 text-sm sm:text-base"
+              >
                 Download CV
-              </button>
+              </a>
             </div>
 
             {/* Social Links */}
             <div className="flex gap-6 text-zinc-400 justify-center lg:justify-start">
-              <a 
+              <a
                 href="https://github.com/TinLeaves" target="_blank"
                 className="hover:text-purple-400 transition-colors p-2 hover:bg-purple-500/10 rounded-full"
               >
                 <IoLogoGithub className="w-5 h-5 sm:w-6 sm:h-6" />
               </a>
-              <a 
+              <a
                 href="https://www.linkedin.com/in/steven-lai-sl1/" target="_blank"
                 className="hover:text-purple-400 transition-colors p-2 hover:bg-purple-500/10 rounded-full"
               >
                 <IoLogoLinkedin className="w-5 h-5 sm:w-6 sm:h-6" />
               </a>
-              <a 
-                href="mailto:tinleaves.0@gmail.com" 
+              <a
+                href="mailto:tinleaves.0@gmail.com"
                 className="hover:text-purple-400 transition-colors p-2 hover:bg-purple-500/10 rounded-full"
               >
                 <IoMailSharp className="w-5 h-5 sm:w-6 sm:h-6" />
