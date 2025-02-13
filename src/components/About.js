@@ -53,21 +53,18 @@ export default function About() {
 
                 {/* Skillsets */}
                 <div className="relative">
-                    <div className="absolute inset-0 bg-gradient-to-b from-transparent via-purple-500/5 to-transparent opacity-50"></div>
-                    <div className="relative">
-                        <h3 className="text-2xl sm:text-3xl font-bold text-center mb-8 sm:mb-16 bg-gradient-to-r from-purple-400 to-pink-600 bg-clip-text text-transparent">
-                            My Skillsets
-                        </h3>
-                        <div className="grid grid-cols-2 gap-4 sm:gap-8 sm:grid-cols-3 md:grid-cols-4 max-w-4xl mx-auto">
-                            {skills.map((skill, index) => (
-                                <SkillIcon
-                                    key={index}
-                                    Icon={skill.Icon}
-                                    name={skill.name}
-                                    color={skill.color}
-                                />
-                            ))}
-                        </div>
+                    <h3 className="text-2xl sm:text-3xl font-bold text-center mb-8 sm:mb-16 bg-gradient-to-r from-purple-400 to-pink-600 bg-clip-text text-transparent">
+                        My Skillsets
+                    </h3>
+                    <div className="grid grid-cols-2 gap-4 sm:gap-8 sm:grid-cols-3 md:grid-cols-4 max-w-4xl mx-auto">
+                        {skills.map((skill, index) => (
+                            <SkillIcon
+                                key={index}
+                                Icon={skill.Icon}
+                                name={skill.name}
+                                color={skill.color}
+                            />
+                        ))}
                     </div>
                 </div>
             </div>
