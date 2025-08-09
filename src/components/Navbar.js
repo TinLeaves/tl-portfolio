@@ -1,6 +1,5 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
-import ThemeToggle from "./ThemeToggle";
 
 export default function Navbar() {
     const [activeSection, setActiveSection] = useState("");
@@ -101,7 +100,7 @@ export default function Navbar() {
                         onClick={() => scrollToSection("hero")}
                         className="text-xl font-bold bg-gradient-to-r from-purple-300 via-pink-400 to-purple-500 bg-clip-text text-transparent tracking-tight hover:scale-105 transition-transform duration-300 focus:outline-none focus:ring-0"
                     >
-                        Steven Lai
+                        TL Project
                     </button>
                     <div className="flex items-center gap-4">
                         <div className="relative flex gap-1">
@@ -132,9 +131,6 @@ export default function Navbar() {
                                 </button>
                             ))}
                         </div>
-                        
-                        {/* Theme Toggle */}
-                        <ThemeToggle />
                     </div>
                 </div>
             </div>

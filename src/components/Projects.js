@@ -1,121 +1,177 @@
-const ProjectCard = ({ project }) => {
-    const { title, description, videoId, imageUrl, viewLink, sourceLink } = project;
+import { useState, useEffect, useRef } from 'react';
+import { ExternalLink, Github, Code, Globe, Tag } from 'lucide-react';
 
-    return (
-        <div className="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-white to-gray-50 dark:from-zinc-900 dark:to-zinc-950 border border-gray-200 dark:border-white/5 hover:border-purple-400/30 transition-all duration-500 shadow-xl hover:shadow-2xl hover:shadow-purple-500/20 hover:scale-[1.02] transform">
-            <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 via-pink-500/5 to-purple-500/5 opacity-0 group-hover:opacity-100 transition-all duration-500"></div>
-            <div className="absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-purple-500/5 opacity-0 group-hover:opacity-100 transition-all duration-500"></div>
+const ProjectItem = ({ project, index, isLast }) => {
+  const [isVisible, setIsVisible] = useState(false);
+  const itemRef = useRef(null);
 
-            <div className="p-6 sm:p-8 flex flex-col lg:flex-row gap-6 sm:gap-8 relative z-10">
-                {/* Content Section */}
-                <div className="flex-1 space-y-5 sm:space-y-7">
-                    <div className="space-y-3 sm:space-y-5">
-                        {viewLink && viewLink !== "#" ? (
-                            <a
-                                href={viewLink}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="cursor-pointer"
-                            >
-                                <h3 className="text-2xl sm:text-3xl font-bold text-zinc-900 dark:text-white group-hover:bg-gradient-to-r group-hover:from-purple-300 group-hover:to-pink-400 group-hover:bg-clip-text group-hover:text-transparent hover:scale-105 transition-all duration-300 leading-tight">
-                                    {title}
-                                </h3>
-                            </a>
-                        ) : (
-                            <h3 className="text-2xl sm:text-3xl font-bold text-zinc-900 dark:text-white group-hover:bg-gradient-to-r group-hover:from-purple-300 group-hover:to-pink-400 group-hover:bg-clip-text group-hover:text-transparent transition-all duration-300 leading-tight">
-                                {title}
-                            </h3>
-                        )}
-                        <p className="text-base sm:text-lg text-zinc-600 dark:text-zinc-300 leading-relaxed font-light">
-                            {description}
-                        </p>
-                    </div>
-
-                    {/* Action Links */}
-                    <div className="flex items-center gap-4 sm:gap-6 pt-2">
-                        {viewLink && viewLink !== "#" && (
-                            <a
-                                href={viewLink}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="inline-flex items-center text-xs sm:text-sm font-medium text-purple-400 hover:text-purple-300 transition-colors"
-                            >
-                                View Project
-                                <svg className="ml-1 w-3 h-3 sm:w-4 sm:h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                                </svg>
-                            </a>
-                        )}
-
-                        {sourceLink && sourceLink !== "#" && (
-                            <a
-                                href={sourceLink}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="inline-flex items-center text-xs sm:text-sm font-medium text-zinc-500 dark:text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-300 transition-colors"
-                            >
-                                Source Code
-                                <svg className="ml-1 w-3 h-3 sm:w-4 sm:h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                                </svg>
-                            </a>
-                        )}
-                    </div>
-
-                    {/* If neither link exists */}
-                    {!viewLink && !sourceLink && (
-                        <span className="inline-flex items-center text-xs sm:text-sm font-medium text-purple-400">
-                            Coming Soon...
-                            <svg className="ml-1 w-3 h-3 sm:w-4 sm:h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                            </svg>
-                        </span>
-                    )}
-                </div>
-
-                {/* Media Container */}
-                {(videoId || imageUrl) && (
-                    <div className="w-full lg:w-[400px] flex-shrink-0">
-                        <div className="relative aspect-video w-full overflow-hidden rounded-lg">
-                            {videoId ? (
-                                <iframe
-                                    className="absolute inset-0 w-full h-full"
-                                    src={`https://www.youtube.com/embed/${videoId}`}
-                                    title={`${title} Demo`}
-                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                    allowFullScreen
-                                ></iframe>
-                            ) : imageUrl ? (
-                                <a
-                                    href={viewLink}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="absolute inset-0 cursor-pointer"
-                                >
-                                    <img
-                                        className="absolute inset-0 w-full h-full object-cover hover:scale-105 transition-transform duration-300"
-                                        src={imageUrl}
-                                        alt={`${title} Screenshot`}
-                                        loading="lazy"
-                                        decoding="async"
-                                    />
-                                </a>
-                            ) : null}
-                        </div>
-                    </div>
-                )}
-            </div>
-        </div>
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.2 }
     );
+
+    if (itemRef.current) {
+      observer.observe(itemRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
+
+  const getProjectIcon = (category) => {
+    switch (category) {
+      case 'AI/ML':
+        return <Code className="w-5 h-5" />;
+      case 'Full-Stack':
+        return <Globe className="w-5 h-5" />;
+      case 'Data Analytics':
+        return <Tag className="w-5 h-5" />;
+      case 'Web Development':
+        return <Code className="w-5 h-5" />;
+      default:
+        return <Code className="w-5 h-5" />;
+    }
+  };
+
+  return (
+    <div 
+      ref={itemRef}
+      className={`relative group transition-all duration-700 hover:scale-105 ${
+        isVisible 
+          ? 'opacity-100 translate-y-0 scale-100' 
+          : 'opacity-0 translate-y-8 scale-95'
+      }`}
+      style={{ 
+        transitionDelay: `${index * 200}ms`
+      }}
+    >
+    {/* Timeline Line - Only show if not the last item */}
+    {!isLast && (
+      <div className="absolute left-6 top-12 w-0.5 transition-all duration-500 bg-zinc-300 dark:bg-zinc-600/50 group-hover:bg-gradient-to-b group-hover:from-purple-500/50 group-hover:to-pink-500/50" style={{ height: 'calc(100% - 1rem)' }}></div>
+    )}
+    
+    {/* Timeline Node */}
+    <div className="absolute left-5 top-6 w-3 h-3 rounded-full transition-all duration-500 z-10 bg-zinc-400 dark:bg-zinc-600 group-hover:bg-purple-500 group-hover:shadow-md group-hover:shadow-purple-500/30"></div>
+    
+    {/* Content Card */}
+    <div className="ml-16 p-6 rounded-xl border transition-all duration-500 bg-white dark:bg-zinc-900/50 border-gray-200 dark:border-zinc-700 group-hover:bg-gradient-to-br group-hover:from-purple-500/10 group-hover:to-pink-500/10 group-hover:border-purple-400/30 group-hover:shadow-xl group-hover:shadow-purple-500/20">
+      <div className="flex items-start justify-between mb-3">
+        <div className="flex-1">
+          {project.viewLink && project.viewLink !== "#" ? (
+            <a
+              href={project.viewLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="cursor-pointer"
+            >
+              <h3 className="text-lg font-semibold transition-colors duration-300 text-zinc-900 dark:text-white group-hover:text-purple-600 dark:group-hover:text-purple-300 hover:text-purple-600 dark:hover:text-purple-300">
+                {project.title}
+              </h3>
+            </a>
+          ) : (
+            <h3 className="text-lg font-semibold transition-colors duration-300 text-zinc-900 dark:text-white group-hover:text-purple-600 dark:group-hover:text-purple-300">
+              {project.title}
+            </h3>
+          )}
+          <p className="text-sm font-medium transition-colors duration-300 text-zinc-600 dark:text-zinc-300 group-hover:text-pink-600 dark:group-hover:text-pink-300">
+            {project.category}
+          </p>
+        </div>
+        <div className="p-2 rounded-lg transition-all duration-300 bg-gray-100 dark:bg-zinc-800 text-zinc-500 dark:text-zinc-400 group-hover:bg-purple-500/20 group-hover:text-purple-600 dark:group-hover:text-purple-300">
+          {getProjectIcon(project.category)}
+        </div>
+      </div>
+      
+      <p className="text-sm text-zinc-600 dark:text-zinc-300 leading-relaxed mb-4">
+        {project.description}
+      </p>
+      
+      {/* Technologies */}
+      <div className="flex flex-wrap gap-2 mb-4">
+        {project.technologies.map((tech, techIndex) => (
+          <span
+            key={techIndex}
+            className="px-2 py-1 text-xs rounded-full transition-all duration-300 bg-gray-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 border border-gray-300 dark:border-zinc-700 group-hover:bg-purple-500/20 group-hover:text-purple-600 dark:group-hover:text-purple-300 group-hover:border-purple-500/30"
+          >
+            {tech}
+          </span>
+        ))}
+      </div>
+      
+      {/* Project Links */}
+      {(project.viewLink && project.viewLink !== "#") || (project.sourceLink && project.sourceLink !== "#") ? (
+        <div className="flex items-center gap-4 text-xs text-zinc-500 dark:text-zinc-400 group-hover:text-zinc-600 dark:group-hover:text-zinc-300 transition-colors duration-300">
+          {project.viewLink && project.viewLink !== "#" && (
+            <a
+              href={project.viewLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-1 hover:text-purple-600 dark:hover:text-purple-300"
+            >
+              <ExternalLink className="w-3 h-3" />
+              <span>View Project</span>
+            </a>
+          )}
+          {project.sourceLink && project.sourceLink !== "#" && (
+            <a
+              href={project.sourceLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-1 hover:text-purple-600 dark:hover:text-purple-300"
+            >
+              <Github className="w-3 h-3" />
+              <span>Source Code</span>
+            </a>
+          )}
+        </div>
+      ) : (
+        <div className="text-xs text-purple-600 dark:text-purple-400">
+          Coming Soon...
+        </div>
+      )}
+
+      {/* Media Container - positioned at bottom like an achievement */}
+      {(project.videoId || project.imageUrl) && (
+        <div className="mt-4 pt-4 border-t border-gray-200 dark:border-zinc-700">
+          <div className="relative aspect-video w-full max-w-md overflow-hidden rounded-lg">
+            {project.videoId ? (
+              <iframe
+                className="absolute inset-0 w-full h-full"
+                src={`https://www.youtube.com/embed/${project.videoId}`}
+                title={`${project.title} Demo`}
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              ></iframe>
+            ) : project.imageUrl ? (
+              <a
+                href={project.viewLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="absolute inset-0 cursor-pointer"
+              >
+                <img
+                  className="absolute inset-0 w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                  src={project.imageUrl}
+                  alt={`${project.title} Screenshot`}
+                  loading="lazy"
+                  decoding="async"
+                />
+              </a>
+            ) : null}
+          </div>
+        </div>
+      )}
+    </div>
+    </div>
+  );
 };
 
-import { useState, useMemo } from 'react';
-import { Search, Filter } from 'lucide-react';
-
 export default function Projects() {
-    const [searchTerm, setSearchTerm] = useState('');
-    const [selectedCategory, setSelectedCategory] = useState('All');
-    
     const projects = [
         {
             title: "Cover Letter Maker",
@@ -174,79 +230,24 @@ export default function Projects() {
         },
     ];
 
-    const categories = ['All', ...new Set(projects.map(project => project.category))];
-    
-    const filteredProjects = useMemo(() => {
-        return projects.filter(project => {
-            const matchesSearch = project.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                                project.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                                project.technologies.some(tech => tech.toLowerCase().includes(searchTerm.toLowerCase()));
-            
-            const matchesCategory = selectedCategory === 'All' || project.category === selectedCategory;
-            
-            return matchesSearch && matchesCategory;
-        });
-    }, [searchTerm, selectedCategory, projects]);
-
     return (
-        <section id="projects" className="py-16 sm:py-24 text-zinc-900 dark:text-white">
+        <section id="projects" className="py-16 sm:py-24">
             <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
                 <h2 className="text-4xl sm:text-5xl font-bold mb-12 sm:mb-16 text-center bg-gradient-to-r from-purple-300 via-pink-400 to-purple-500 bg-clip-text text-transparent tracking-tight">
                     Featured Projects
                 </h2>
                 
-                {/* Search and Filter Controls */}
-                <div className="mb-12 space-y-6">
-                    {/* Search Bar */}
-                    <div className="relative max-w-md mx-auto">
-                        <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-zinc-400 w-5 h-5" />
-                        <input
-                            type="text"
-                            placeholder="Search projects..."
-                            value={searchTerm}
-                            onChange={(e) => setSearchTerm(e.target.value)}
-                            className="w-full pl-12 pr-4 py-3 bg-gray-50 dark:bg-zinc-800/50 border border-gray-300 dark:border-zinc-700 rounded-xl text-zinc-900 dark:text-white placeholder-zinc-500 dark:placeholder-zinc-400 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition-all duration-300"
-                        />
-                    </div>
-                    
-                    {/* Category Filter */}
-                    <div className="flex flex-wrap justify-center gap-3">
-                        {categories.map(category => (
-                            <button
-                                key={category}
-                                onClick={() => setSelectedCategory(category)}
-                                className={`px-6 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
-                                    selectedCategory === category
-                                        ? 'bg-purple-500 text-white shadow-lg shadow-purple-500/25'
-                                        : 'bg-gray-100 dark:bg-zinc-800/50 text-zinc-600 dark:text-zinc-300 hover:bg-gray-200 dark:hover:bg-zinc-700/50 hover:text-purple-600 dark:hover:text-purple-300 border border-gray-300 dark:border-zinc-700'
-                                }`}
-                            >
-                                {category}
-                            </button>
+                <div className="max-w-4xl mx-auto">
+                    <div className="space-y-8">
+                        {projects.map((project, index) => (
+                            <ProjectItem
+                                key={index}
+                                project={project}
+                                index={index}
+                                isLast={index === projects.length - 1}
+                            />
                         ))}
                     </div>
-                </div>
-                
-                
-                {/* Projects Grid */}
-                <div className="grid grid-cols-1 gap-8 sm:gap-12">
-                    {filteredProjects.length > 0 ? (
-                        filteredProjects.map((project, index) => (
-                            <div
-                                key={project.title}
-                                className="animate-fade-in-up"
-                                style={{ animationDelay: `${index * 0.1}s` }}
-                            >
-                                <ProjectCard project={project} />
-                            </div>
-                        ))
-                    ) : (
-                        <div className="text-center py-12">
-                            <div className="text-6xl text-zinc-400 dark:text-zinc-600 mb-4">🔍</div>
-                            <h3 className="text-xl text-zinc-500 dark:text-zinc-400 mb-2">No projects found</h3>
-                            <p className="text-zinc-600 dark:text-zinc-500">Try adjusting your search or filter criteria</p>
-                        </div>
-                    )}
                 </div>
             </div>
         </section>
