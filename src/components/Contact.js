@@ -22,22 +22,22 @@ export default function Contact() {
     };
 
     return (
-        <section id="contact" className="py-20 bg-zinc-900">
+        <section id="contact" className="py-16 sm:py-24">
 
             <div className="relative">
-                <div className="max-w-7xl mx-auto px-6 text-center">
-                    <h2 className="text-3xl sm:text-4xl font-bold mb-8 sm:mb-12 text-center bg-gradient-to-r from-purple-400 to-pink-600 bg-clip-text text-transparent">
+                <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 text-center">
+                    <h2 className="text-4xl sm:text-5xl font-bold mb-12 sm:mb-16 text-center bg-gradient-to-r from-purple-300 via-pink-400 to-purple-500 bg-clip-text text-transparent tracking-tight">
                         Contact
                     </h2>
-                    <p className="text-zinc-400 max-w-2xl mx-auto mb-8">
+                    <p className="text-lg sm:text-xl text-zinc-300 max-w-3xl mx-auto mb-12 font-light leading-relaxed">
                         I'm always open to discussing new projects, creative ideas, or opportunities to be part of your visions.
                     </p>
                     <button
                         onClick={handleButtonClick}
-                        className="inline-flex items-center gap-2 bg-purple-600 px-8 py-4 rounded-full hover:bg-purple-700 transition-colors"
+                        className="group inline-flex items-center gap-3 bg-gradient-to-r from-purple-500 to-pink-500 px-10 py-5 rounded-2xl hover:from-purple-400 hover:to-pink-400 transition-all duration-300 shadow-lg hover:shadow-purple-500/25 hover:scale-105 transform font-medium text-lg"
                     >
                         Get in Touch
-                        <ArrowRight />
+                        <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
                     </button>
 
                     {showContactDetails && (

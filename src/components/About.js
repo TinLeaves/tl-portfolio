@@ -1,12 +1,13 @@
-import { FaNodeJs, FaJava, FaReact } from "react-icons/fa";
-import { SiNextdotjs, SiTailwindcss, SiPython, SiMysql, SiMongodb, SiJavascript, SiTypescript } from "react-icons/si";
+import { FaNodeJs, FaJava, FaReact, FaBootstrap, FaGitAlt, FaFigma } from "react-icons/fa";
+import { SiNextdotjs, SiTailwindcss, SiPython, SiMysql, SiMongodb, SiJavascript, SiTypescript, SiPostgresql, SiKotlin, SiR, SiExpress, SiJquery, SiNpm, SiGoogleanalytics, SiJira } from "react-icons/si";
 
 const SkillIcon = ({ Icon, name, color }) => (
     <div className="flex flex-col items-center group hover:scale-110 transition-all duration-300">
-        <div className="p-3 sm:p-4 rounded-xl bg-zinc-900 border border-zinc-800 group-hover:border-purple-500/50 shadow-lg group-hover:shadow-purple-500/10 transition-all duration-300">
-            <Icon className={`w-8 h-8 sm:w-12 sm:h-12 ${color}`} />
+        <div className="relative p-4 sm:p-5 rounded-2xl bg-gradient-to-br from-zinc-900 to-zinc-950 border border-white/10 group-hover:border-purple-400/30 shadow-xl group-hover:shadow-2xl group-hover:shadow-purple-500/20 transition-all duration-500 backdrop-blur-sm">
+            <Icon className={`w-10 h-10 sm:w-14 sm:h-14 ${color} group-hover:scale-110 transition-transform duration-300`} />
+            <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 to-pink-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-2xl"></div>
         </div>
-        <span className="mt-2 sm:mt-3 text-xs sm:text-sm font-medium text-zinc-400 group-hover:text-purple-400 transition-colors duration-300">
+        <span className="mt-3 sm:mt-4 text-sm sm:text-base font-medium text-zinc-300 group-hover:text-purple-300 transition-colors duration-300 tracking-wide">
             {name}
         </span>
     </div>
@@ -16,59 +17,30 @@ export default function About() {
     const skills = [
         { Icon: SiJavascript, name: "JavaScript", color: "text-yellow-400" },
         { Icon: SiTypescript, name: "TypeScript", color: "text-blue-400" },
-        { Icon: FaReact, name: "React", color: "text-cyan-400" },
-        { Icon: SiNextdotjs, name: "Next.js", color: "text-white" },
-        { Icon: FaNodeJs, name: "Node.js", color: "text-green-500" },
-        { Icon: SiTailwindcss, name: "Tailwind CSS", color: "text-blue-500" },
         { Icon: SiPython, name: "Python", color: "text-yellow-500" },
         { Icon: FaJava, name: "Java", color: "text-red-500" },
+        { Icon: SiKotlin, name: "Kotlin", color: "text-purple-500" },
+        { Icon: SiR, name: "R", color: "text-blue-600" },
+        { Icon: FaReact, name: "React", color: "text-cyan-400" },
+        { Icon: SiNextdotjs, name: "Next.js", color: "text-white" },
+        { Icon: SiExpress, name: "Express.js", color: "text-gray-400" },
+        { Icon: FaNodeJs, name: "Node.js", color: "text-green-500" },
+        { Icon: SiTailwindcss, name: "Tailwind", color: "text-blue-500" },
+        { Icon: FaBootstrap, name: "Bootstrap", color: "text-purple-400" },
+        { Icon: SiJquery, name: "jQuery", color: "text-blue-500" },
         { Icon: SiMysql, name: "MySQL", color: "text-blue-600" },
+        { Icon: SiPostgresql, name: "PostgreSQL", color: "text-blue-700" },
         { Icon: SiMongodb, name: "MongoDB", color: "text-green-500" },
+        { Icon: FaGitAlt, name: "Git", color: "text-red-400" },
+        { Icon: FaFigma, name: "Figma", color: "text-pink-500" },
+        { Icon: SiJira, name: "Jira", color: "text-blue-500" },
+        { Icon: SiNpm, name: "npm", color: "text-red-500" },
     ];
 
     return (
-        <section id="about" className="py-12 sm:py-20 bg-zinc-950 text-white">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                {/* About Me */}
-                <div className="mb-12 sm:mb-20">
-                    <h2 className="text-3xl sm:text-4xl font-bold mb-8 sm:mb-12 text-center bg-gradient-to-r from-purple-400 to-pink-600 bg-clip-text text-transparent">
-                        About Me
-                    </h2>
-                    <div className="space-y-4 sm:space-y-6 max-w-4xl mx-auto">
-                        <p className="text-base sm:text-lg text-zinc-300">
-                            Hi, I'm <span className="font-semibold bg-gradient-to-r from-purple-400 to-pink-500 bg-clip-text text-transparent">Steven Lai</span>,
-                            a full-stack developer based in Vancouver, British Columbia. I graduated with Distinction from BCIT's
-                            <span className="font-semibold bg-gradient-to-r from-purple-400 to-pink-500 bg-clip-text text-transparent"> Computer Systems Technology</span> program,
-                            specializing in <span className="font-semibold bg-gradient-to-r from-purple-400 to-pink-500 bg-clip-text text-transparent">Database Systems</span>.
-                        </p>
-                        <p className="text-base sm:text-lg text-zinc-300">
-                            I specialize in building modern web applications using <span className="font-semibold text-purple-400">Next.js, React, and TypeScript</span>, 
-                            with expertise in AI integration using cutting-edge models like <span className="font-semibold text-purple-400">Google Gemini 2.5 Pro</span>. 
-                            My recent projects include an AI-powered cover letter generator and a full-stack e-commerce platform serving 100+ products with advanced filtering and real-time inventory management.
-                        </p>
-                        <p className="text-base sm:text-lg text-zinc-300">
-                            Outside of coding, I enjoy graphite sketching and hiking the stunning mountains around Vancouver.
-                            If you have any opportunities or would like to collaborate, let's connect!
-                        </p>
-                    </div>
-                </div>
+        <section id="about" className="py-16 sm:py-24 bg-gradient-to-b from-zinc-950 to-zinc-900 text-white">
+            <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
 
-                {/* Skillsets */}
-                <div className="relative">
-                    <h3 className="text-2xl sm:text-3xl font-bold text-center mb-8 sm:mb-16 bg-gradient-to-r from-purple-400 to-pink-600 bg-clip-text text-transparent">
-                        My Skillsets
-                    </h3>
-                    <div className="grid grid-cols-2 gap-4 sm:gap-8 sm:grid-cols-3 md:grid-cols-4 max-w-4xl mx-auto">
-                        {skills.map((skill, index) => (
-                            <SkillIcon
-                                key={index}
-                                Icon={skill.Icon}
-                                name={skill.name}
-                                color={skill.color}
-                            />
-                        ))}
-                    </div>
-                </div>
             </div>
         </section>
     );

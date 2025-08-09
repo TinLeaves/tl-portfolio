@@ -2,13 +2,14 @@ const ProjectCard = ({ project }) => {
     const { title, description, videoId, imageUrl, viewLink, sourceLink } = project;
 
     return (
-        <div className="group relative overflow-hidden rounded-xl bg-zinc-900 border border-zinc-800 hover:border-purple-500/50 transition-all duration-300 shadow-lg hover:shadow-purple-500/10">
-            <div className="absolute inset-0 bg-gradient-to-br from-purple-600/10 to-pink-600/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+        <div className="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-zinc-900 to-zinc-950 border border-white/5 hover:border-purple-400/30 transition-all duration-500 shadow-xl hover:shadow-2xl hover:shadow-purple-500/20 hover:scale-[1.02] transform">
+            <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 via-pink-500/5 to-purple-500/5 opacity-0 group-hover:opacity-100 transition-all duration-500"></div>
+            <div className="absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-purple-500/5 opacity-0 group-hover:opacity-100 transition-all duration-500"></div>
 
-            <div className="p-4 sm:p-6 flex flex-col lg:flex-row gap-4 sm:gap-6 relative z-10">
+            <div className="p-6 sm:p-8 flex flex-col lg:flex-row gap-6 sm:gap-8 relative z-10">
                 {/* Content Section */}
-                <div className="flex-1 space-y-4 sm:space-y-6">
-                    <div className="space-y-2 sm:space-y-4">
+                <div className="flex-1 space-y-5 sm:space-y-7">
+                    <div className="space-y-3 sm:space-y-5">
                         {viewLink && viewLink !== "#" ? (
                             <a
                                 href={viewLink}
@@ -16,22 +17,22 @@ const ProjectCard = ({ project }) => {
                                 rel="noopener noreferrer"
                                 className="cursor-pointer"
                             >
-                                <h3 className="text-xl sm:text-2xl font-bold text-white group-hover:text-purple-400 hover:text-purple-300 transition-colors">
+                                <h3 className="text-2xl sm:text-3xl font-bold text-white group-hover:bg-gradient-to-r group-hover:from-purple-300 group-hover:to-pink-400 group-hover:bg-clip-text group-hover:text-transparent hover:scale-105 transition-all duration-300 leading-tight">
                                     {title}
                                 </h3>
                             </a>
                         ) : (
-                            <h3 className="text-xl sm:text-2xl font-bold text-white group-hover:text-purple-400 transition-colors">
+                            <h3 className="text-2xl sm:text-3xl font-bold text-white group-hover:bg-gradient-to-r group-hover:from-purple-300 group-hover:to-pink-400 group-hover:bg-clip-text group-hover:text-transparent transition-all duration-300 leading-tight">
                                 {title}
                             </h3>
                         )}
-                        <p className="text-sm sm:text-base text-zinc-400 leading-relaxed">
+                        <p className="text-base sm:text-lg text-zinc-300 leading-relaxed font-light">
                             {description}
                         </p>
                     </div>
 
                     {/* Action Links */}
-                    <div className="flex items-center gap-4 sm:gap-6">
+                    <div className="flex items-center gap-4 sm:gap-6 pt-2">
                         {viewLink && viewLink !== "#" && (
                             <a
                                 href={viewLink}
@@ -95,6 +96,8 @@ const ProjectCard = ({ project }) => {
                                         className="absolute inset-0 w-full h-full object-cover hover:scale-105 transition-transform duration-300"
                                         src={imageUrl}
                                         alt={`${title} Screenshot`}
+                                        loading="lazy"
+                                        decoding="async"
                                     />
                                 </a>
                             ) : null}
@@ -106,7 +109,13 @@ const ProjectCard = ({ project }) => {
     );
 };
 
+import { useState, useMemo } from 'react';
+import { Search, Filter } from 'lucide-react';
+
 export default function Projects() {
+    const [searchTerm, setSearchTerm] = useState('');
+    const [selectedCategory, setSelectedCategory] = useState('All');
+    
     const projects = [
         {
             title: "Cover Letter Maker",
@@ -116,6 +125,8 @@ export default function Projects() {
             imageUrl: "/cover_letter_maker.jpg",
             viewLink: "https://cover-letter-maker-pearl.vercel.app/",
             sourceLink: "https://github.com/TinLeaves/cover-letter-maker",
+            category: "AI/ML",
+            technologies: ["Next.js", "React", "TypeScript", "AI"]
         },
         {
             title: "JWP Shop - Full-Stack E-Commerce Platform",
@@ -125,6 +136,8 @@ export default function Projects() {
             imageUrl: "/jwp_shop.jpg",
             viewLink: "https://jwp-shop.vercel.app/",
             sourceLink: "#",
+            category: "Full-Stack",
+            technologies: ["Next.js", "React", "TypeScript", "E-Commerce"]
         },
         {
             title: "Contoso Sales Dashboard",
@@ -134,6 +147,8 @@ export default function Projects() {
             imageUrl: null,
             viewLink: "#",
             sourceLink: "#",
+            category: "Data Analytics",
+            technologies: ["Power BI", "Data Analysis", "Business Intelligence"]
         },
         {
             title: "Pokedex Web App",
@@ -143,6 +158,8 @@ export default function Projects() {
             imageUrl: null,
             viewLink: "https://verdant-pudding-878ba0.netlify.app/",
             sourceLink: "https://github.com/TinLeaves/Pokemon-Webapp",
+            category: "Web Development",
+            technologies: ["JavaScript", "jQuery", "Bootstrap", "API"]
         },
         {
             title: "AI-Powered Notebook",
@@ -152,19 +169,84 @@ export default function Projects() {
             imageUrl: null,
             viewLink: "#",
             sourceLink: "#",
+            category: "AI/ML",
+            technologies: ["JavaScript", "Flask", "Django", "BERT", "NLP"]
         },
     ];
 
+    const categories = ['All', ...new Set(projects.map(project => project.category))];
+    
+    const filteredProjects = useMemo(() => {
+        return projects.filter(project => {
+            const matchesSearch = project.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                                project.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                                project.technologies.some(tech => tech.toLowerCase().includes(searchTerm.toLowerCase()));
+            
+            const matchesCategory = selectedCategory === 'All' || project.category === selectedCategory;
+            
+            return matchesSearch && matchesCategory;
+        });
+    }, [searchTerm, selectedCategory, projects]);
+
     return (
-        <section id="projects" className="py-12 sm:py-20 bg-zinc-900 text-white">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <h2 className="text-3xl sm:text-4xl font-bold mb-8 sm:mb-12 text-center bg-gradient-to-r from-purple-400 to-pink-600 bg-clip-text text-transparent">
+        <section id="projects" className="py-16 sm:py-24 text-white">
+            <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
+                <h2 className="text-4xl sm:text-5xl font-bold mb-12 sm:mb-16 text-center bg-gradient-to-r from-purple-300 via-pink-400 to-purple-500 bg-clip-text text-transparent tracking-tight">
                     Featured Projects
                 </h2>
-                <div className="grid grid-cols-1 gap-6 sm:gap-8">
-                    {projects.map((project, index) => (
-                        <ProjectCard key={index} project={project} />
-                    ))}
+                
+                {/* Search and Filter Controls */}
+                <div className="mb-12 space-y-6">
+                    {/* Search Bar */}
+                    <div className="relative max-w-md mx-auto">
+                        <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-zinc-400 w-5 h-5" />
+                        <input
+                            type="text"
+                            placeholder="Search projects..."
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                            className="w-full pl-12 pr-4 py-3 bg-zinc-800/50 border border-zinc-700 rounded-xl text-white placeholder-zinc-400 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition-all duration-300"
+                        />
+                    </div>
+                    
+                    {/* Category Filter */}
+                    <div className="flex flex-wrap justify-center gap-3">
+                        {categories.map(category => (
+                            <button
+                                key={category}
+                                onClick={() => setSelectedCategory(category)}
+                                className={`px-6 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
+                                    selectedCategory === category
+                                        ? 'bg-purple-500 text-white shadow-lg shadow-purple-500/25'
+                                        : 'bg-zinc-800/50 text-zinc-300 hover:bg-zinc-700/50 hover:text-purple-300 border border-zinc-700'
+                                }`}
+                            >
+                                {category}
+                            </button>
+                        ))}
+                    </div>
+                </div>
+                
+                
+                {/* Projects Grid */}
+                <div className="grid grid-cols-1 gap-8 sm:gap-12">
+                    {filteredProjects.length > 0 ? (
+                        filteredProjects.map((project, index) => (
+                            <div
+                                key={project.title}
+                                className="animate-fade-in-up"
+                                style={{ animationDelay: `${index * 0.1}s` }}
+                            >
+                                <ProjectCard project={project} />
+                            </div>
+                        ))
+                    ) : (
+                        <div className="text-center py-12">
+                            <div className="text-6xl text-zinc-600 mb-4">🔍</div>
+                            <h3 className="text-xl text-zinc-400 mb-2">No projects found</h3>
+                            <p className="text-zinc-500">Try adjusting your search or filter criteria</p>
+                        </div>
+                    )}
                 </div>
             </div>
         </section>

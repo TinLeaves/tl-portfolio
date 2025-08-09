@@ -1,29 +1,35 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
+import ThemeToggle from "./ThemeToggle";
 
 export default function Navbar() {
     const [activeSection, setActiveSection] = useState("");
+    const [pillStyle, setPillStyle] = useState({ width: 0, left: 0, opacity: 0 });
+    const navRefs = useRef({});
 
     useEffect(() => {
         const handleScroll = () => {
             const sections = ["hero", "about", "projects", "contact"];
             let currentSection = "";
+            let maxVisibleArea = 0;
 
             sections.forEach((sectionId) => {
                 const section = document.getElementById(sectionId);
                 if (section) {
                     const rect = section.getBoundingClientRect();
-
-                    // Check if hero section is out of view before highlighting 'about'
-                    if (sectionId === "about" && document.getElementById("hero")) {
-                        const hero = document.getElementById("hero");
-                        const heroRect = hero.getBoundingClientRect();
-                        if (heroRect.bottom <= 0 && rect.top <= window.innerHeight) {
-                            currentSection = sectionId;
-                        }
-                    }
-                    // Highlight other sections when they are in view
-                    else if (rect.top <= window.innerHeight && rect.bottom >= 0) {
+                    const windowHeight = window.innerHeight;
+                    
+                    // Calculate how much of the section is visible
+                    const visibleTop = Math.max(0, -rect.top);
+                    const visibleBottom = Math.min(rect.height, windowHeight - rect.top);
+                    const visibleHeight = Math.max(0, visibleBottom - visibleTop);
+                    
+                    // Calculate the visible area as a percentage of the viewport
+                    const visibleArea = visibleHeight / windowHeight;
+                    
+                    // If this section takes up the majority of the screen (>40%), highlight it
+                    if (visibleArea > 0.4 && visibleArea > maxVisibleArea) {
+                        maxVisibleArea = visibleArea;
                         currentSection = sectionId;
                     }
                 }
@@ -31,12 +37,48 @@ export default function Navbar() {
 
             if (currentSection !== activeSection) {
                 setActiveSection(currentSection);
-                window.history.pushState(null, "", `#${currentSection}`);
+                if (currentSection) {
+                    window.history.pushState(null, "", `#${currentSection}`);
+                }
             }
         };
 
+        // Update pill position when activeSection changes
+        const updatePillPosition = () => {
+            if (activeSection && navRefs.current[activeSection]) {
+                const buttonElement = navRefs.current[activeSection];
+                const containerRect = buttonElement.parentElement.getBoundingClientRect();
+                const buttonRect = buttonElement.getBoundingClientRect();
+                
+                const padding = 8; // 8px padding on each side
+                const width = buttonRect.width + (padding * 2);
+                const left = buttonRect.left - containerRect.left - padding;
+                
+                setPillStyle({
+                    width,
+                    left,
+                    opacity: ["about", "projects", "contact"].includes(activeSection) ? 1 : 0
+                });
+            } else {
+                setPillStyle({ width: 0, left: 0, opacity: 0 });
+            }
+        };
+
+        // Update pill position after activeSection changes
+        if (activeSection) {
+            requestAnimationFrame(updatePillPosition);
+        } else {
+            setPillStyle({ width: 0, left: 0, opacity: 0 });
+        }
+
+        // Run on mount and scroll
+        handleScroll();
         window.addEventListener("scroll", handleScroll);
-        return () => window.removeEventListener("scroll", handleScroll);
+        window.addEventListener("resize", updatePillPosition);
+        return () => {
+            window.removeEventListener("scroll", handleScroll);
+            window.removeEventListener("resize", updatePillPosition);
+        };
     }, [activeSection]);
 
     const scrollToSection = (sectionId) => {
@@ -52,29 +94,47 @@ export default function Navbar() {
     };
 
     return (
-        <nav className="fixed top-0 w-full bg-zinc-950/80 backdrop-blur-md z-50 border-b border-zinc-800">
-            <div className="max-w-7xl mx-auto px-6 py-4">
+        <nav className="fixed top-0 w-full bg-zinc-950/70 backdrop-blur-xl z-50 border-b border-white/5 shadow-lg">
+            <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-5">
                 <div className="flex justify-between items-center">
                     <button 
                         onClick={() => scrollToSection("hero")}
-                        className="text-xl font-bold bg-gradient-to-r from-purple-400 to-pink-600 bg-clip-text text-transparent"
+                        className="text-xl font-bold bg-gradient-to-r from-purple-300 via-pink-400 to-purple-500 bg-clip-text text-transparent tracking-tight hover:scale-105 transition-transform duration-300 focus:outline-none focus:ring-0"
                     >
-                        TL Project
+                        Steven Lai
                     </button>
-                    <div className="flex gap-8">
-                        {["about", "projects", "contact"].map((section) => (
-                            <button
-                                key={section}
-                                onClick={() => scrollToSection(section)}
-                                className={`text-sm transition-colors ${
-                                    activeSection === section
-                                        ? "text-purple-400"
-                                        : "text-white hover:text-purple-400"
-                                }`}
-                            >
-                                {section.charAt(0).toUpperCase() + section.slice(1)}
-                            </button>
-                        ))}
+                    <div className="flex items-center gap-4">
+                        <div className="relative flex gap-1">
+                            {/* Animated background pill */}
+                            <div 
+                                className="absolute bg-purple-500/15 rounded-xl transition-all duration-500 ease-out"
+                                style={{
+                                    width: `${pillStyle.width}px`,
+                                    height: '36px',
+                                    top: '0px',
+                                    left: `${pillStyle.left}px`,
+                                    opacity: pillStyle.opacity
+                                }}
+                            />
+                            
+                            {["about", "projects", "contact"].map((section) => (
+                                <button
+                                    key={section}
+                                    ref={(el) => navRefs.current[section] = el}
+                                    onClick={() => scrollToSection(section)}
+                                    className={`relative px-4 py-2 text-sm font-medium rounded-xl transition-colors duration-300 focus:outline-none focus:ring-0 z-10 ${
+                                        activeSection === section
+                                            ? "text-purple-300"
+                                            : "text-zinc-300 hover:text-purple-300"
+                                    }`}
+                                >
+                                    {section.charAt(0).toUpperCase() + section.slice(1)}
+                                </button>
+                            ))}
+                        </div>
+                        
+                        {/* Theme Toggle */}
+                        <ThemeToggle />
                     </div>
                 </div>
             </div>
