@@ -27,6 +27,7 @@ export function ThemeProvider({ children }) {
   useEffect(() => {
     localStorage.setItem('theme', isDark ? 'dark' : 'light');
     document.documentElement.classList.toggle('dark', isDark);
+    document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
   }, [isDark]);
 
   const toggleTheme = () => {

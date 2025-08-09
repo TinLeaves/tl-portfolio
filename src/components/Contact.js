@@ -29,7 +29,7 @@ export default function Contact() {
                     <h2 className="text-4xl sm:text-5xl font-bold mb-12 sm:mb-16 text-center bg-gradient-to-r from-purple-300 via-pink-400 to-purple-500 bg-clip-text text-transparent tracking-tight">
                         Contact
                     </h2>
-                    <p className="text-lg sm:text-xl text-zinc-300 max-w-3xl mx-auto mb-12 font-light leading-relaxed">
+                    <p className="text-lg sm:text-xl text-zinc-600 dark:text-zinc-300 max-w-3xl mx-auto mb-12 font-light leading-relaxed">
                         I'm always open to discussing new projects, creative ideas, or opportunities to be part of your visions.
                     </p>
                     <button
@@ -47,11 +47,11 @@ export default function Contact() {
                                 href="https://github.com/TinLeaves"
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="flex items-center justify-between p-6 bg-zinc-900 border border-zinc-800 rounded-xl group hover:scale-105 transition-all duration-300 hover:border-purple-500/50 shadow-lg group-hover:shadow-purple-500/10"
+                                className="flex items-center justify-between p-6 bg-white dark:bg-zinc-900 border border-gray-200 dark:border-zinc-800 rounded-xl group hover:scale-105 transition-all duration-300 hover:border-purple-500/50 shadow-lg group-hover:shadow-purple-500/10"
                             >
                                 <div className="flex items-center gap-4">
-                                    <IoLogoGithub size={40} className="text-zinc-400 group-hover:text-purple-400" />
-                                    <span className="text-lg font-semibold text-zinc-400 group-hover:text-purple-400">GitHub/TinLeaves</span>
+                                    <IoLogoGithub size={40} className="text-zinc-500 dark:text-zinc-400 group-hover:text-purple-600 dark:group-hover:text-purple-400" />
+                                    <span className="text-lg font-semibold text-zinc-600 dark:text-zinc-400 group-hover:text-purple-600 dark:group-hover:text-purple-400">GitHub/TinLeaves</span>
                                 </div>
                             </a>
 
@@ -61,24 +61,24 @@ export default function Contact() {
                                 href="https://www.linkedin.com/in/steven-lai-sl1/"
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="flex items-center justify-between p-6 bg-zinc-900 border border-zinc-800 rounded-xl group hover:scale-105 transition-all duration-300 hover:border-purple-500/50 shadow-lg group-hover:shadow-purple-500/10"
+                                className="flex items-center justify-between p-6 bg-white dark:bg-zinc-900 border border-gray-200 dark:border-zinc-800 rounded-xl group hover:scale-105 transition-all duration-300 hover:border-purple-500/50 shadow-lg group-hover:shadow-purple-500/10"
                             >
                                 <div className="flex items-center gap-4">
-                                    <IoLogoLinkedin size={40} className="text-zinc-400 group-hover:text-purple-400" />
-                                    <span className="text-lg font-semibold text-zinc-400 group-hover:text-purple-400">LinkedIn/Steven Lai</span>
+                                    <IoLogoLinkedin size={40} className="text-zinc-500 dark:text-zinc-400 group-hover:text-purple-600 dark:group-hover:text-purple-400" />
+                                    <span className="text-lg font-semibold text-zinc-600 dark:text-zinc-400 group-hover:text-purple-600 dark:group-hover:text-purple-400">LinkedIn/Steven Lai</span>
                                 </div>
                             </a>
 
                             {/* Email Card */}
-                            <div className="flex items-center justify-between p-6 bg-zinc-900 border border-zinc-800 rounded-xl group hover:scale-105 transition-all duration-300 hover:border-purple-500/50 shadow-lg group-hover:shadow-purple-500/10">
+                            <div className="flex items-center justify-between p-6 bg-white dark:bg-zinc-900 border border-gray-200 dark:border-zinc-800 rounded-xl group hover:scale-105 transition-all duration-300 hover:border-purple-500/50 shadow-lg group-hover:shadow-purple-500/10">
                                 <div className="flex items-center gap-4">
-                                    <IoMailSharp size={30} className="text-zinc-400 group-hover:text-purple-400" />
-                                    <span className="text-lg font-semibold text-zinc-400 group-hover:text-purple-400">tinleaves.0@gmail.com</span>
+                                    <IoMailSharp size={30} className="text-zinc-500 dark:text-zinc-400 group-hover:text-purple-600 dark:group-hover:text-purple-400" />
+                                    <span className="text-lg font-semibold text-zinc-600 dark:text-zinc-400 group-hover:text-purple-600 dark:group-hover:text-purple-400">tinleaves.0@gmail.com</span>
                                 </div>
                                 <div className="flex items-center gap-4">
                                     <button
                                         onClick={copyEmailToClipboard}
-                                        className="text-white hover:text-purple-600 transition-colors"
+                                        className="text-zinc-600 dark:text-white hover:text-purple-600 transition-colors"
                                     >
                                         <Clipboard size={20} />
                                     </button>

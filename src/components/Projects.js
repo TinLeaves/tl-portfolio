@@ -2,7 +2,7 @@ const ProjectCard = ({ project }) => {
     const { title, description, videoId, imageUrl, viewLink, sourceLink } = project;
 
     return (
-        <div className="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-zinc-900 to-zinc-950 border border-white/5 hover:border-purple-400/30 transition-all duration-500 shadow-xl hover:shadow-2xl hover:shadow-purple-500/20 hover:scale-[1.02] transform">
+        <div className="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-white to-gray-50 dark:from-zinc-900 dark:to-zinc-950 border border-gray-200 dark:border-white/5 hover:border-purple-400/30 transition-all duration-500 shadow-xl hover:shadow-2xl hover:shadow-purple-500/20 hover:scale-[1.02] transform">
             <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 via-pink-500/5 to-purple-500/5 opacity-0 group-hover:opacity-100 transition-all duration-500"></div>
             <div className="absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-purple-500/5 opacity-0 group-hover:opacity-100 transition-all duration-500"></div>
 
@@ -17,16 +17,16 @@ const ProjectCard = ({ project }) => {
                                 rel="noopener noreferrer"
                                 className="cursor-pointer"
                             >
-                                <h3 className="text-2xl sm:text-3xl font-bold text-white group-hover:bg-gradient-to-r group-hover:from-purple-300 group-hover:to-pink-400 group-hover:bg-clip-text group-hover:text-transparent hover:scale-105 transition-all duration-300 leading-tight">
+                                <h3 className="text-2xl sm:text-3xl font-bold text-zinc-900 dark:text-white group-hover:bg-gradient-to-r group-hover:from-purple-300 group-hover:to-pink-400 group-hover:bg-clip-text group-hover:text-transparent hover:scale-105 transition-all duration-300 leading-tight">
                                     {title}
                                 </h3>
                             </a>
                         ) : (
-                            <h3 className="text-2xl sm:text-3xl font-bold text-white group-hover:bg-gradient-to-r group-hover:from-purple-300 group-hover:to-pink-400 group-hover:bg-clip-text group-hover:text-transparent transition-all duration-300 leading-tight">
+                            <h3 className="text-2xl sm:text-3xl font-bold text-zinc-900 dark:text-white group-hover:bg-gradient-to-r group-hover:from-purple-300 group-hover:to-pink-400 group-hover:bg-clip-text group-hover:text-transparent transition-all duration-300 leading-tight">
                                 {title}
                             </h3>
                         )}
-                        <p className="text-base sm:text-lg text-zinc-300 leading-relaxed font-light">
+                        <p className="text-base sm:text-lg text-zinc-600 dark:text-zinc-300 leading-relaxed font-light">
                             {description}
                         </p>
                     </div>
@@ -52,7 +52,7 @@ const ProjectCard = ({ project }) => {
                                 href={sourceLink}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="inline-flex items-center text-xs sm:text-sm font-medium text-zinc-400 hover:text-zinc-300 transition-colors"
+                                className="inline-flex items-center text-xs sm:text-sm font-medium text-zinc-500 dark:text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-300 transition-colors"
                             >
                                 Source Code
                                 <svg className="ml-1 w-3 h-3 sm:w-4 sm:h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -189,7 +189,7 @@ export default function Projects() {
     }, [searchTerm, selectedCategory, projects]);
 
     return (
-        <section id="projects" className="py-16 sm:py-24 text-white">
+        <section id="projects" className="py-16 sm:py-24 text-zinc-900 dark:text-white">
             <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
                 <h2 className="text-4xl sm:text-5xl font-bold mb-12 sm:mb-16 text-center bg-gradient-to-r from-purple-300 via-pink-400 to-purple-500 bg-clip-text text-transparent tracking-tight">
                     Featured Projects
@@ -205,7 +205,7 @@ export default function Projects() {
                             placeholder="Search projects..."
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
-                            className="w-full pl-12 pr-4 py-3 bg-zinc-800/50 border border-zinc-700 rounded-xl text-white placeholder-zinc-400 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition-all duration-300"
+                            className="w-full pl-12 pr-4 py-3 bg-gray-50 dark:bg-zinc-800/50 border border-gray-300 dark:border-zinc-700 rounded-xl text-zinc-900 dark:text-white placeholder-zinc-500 dark:placeholder-zinc-400 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition-all duration-300"
                         />
                     </div>
                     
@@ -218,7 +218,7 @@ export default function Projects() {
                                 className={`px-6 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
                                     selectedCategory === category
                                         ? 'bg-purple-500 text-white shadow-lg shadow-purple-500/25'
-                                        : 'bg-zinc-800/50 text-zinc-300 hover:bg-zinc-700/50 hover:text-purple-300 border border-zinc-700'
+                                        : 'bg-gray-100 dark:bg-zinc-800/50 text-zinc-600 dark:text-zinc-300 hover:bg-gray-200 dark:hover:bg-zinc-700/50 hover:text-purple-600 dark:hover:text-purple-300 border border-gray-300 dark:border-zinc-700'
                                 }`}
                             >
                                 {category}
@@ -242,9 +242,9 @@ export default function Projects() {
                         ))
                     ) : (
                         <div className="text-center py-12">
-                            <div className="text-6xl text-zinc-600 mb-4">🔍</div>
-                            <h3 className="text-xl text-zinc-400 mb-2">No projects found</h3>
-                            <p className="text-zinc-500">Try adjusting your search or filter criteria</p>
+                            <div className="text-6xl text-zinc-400 dark:text-zinc-600 mb-4">🔍</div>
+                            <h3 className="text-xl text-zinc-500 dark:text-zinc-400 mb-2">No projects found</h3>
+                            <p className="text-zinc-600 dark:text-zinc-500">Try adjusting your search or filter criteria</p>
                         </div>
                     )}
                 </div>

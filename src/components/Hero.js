@@ -68,7 +68,7 @@ export default function Hero() {
               <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold mb-4 bg-gradient-to-r from-purple-300 via-pink-400 to-purple-500 bg-clip-text text-transparent tracking-tight leading-tight">
                 Steven Lai
               </h1>
-              <div className="text-xl sm:text-2xl text-zinc-300 font-light tracking-wide min-h-[2.5rem]">
+              <div className="text-xl sm:text-2xl text-zinc-600 dark:text-zinc-300 font-light tracking-wide min-h-[2.5rem]">
                 <TypewriterText 
                   texts={[
                     "Full-Stack Developer",
@@ -81,7 +81,7 @@ export default function Hero() {
                   pauseTime={1500}
                 />
               </div>
-              <p className="text-base sm:text-lg text-zinc-500 font-medium">
+              <p className="text-base sm:text-lg text-zinc-500 dark:text-zinc-500 font-medium">
                 Specializing in AI Integration & Modern Web Applications
               </p>
             </div>
@@ -99,7 +99,7 @@ export default function Hero() {
               <a
                 href="/Steven_Lai_Resume.pdf"
                 target="_blank"
-                className="group relative flex items-center justify-center gap-3 border border-zinc-600 px-8 py-4 rounded-2xl hover:bg-zinc-800/50 hover:border-purple-400/50 transition-all duration-500 text-base backdrop-blur-sm overflow-hidden hover:shadow-lg hover:shadow-purple-500/10"
+                className="group relative flex items-center justify-center gap-3 border border-zinc-300 dark:border-zinc-600 px-8 py-4 rounded-2xl hover:bg-gray-100 dark:hover:bg-zinc-800/50 hover:border-purple-400/50 transition-all duration-500 text-base backdrop-blur-sm overflow-hidden hover:shadow-lg hover:shadow-purple-500/10"
               >
                 <span className="absolute inset-0 bg-gradient-to-r from-purple-500/10 to-pink-500/10 translate-y-[100%] group-hover:translate-y-0 transition-transform duration-500"></span>
                 <span className="relative z-10 group-hover:text-purple-200 transition-colors duration-300">Download Resume</span>
@@ -107,22 +107,22 @@ export default function Hero() {
             </div>
 
             {/* Social Links */}
-            <div className="flex gap-4 text-zinc-400 justify-center lg:justify-start pt-2">
+            <div className="flex gap-4 text-zinc-500 dark:text-zinc-400 justify-center lg:justify-start pt-2">
               <a
                 href="https://github.com/TinLeaves" target="_blank"
-                className="group hover:text-purple-300 transition-all duration-300 p-3 hover:bg-purple-500/10 rounded-xl border border-transparent hover:border-purple-500/20 backdrop-blur-sm"
+                className="group hover:text-purple-600 dark:hover:text-purple-300 transition-all duration-300 p-3 hover:bg-purple-500/10 rounded-xl border border-transparent hover:border-purple-500/20 backdrop-blur-sm"
               >
                 <IoLogoGithub className="w-6 h-6 group-hover:scale-110 transition-transform duration-300" />
               </a>
               <a
                 href="https://www.linkedin.com/in/steven-lai-sl1/" target="_blank"
-                className="group hover:text-purple-300 transition-all duration-300 p-3 hover:bg-purple-500/10 rounded-xl border border-transparent hover:border-purple-500/20 backdrop-blur-sm"
+                className="group hover:text-purple-600 dark:hover:text-purple-300 transition-all duration-300 p-3 hover:bg-purple-500/10 rounded-xl border border-transparent hover:border-purple-500/20 backdrop-blur-sm"
               >
                 <IoLogoLinkedin className="w-6 h-6 group-hover:scale-110 transition-transform duration-300" />
               </a>
               <a
                 href="mailto:tinleaves.0@gmail.com"
-                className="group hover:text-purple-300 transition-all duration-300 p-3 hover:bg-purple-500/10 rounded-xl border border-transparent hover:border-purple-500/20 backdrop-blur-sm"
+                className="group hover:text-purple-600 dark:hover:text-purple-300 transition-all duration-300 p-3 hover:bg-purple-500/10 rounded-xl border border-transparent hover:border-purple-500/20 backdrop-blur-sm"
               >
                 <IoMailSharp className="w-6 h-6 group-hover:scale-110 transition-transform duration-300" />
               </a>

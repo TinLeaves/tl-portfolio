@@ -7,7 +7,7 @@ export default function ThemeToggle() {
   return (
     <button
       onClick={toggleTheme}
-      className="relative p-2 rounded-xl bg-zinc-800/50 dark:bg-zinc-800/50 light:bg-gray-200 border border-zinc-700 dark:border-zinc-700 light:border-gray-300 hover:border-purple-500 transition-all duration-300 group"
+      className="relative p-2 rounded-xl bg-gray-100 dark:bg-zinc-800/50 border border-gray-300 dark:border-zinc-700 hover:border-purple-500 transition-all duration-300 group"
       aria-label="Toggle theme"
     >
       <div className="relative w-6 h-6">
@@ -24,9 +24,9 @@ export default function ThemeToggle() {
       </div>
       
       {/* Tooltip */}
-      <div className="absolute -bottom-12 left-1/2 transform -translate-x-1/2 px-2 py-1 bg-zinc-900 text-zinc-200 text-xs rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none whitespace-nowrap">
+      <div className="absolute -bottom-12 left-1/2 transform -translate-x-1/2 px-2 py-1 bg-zinc-800 dark:bg-zinc-900 text-zinc-200 text-xs rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none whitespace-nowrap">
         {isDark ? 'Switch to Light' : 'Switch to Dark'}
-        <div className="absolute -top-1 left-1/2 transform -translate-x-1/2 w-2 h-2 bg-zinc-900 rotate-45"></div>
+        <div className="absolute -top-1 left-1/2 transform -translate-x-1/2 w-2 h-2 bg-zinc-800 dark:bg-zinc-900 rotate-45"></div>
       </div>
     </button>
   );

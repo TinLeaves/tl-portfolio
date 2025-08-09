@@ -3,7 +3,7 @@ import { ChevronLeft, ChevronRight, Quote } from 'lucide-react';
 
 const TestimonialCard = ({ testimonial, isActive }) => (
   <div className={`transition-all duration-700 ${isActive ? 'opacity-100 scale-100' : 'opacity-0 scale-95 absolute'}`}>
-    <div className="bg-gradient-to-br from-zinc-900 to-zinc-950 border border-white/10 rounded-2xl p-8 sm:p-10 relative overflow-hidden group hover:border-purple-400/30 transition-all duration-500">
+    <div className="bg-gradient-to-br from-white to-gray-50 dark:from-zinc-900 dark:to-zinc-950 border border-gray-200 dark:border-white/10 rounded-2xl p-8 sm:p-10 relative overflow-hidden group hover:border-purple-400/30 transition-all duration-500">
       <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 via-pink-500/5 to-purple-500/5 opacity-0 group-hover:opacity-100 transition-all duration-500"></div>
       
       {/* Quote Icon */}
@@ -11,7 +11,7 @@ const TestimonialCard = ({ testimonial, isActive }) => (
         <Quote className="w-8 h-8 text-purple-400 mb-6" />
         
         {/* Testimonial Text */}
-        <blockquote className="text-lg sm:text-xl text-zinc-200 leading-relaxed mb-8 font-light italic">
+        <blockquote className="text-lg sm:text-xl text-zinc-700 dark:text-zinc-200 leading-relaxed mb-8 font-light italic">
           "{testimonial.content}"
         </blockquote>
         
@@ -21,9 +21,9 @@ const TestimonialCard = ({ testimonial, isActive }) => (
             {testimonial.author.charAt(0)}
           </div>
           <div>
-            <div className="font-semibold text-white text-lg">{testimonial.author}</div>
-            <div className="text-purple-300 text-sm">{testimonial.role}</div>
-            <div className="text-zinc-400 text-sm">{testimonial.company}</div>
+            <div className="font-semibold text-zinc-900 dark:text-white text-lg">{testimonial.author}</div>
+            <div className="text-purple-600 dark:text-purple-300 text-sm">{testimonial.role}</div>
+            <div className="text-zinc-500 dark:text-zinc-400 text-sm">{testimonial.company}</div>
           </div>
         </div>
         
@@ -32,7 +32,7 @@ const TestimonialCard = ({ testimonial, isActive }) => (
           {testimonial.skills.map((skill, index) => (
             <span
               key={index}
-              className="px-3 py-1 text-xs font-medium bg-purple-500/20 text-purple-300 rounded-full border border-purple-500/30"
+              className="px-3 py-1 text-xs font-medium bg-purple-500/20 text-purple-600 dark:text-purple-300 rounded-full border border-purple-500/30"
             >
               {skill}
             </span>
@@ -86,7 +86,7 @@ export default function Testimonials() {
   };
 
   return (
-    <section className="py-16 sm:py-24 bg-gradient-to-b from-zinc-950 to-zinc-900">
+    <section className="py-16 sm:py-24 bg-gradient-to-b from-gray-50 to-white dark:from-zinc-950 dark:to-zinc-900">
       <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
         <h2 className="text-4xl sm:text-5xl font-bold mb-12 sm:mb-16 text-center bg-gradient-to-r from-purple-300 via-pink-400 to-purple-500 bg-clip-text text-transparent tracking-tight">
           What People Say
@@ -108,7 +108,7 @@ export default function Testimonials() {
           <div className="flex items-center justify-center mt-8 space-x-6">
             <button
               onClick={prevTestimonial}
-              className="p-3 rounded-full bg-zinc-800/50 border border-zinc-700 hover:border-purple-500 text-zinc-400 hover:text-purple-300 transition-all duration-300 hover:scale-110"
+              className="p-3 rounded-full bg-gray-100 dark:bg-zinc-800/50 border border-gray-300 dark:border-zinc-700 hover:border-purple-500 text-zinc-500 dark:text-zinc-400 hover:text-purple-600 dark:hover:text-purple-300 transition-all duration-300 hover:scale-110"
             >
               <ChevronLeft className="w-6 h-6" />
             </button>
@@ -122,7 +122,7 @@ export default function Testimonials() {
                   className={`w-3 h-3 rounded-full transition-all duration-300 ${
                     index === currentTestimonial
                       ? 'bg-purple-500 shadow-lg shadow-purple-500/50'
-                      : 'bg-zinc-600 hover:bg-purple-400'
+                      : 'bg-zinc-400 dark:bg-zinc-600 hover:bg-purple-500 dark:hover:bg-purple-400'
                   }`}
                 />
               ))}
@@ -130,7 +130,7 @@ export default function Testimonials() {
             
             <button
               onClick={nextTestimonial}
-              className="p-3 rounded-full bg-zinc-800/50 border border-zinc-700 hover:border-purple-500 text-zinc-400 hover:text-purple-300 transition-all duration-300 hover:scale-110"
+              className="p-3 rounded-full bg-gray-100 dark:bg-zinc-800/50 border border-gray-300 dark:border-zinc-700 hover:border-purple-500 text-zinc-500 dark:text-zinc-400 hover:text-purple-600 dark:hover:text-purple-300 transition-all duration-300 hover:scale-110"
             >
               <ChevronRight className="w-6 h-6" />
             </button>

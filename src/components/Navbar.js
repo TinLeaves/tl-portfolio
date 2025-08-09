@@ -94,7 +94,7 @@ export default function Navbar() {
     };
 
     return (
-        <nav className="fixed top-0 w-full bg-zinc-950/70 backdrop-blur-xl z-50 border-b border-white/5 shadow-lg">
+        <nav className="fixed top-0 w-full bg-white/70 dark:bg-zinc-950/70 backdrop-blur-xl z-50 border-b border-gray-200 dark:border-white/5 shadow-lg">
             <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-5">
                 <div className="flex justify-between items-center">
                     <button 
@@ -124,8 +124,8 @@ export default function Navbar() {
                                     onClick={() => scrollToSection(section)}
                                     className={`relative px-4 py-2 text-sm font-medium rounded-xl transition-colors duration-300 focus:outline-none focus:ring-0 z-10 ${
                                         activeSection === section
-                                            ? "text-purple-300"
-                                            : "text-zinc-300 hover:text-purple-300"
+                                            ? "text-purple-600 dark:text-purple-300"
+                                            : "text-zinc-600 dark:text-zinc-300 hover:text-purple-600 dark:hover:text-purple-300"
                                     }`}
                                 >
                                     {section.charAt(0).toUpperCase() + section.slice(1)}

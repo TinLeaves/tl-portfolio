@@ -37,29 +37,29 @@ const TimelineItem = ({ experience, index, isLast }) => {
     >
     {/* Timeline Line - Only show if not the last item */}
     {!isLast && (
-      <div className="absolute left-6 top-12 w-0.5 transition-all duration-500 bg-zinc-600/50 group-hover:bg-gradient-to-b group-hover:from-purple-500/50 group-hover:to-pink-500/50" style={{ height: 'calc(100% - 1rem)' }}></div>
+      <div className="absolute left-6 top-12 w-0.5 transition-all duration-500 bg-zinc-300 dark:bg-zinc-600/50 group-hover:bg-gradient-to-b group-hover:from-purple-500/50 group-hover:to-pink-500/50" style={{ height: 'calc(100% - 1rem)' }}></div>
     )}
     
     {/* Timeline Node */}
-    <div className="absolute left-5 top-6 w-3 h-3 rounded-full transition-all duration-500 z-10 bg-zinc-600 group-hover:bg-purple-500 group-hover:shadow-md group-hover:shadow-purple-500/30"></div>
+    <div className="absolute left-5 top-6 w-3 h-3 rounded-full transition-all duration-500 z-10 bg-zinc-400 dark:bg-zinc-600 group-hover:bg-purple-500 group-hover:shadow-md group-hover:shadow-purple-500/30"></div>
     
     {/* Content Card */}
-    <div className="ml-16 p-6 rounded-xl border transition-all duration-500 bg-zinc-900/50 border-zinc-700 group-hover:bg-gradient-to-br group-hover:from-purple-500/10 group-hover:to-pink-500/10 group-hover:border-purple-400/30 group-hover:shadow-xl group-hover:shadow-purple-500/20">
+    <div className="ml-16 p-6 rounded-xl border transition-all duration-500 bg-white dark:bg-zinc-900/50 border-gray-200 dark:border-zinc-700 group-hover:bg-gradient-to-br group-hover:from-purple-500/10 group-hover:to-pink-500/10 group-hover:border-purple-400/30 group-hover:shadow-xl group-hover:shadow-purple-500/20">
       <div className="flex items-start justify-between mb-3">
         <div>
-          <h3 className="text-lg font-semibold transition-colors duration-300 text-white group-hover:text-purple-300">
+          <h3 className="text-lg font-semibold transition-colors duration-300 text-zinc-900 dark:text-white group-hover:text-purple-600 dark:group-hover:text-purple-300">
             {experience.role}
           </h3>
-          <p className="text-sm font-medium transition-colors duration-300 text-zinc-300 group-hover:text-pink-300">
+          <p className="text-sm font-medium transition-colors duration-300 text-zinc-600 dark:text-zinc-300 group-hover:text-pink-600 dark:group-hover:text-pink-300">
             {experience.company}
           </p>
         </div>
-        <div className="p-2 rounded-lg transition-all duration-300 bg-zinc-800 text-zinc-400 group-hover:bg-purple-500/20 group-hover:text-purple-300">
+        <div className="p-2 rounded-lg transition-all duration-300 bg-gray-100 dark:bg-zinc-800 text-zinc-500 dark:text-zinc-400 group-hover:bg-purple-500/20 group-hover:text-purple-600 dark:group-hover:text-purple-300">
           {experience.icon}
         </div>
       </div>
       
-      <div className="flex items-center gap-4 text-xs text-zinc-400 mb-3">
+      <div className="flex items-center gap-4 text-xs text-zinc-500 dark:text-zinc-400 mb-3">
         <div className="flex items-center gap-1">
           <Calendar className="w-3 h-3" />
           <span>{experience.period}</span>
@@ -70,7 +70,7 @@ const TimelineItem = ({ experience, index, isLast }) => {
         </div>
       </div>
       
-      <p className="text-sm text-zinc-300 leading-relaxed mb-4">
+      <p className="text-sm text-zinc-600 dark:text-zinc-300 leading-relaxed mb-4">
         {experience.description}
       </p>
       
@@ -79,7 +79,7 @@ const TimelineItem = ({ experience, index, isLast }) => {
         {experience.skills.map((skill, skillIndex) => (
           <span
             key={skillIndex}
-            className="px-2 py-1 text-xs rounded-full transition-all duration-300 bg-zinc-800 text-zinc-400 border border-zinc-700 group-hover:bg-purple-500/20 group-hover:text-purple-300 group-hover:border-purple-500/30"
+            className="px-2 py-1 text-xs rounded-full transition-all duration-300 bg-gray-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 border border-gray-300 dark:border-zinc-700 group-hover:bg-purple-500/20 group-hover:text-purple-600 dark:group-hover:text-purple-300 group-hover:border-purple-500/30"
           >
             {skill}
           </span>
@@ -88,7 +88,7 @@ const TimelineItem = ({ experience, index, isLast }) => {
       
       {/* Achievements */}
       {experience.achievements && experience.achievements.length > 0 && (
-        <div className="text-xs space-y-1 text-zinc-400 group-hover:text-zinc-300 transition-colors duration-300">
+        <div className="text-xs space-y-1 text-zinc-500 dark:text-zinc-400 group-hover:text-zinc-600 dark:group-hover:text-zinc-300 transition-colors duration-300">
           {experience.achievements.map((achievement, achievementIndex) => (
             <div key={achievementIndex} className="flex items-start gap-2">
               <Award className="w-3 h-3 mt-0.5 flex-shrink-0 text-yellow-500" />
