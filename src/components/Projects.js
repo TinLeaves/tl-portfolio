@@ -9,9 +9,22 @@ const ProjectCard = ({ project }) => {
                 {/* Content Section */}
                 <div className="flex-1 space-y-4 sm:space-y-6">
                     <div className="space-y-2 sm:space-y-4">
-                        <h3 className="text-xl sm:text-2xl font-bold text-white group-hover:text-purple-400 transition-colors">
-                            {title}
-                        </h3>
+                        {viewLink && viewLink !== "#" ? (
+                            <a
+                                href={viewLink}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="cursor-pointer"
+                            >
+                                <h3 className="text-xl sm:text-2xl font-bold text-white group-hover:text-purple-400 hover:text-purple-300 transition-colors">
+                                    {title}
+                                </h3>
+                            </a>
+                        ) : (
+                            <h3 className="text-xl sm:text-2xl font-bold text-white group-hover:text-purple-400 transition-colors">
+                                {title}
+                            </h3>
+                        )}
                         <p className="text-sm sm:text-base text-zinc-400 leading-relaxed">
                             {description}
                         </p>
@@ -72,11 +85,18 @@ const ProjectCard = ({ project }) => {
                                     allowFullScreen
                                 ></iframe>
                             ) : imageUrl ? (
-                                <img
-                                    className="absolute inset-0 w-full h-full object-cover hover:scale-105 transition-transform duration-300"
-                                    src={imageUrl}
-                                    alt={`${title} Screenshot`}
-                                />
+                                <a
+                                    href={viewLink}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="absolute inset-0 cursor-pointer"
+                                >
+                                    <img
+                                        className="absolute inset-0 w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                                        src={imageUrl}
+                                        alt={`${title} Screenshot`}
+                                    />
+                                </a>
                             ) : null}
                         </div>
                     </div>

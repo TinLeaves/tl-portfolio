@@ -1,5 +1,5 @@
-import { FaNodeJs, FaJava } from "react-icons/fa";
-import { SiNextdotjs, SiTailwindcss, SiPython, SiMysql, SiMongodb, SiJavascript } from "react-icons/si";
+import { FaNodeJs, FaJava, FaReact } from "react-icons/fa";
+import { SiNextdotjs, SiTailwindcss, SiPython, SiMysql, SiMongodb, SiJavascript, SiTypescript } from "react-icons/si";
 
 const SkillIcon = ({ Icon, name, color }) => (
     <div className="flex flex-col items-center group hover:scale-110 transition-all duration-300">
@@ -15,11 +15,13 @@ const SkillIcon = ({ Icon, name, color }) => (
 export default function About() {
     const skills = [
         { Icon: SiJavascript, name: "JavaScript", color: "text-yellow-400" },
+        { Icon: SiTypescript, name: "TypeScript", color: "text-blue-400" },
+        { Icon: FaReact, name: "React", color: "text-cyan-400" },
         { Icon: SiNextdotjs, name: "Next.js", color: "text-white" },
         { Icon: FaNodeJs, name: "Node.js", color: "text-green-500" },
         { Icon: SiTailwindcss, name: "Tailwind CSS", color: "text-blue-500" },
-        { Icon: FaJava, name: "Java", color: "text-red-500" },
         { Icon: SiPython, name: "Python", color: "text-yellow-500" },
+        { Icon: FaJava, name: "Java", color: "text-red-500" },
         { Icon: SiMysql, name: "MySQL", color: "text-blue-600" },
         { Icon: SiMongodb, name: "MongoDB", color: "text-green-500" },
     ];
@@ -35,14 +37,14 @@ export default function About() {
                     <div className="space-y-4 sm:space-y-6 max-w-4xl mx-auto">
                         <p className="text-base sm:text-lg text-zinc-300">
                             Hi, I'm <span className="font-semibold bg-gradient-to-r from-purple-400 to-pink-500 bg-clip-text text-transparent">Steven Lai</span>,
-                            a developer based in Vancouver, British Columbia. I recently graduated with Distinction from BCIT's
+                            a full-stack developer based in Vancouver, British Columbia. I graduated with Distinction from BCIT's
                             <span className="font-semibold bg-gradient-to-r from-purple-400 to-pink-500 bg-clip-text text-transparent"> Computer Systems Technology</span> program,
                             specializing in <span className="font-semibold bg-gradient-to-r from-purple-400 to-pink-500 bg-clip-text text-transparent">Database Systems</span>.
                         </p>
                         <p className="text-base sm:text-lg text-zinc-300">
-                            My focus is on developing applications that are both functional and easy to use.
-                            Right now, I'm building on my skills with the Google Advanced Data Analytics Certificate.
-                            I'm always open to new challenges and projects that help me grow.
+                            I specialize in building modern web applications using <span className="font-semibold text-purple-400">Next.js, React, and TypeScript</span>, 
+                            with expertise in AI integration using cutting-edge models like <span className="font-semibold text-purple-400">Google Gemini 2.5 Pro</span>. 
+                            My recent projects include an AI-powered cover letter generator and a full-stack e-commerce platform serving 100+ products with advanced filtering and real-time inventory management.
                         </p>
                         <p className="text-base sm:text-lg text-zinc-300">
                             Outside of coding, I enjoy graphite sketching and hiking the stunning mountains around Vancouver.
