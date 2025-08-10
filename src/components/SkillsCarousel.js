@@ -2,29 +2,11 @@ import { useState, useEffect, useRef } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { FaNodeJs, FaJava, FaReact, FaBootstrap, FaGitAlt, FaFigma } from "react-icons/fa";
 import { SiNextdotjs, SiTailwindcss, SiPython, SiMysql, SiMongodb, SiJavascript, SiTypescript, SiPostgresql, SiKotlin, SiR, SiExpress, SiJquery, SiNpm, SiJira } from "react-icons/si";
+import { useScrollAnimation } from '../hooks/useScrollAnimation';
 
 export default function SkillsCarousel() {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [isVisible, setIsVisible] = useState(false);
-  const sectionRef = useRef(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-          observer.disconnect();
-        }
-      },
-      { threshold: 0.2 }
-    );
-
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
-
-    return () => observer.disconnect();
-  }, []);
+  const { elementRef: sectionRef, isVisible, scrollProgress } = useScrollAnimation(0.1);
 
   const skills = [
     { Icon: SiJavascript, name: "JavaScript", color: "text-yellow-400" },
@@ -74,21 +56,21 @@ export default function SkillsCarousel() {
   return (
     <section id="skills" className="py-16 sm:py-24" ref={sectionRef}>
       <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
-        <div className={`transition-all duration-700 ${
-          isVisible 
-            ? 'opacity-100 translate-y-0' 
-            : 'opacity-0 translate-y-8'
-        }`}>
+        <div className="transition-all duration-300"
+             style={{
+               opacity: scrollProgress,
+               transform: `translateY(${(1 - scrollProgress) * 20}px)`
+             }}>
           <h2 className="text-4xl sm:text-5xl font-bold mb-12 sm:mb-16 text-center bg-gradient-to-r from-blue-300 via-teal-400 to-blue-500 bg-clip-text text-transparent tracking-tight">
             Technical Skills
           </h2>
         </div>
         
-        <div className={`max-w-4xl mx-auto transition-all duration-700 ${
-          isVisible 
-            ? 'opacity-100 translate-y-0' 
-            : 'opacity-0 translate-y-8'
-        }`} style={{ transitionDelay: '200ms' }}>
+        <div className="max-w-4xl mx-auto transition-all duration-300"
+             style={{
+               opacity: Math.max(0, scrollProgress - 0.3) / 0.7,
+               transform: `translateY(${(1 - Math.max(0, scrollProgress - 0.3) / 0.7) * 30}px)`
+             }}>
           {/* Skills Display */}
           <div className="bg-white dark:bg-zinc-900/50 border border-gray-200 dark:border-zinc-700 rounded-xl p-8 sm:p-10 relative overflow-hidden group hover:bg-gradient-to-br hover:from-blue-500/10 hover:to-teal-500/10 hover:border-blue-400/30 transition-all duration-500 shadow-lg hover:shadow-xl hover:shadow-blue-500/20">
             <div className="absolute -inset-1 bg-gradient-to-r from-blue-500 via-teal-500 to-blue-500 rounded-xl opacity-0 group-hover:opacity-20 transition-opacity duration-500 -z-10 blur-sm"></div>

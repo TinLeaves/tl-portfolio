@@ -1,27 +1,19 @@
 import { useState, useEffect, useRef } from 'react';
 import { ExternalLink, Github, Code, Globe, Tag } from 'lucide-react';
+import { useIndividualScrollAnimation, useTimelineAnimation } from '../hooks/useScrollAnimation';
 
-const ProjectItem = ({ project, index, isLast }) => {
-  const [isVisible, setIsVisible] = useState(false);
-  const itemRef = useRef(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-          observer.disconnect();
-        }
-      },
-      { threshold: 0.2 }
-    );
-
-    if (itemRef.current) {
-      observer.observe(itemRef.current);
-    }
-
-    return () => observer.disconnect();
-  }, []);
+const ProjectItem = ({ project, index, isLast, setItemRef, visibleItems, lineProgress }) => {
+  const { elementRef: itemRef, isVisible, progress } = useIndividualScrollAnimation(0.3);
+  
+  // Combine the refs for both individual animation and timeline tracking
+  const combinedRef = (el) => {
+    itemRef.current = el;
+    setItemRef(index)(el);
+  };
+  
+  // Get the line progress for this item (for the line connecting to next item)
+  const currentLineProgress = lineProgress[index] || 0;
+  const isItemVisible = visibleItems.has(index);
 
   const getProjectIcon = (category) => {
     switch (category) {
@@ -40,23 +32,42 @@ const ProjectItem = ({ project, index, isLast }) => {
 
   return (
     <div 
-      ref={itemRef}
-      className={`relative group transition-all duration-700 hover:scale-105 ${
-        isVisible 
-          ? 'opacity-100 translate-y-0 scale-100' 
-          : 'opacity-0 translate-y-8 scale-95'
-      }`}
-      style={{ 
-        transitionDelay: `${index * 200}ms`
+      ref={combinedRef}
+      className="relative group transition-all duration-500 hover:scale-105"
+      style={{
+        opacity: progress,
+        transform: `translateY(${(1 - progress) * 40}px) scale(${0.9 + progress * 0.1})`
       }}
     >
-    {/* Timeline Line - Only show if not the last item */}
-    {!isLast && (
-      <div className="absolute left-6 top-12 w-0.5 transition-all duration-500 bg-zinc-300 dark:bg-zinc-600/50 group-hover:bg-gradient-to-b group-hover:from-blue-500/50 group-hover:to-teal-500/50" style={{ height: 'calc(100% - 1rem)' }}></div>
-    )}
+    {/* Timeline Line */}
+    <div className="absolute left-6 top-12 w-0.5 overflow-hidden" style={{ height: 'calc(100% - 1rem)' }}>
+      <div 
+        className="w-full bg-gradient-to-b from-blue-500 to-teal-500 transition-all duration-700 origin-top"
+        style={{
+          height: `${currentLineProgress * 100}%`,
+          opacity: isItemVisible ? 1 : 0
+        }}
+      />
+      <div 
+        className="absolute top-0 w-full bg-zinc-300 dark:bg-zinc-600/50 transition-all duration-500"
+        style={{
+          height: `${(1 - currentLineProgress) * 100}%`,
+          transform: `translateY(${currentLineProgress * 100}%)`
+        }}
+      />
+    </div>
     
     {/* Timeline Node */}
-    <div className="absolute left-5 top-6 w-3 h-3 rounded-full transition-all duration-500 z-10 bg-zinc-400 dark:bg-zinc-600 group-hover:bg-blue-500 group-hover:shadow-md group-hover:shadow-blue-500/30"></div>
+    <div 
+      className="absolute left-5 top-6 w-3 h-3 rounded-full transition-all duration-500 z-10 border-2"
+      style={{
+        backgroundColor: isItemVisible ? '#3b82f6' : '#9ca3af',
+        borderColor: isItemVisible ? '#1d4ed8' : '#6b7280',
+        boxShadow: isItemVisible ? '0 0 12px rgba(59, 130, 246, 0.5)' : 'none',
+        transform: `scale(${isItemVisible ? 1.2 : 1})`,
+        opacity: progress > 0.1 ? 1 : 0
+      }}
+    ></div>
     
     {/* Content Card */}
     <div className="ml-16 p-6 rounded-xl border transition-all duration-500 bg-white dark:bg-zinc-900/50 border-gray-200 dark:border-zinc-700 group-hover:bg-gradient-to-br group-hover:from-blue-500/10 group-hover:to-teal-500/10 group-hover:border-blue-400/30 group-hover:shadow-xl group-hover:shadow-blue-500/20">
@@ -241,6 +252,8 @@ export default function Projects() {
         },
     ];
 
+    const { containerRef, setItemRef, visibleItems, lineProgress } = useTimelineAnimation(projects.length, 0.3);
+
     return (
         <section id="projects" className="py-16 sm:py-24">
             <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
@@ -248,7 +261,7 @@ export default function Projects() {
                     Featured Projects
                 </h2>
                 
-                <div className="max-w-4xl mx-auto">
+                <div className="max-w-4xl mx-auto" ref={containerRef}>
                     <div className="space-y-8">
                         {projects.map((project, index) => (
                             <ProjectItem
@@ -256,6 +269,9 @@ export default function Projects() {
                                 project={project}
                                 index={index}
                                 isLast={index === projects.length - 1}
+                                setItemRef={setItemRef}
+                                visibleItems={visibleItems}
+                                lineProgress={lineProgress}
                             />
                         ))}
                     </div>

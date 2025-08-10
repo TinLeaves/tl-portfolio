@@ -2,29 +2,11 @@ import { ArrowRight } from 'lucide-react';
 import { useState, useEffect, useRef } from 'react';
 import { Clipboard } from 'lucide-react';
 import { IoLogoGithub, IoLogoLinkedin, IoMailSharp } from "react-icons/io5";
+import { useScrollAnimation } from '../hooks/useScrollAnimation';
 
 export default function Contact() {
     const [showContactDetails, setShowContactDetails] = useState(false);
-    const [isVisible, setIsVisible] = useState(false);
-    const sectionRef = useRef(null);
-
-    useEffect(() => {
-        const observer = new IntersectionObserver(
-            ([entry]) => {
-                if (entry.isIntersecting) {
-                    setIsVisible(true);
-                    observer.disconnect();
-                }
-            },
-            { threshold: 0.2 }
-        );
-
-        if (sectionRef.current) {
-            observer.observe(sectionRef.current);
-        }
-
-        return () => observer.disconnect();
-    }, []);
+    const { elementRef: sectionRef, isVisible, scrollProgress } = useScrollAnimation(0.1);
 
     const handleButtonClick = () => {
         setShowContactDetails(prevState => !prevState);
@@ -45,11 +27,11 @@ export default function Contact() {
         <section id="contact" className="py-16 sm:py-24" ref={sectionRef}>
             <div className="relative">
                 <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 text-center">
-                    <div className={`transition-all duration-700 ${
-                        isVisible 
-                            ? 'opacity-100 translate-y-0' 
-                            : 'opacity-0 translate-y-8'
-                    }`}>
+                    <div className="transition-all duration-300"
+                         style={{
+                             opacity: scrollProgress,
+                             transform: `translateY(${(1 - scrollProgress) * 20}px)`
+                         }}>
                         <h2 className="text-4xl sm:text-5xl font-bold mb-12 sm:mb-16 text-center bg-gradient-to-r from-blue-300 via-teal-400 to-blue-500 bg-clip-text text-transparent tracking-tight">
                             Contact
                         </h2>
@@ -57,11 +39,11 @@ export default function Contact() {
                             I'm always open to discussing new projects, creative ideas, or opportunities to be part of your visions.
                         </p>
                     </div>
-                    <div className={`transition-all duration-700 ${
-                        isVisible 
-                            ? 'opacity-100 translate-y-0' 
-                            : 'opacity-0 translate-y-8'
-                    }`} style={{ transitionDelay: '200ms' }}>
+                    <div className="transition-all duration-300"
+                         style={{
+                             opacity: Math.max(0, scrollProgress - 0.2) / 0.8,
+                             transform: `translateY(${(1 - Math.max(0, scrollProgress - 0.2) / 0.8) * 20}px)`
+                         }}>
                         <button
                             onClick={handleButtonClick}
                             className="group relative inline-flex items-center gap-3 bg-gradient-to-r from-blue-500 to-teal-500 px-10 py-5 rounded-2xl hover:from-blue-400 hover:to-teal-400 transition-all duration-500 shadow-lg hover:shadow-blue-500/30 hover:shadow-2xl hover:scale-105 transform font-medium text-lg overflow-hidden"
@@ -73,11 +55,11 @@ export default function Contact() {
                     </div>
 
                     {showContactDetails && (
-                        <div className={`flex flex-col gap-8 sm:gap-12 mt-8 max-w-lg mx-auto transition-all duration-700 ${
-                            isVisible 
-                                ? 'opacity-100 translate-y-0' 
-                                : 'opacity-0 translate-y-8'
-                        }`} style={{ transitionDelay: '400ms' }}>
+                        <div className="flex flex-col gap-8 sm:gap-12 mt-8 max-w-lg mx-auto transition-all duration-300"
+                             style={{
+                                 opacity: Math.max(0, scrollProgress - 0.4) / 0.6,
+                                 transform: `translateY(${(1 - Math.max(0, scrollProgress - 0.4) / 0.6) * 20}px)`
+                             }}>
                             {/* GitHub Card */}
                             <a
                                 href="https://github.com/TinLeaves"

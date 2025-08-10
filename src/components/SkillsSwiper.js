@@ -4,6 +4,7 @@ import { EffectCoverflow, Navigation, Autoplay } from 'swiper/modules';
 import { FaNodeJs, FaJava, FaReact, FaBootstrap, FaGitAlt, FaFigma } from "react-icons/fa";
 import { SiNextdotjs, SiTailwindcss, SiPython, SiMysql, SiMongodb, SiJavascript, SiTypescript, SiPostgresql, SiKotlin, SiR, SiExpress, SiJquery, SiNpm, SiJira } from "react-icons/si";
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { useScrollAnimation } from '../hooks/useScrollAnimation';
 
 // Import Swiper styles
 import 'swiper/css';
@@ -11,27 +12,8 @@ import 'swiper/css/effect-coverflow';
 import 'swiper/css/navigation';
 
 export default function SkillsSwiper() {
-  const [isVisible, setIsVisible] = useState(false);
-  const sectionRef = useRef(null);
+  const { elementRef: sectionRef, isVisible, scrollProgress } = useScrollAnimation(0.1);
   const swiperRef = useRef(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-          observer.disconnect();
-        }
-      },
-      { threshold: 0.2 }
-    );
-
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
-
-    return () => observer.disconnect();
-  }, []);
 
   const skills = [
     { Icon: SiJavascript, name: "JavaScript", color: "text-yellow-400" },
@@ -59,21 +41,21 @@ export default function SkillsSwiper() {
   return (
     <section id="skills" className="py-16 sm:py-24 overflow-hidden" ref={sectionRef}>
       <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
-        <div className={`transition-all duration-700 ${
-          isVisible 
-            ? 'opacity-100 translate-y-0' 
-            : 'opacity-0 translate-y-8'
-        }`}>
+        <div className="transition-all duration-300"
+             style={{
+               opacity: scrollProgress,
+               transform: `translateY(${(1 - scrollProgress) * 20}px)`
+             }}>
           <h2 className="text-4xl sm:text-5xl font-bold mb-12 sm:mb-16 text-center bg-gradient-to-r from-blue-300 via-teal-400 to-blue-500 bg-clip-text text-transparent tracking-tight">
             Technical Skills
           </h2>
         </div>
         
-        <div className={`transition-all duration-700 ${
-          isVisible 
-            ? 'opacity-100 translate-y-0' 
-            : 'opacity-0 translate-y-8'
-        }`} style={{ transitionDelay: '200ms' }}>
+        <div className="transition-all duration-300"
+             style={{
+               opacity: Math.max(0, scrollProgress - 0.3) / 0.7,
+               transform: `translateY(${(1 - Math.max(0, scrollProgress - 0.3) / 0.7) * 30}px)`
+             }}>
           
           {/* Swiper 3D Carousel */}
           <div className="relative max-w-5xl mx-auto">
