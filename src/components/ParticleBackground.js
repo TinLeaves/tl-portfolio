@@ -34,7 +34,7 @@ export default function ParticleBackground() {
     const drawParticle = (particle) => {
       ctx.save();
       ctx.globalAlpha = particle.opacity;
-      ctx.fillStyle = '#a855f7';
+      ctx.fillStyle = '#3b82f6';
       ctx.beginPath();
       ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
       ctx.fill();
@@ -43,7 +43,7 @@ export default function ParticleBackground() {
 
     const drawConnections = () => {
       ctx.save();
-      ctx.strokeStyle = '#a855f7';
+      ctx.strokeStyle = '#14b8a6';
       ctx.lineWidth = 0.5;
       
       for (let i = 0; i < particles.length; i++) {

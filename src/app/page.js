@@ -1,7 +1,7 @@
 "use client";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
-import SkillsCarousel from "@/components/SkillsCarousel";
+import SkillsSwiper from "@/components/SkillsSwiper";
 import Projects from "@/components/Projects";
 import Timeline from "@/components/Timeline";
 import Contact from "@/components/Contact";
@@ -75,21 +75,61 @@ export default function Home() {
         />
       </Head>
       
-      <div className="min-h-screen bg-gradient-to-b from-white via-gray-50 to-white dark:from-zinc-950 dark:via-zinc-900 dark:to-zinc-950 text-zinc-900 dark:text-zinc-100 font-sans">
+      <div className="min-h-screen bg-gradient-to-b from-white via-blue-50/30 via-teal-50/20 to-white dark:from-zinc-950 dark:via-blue-950/20 dark:via-teal-950/10 dark:to-zinc-950 text-zinc-900 dark:text-zinc-100 font-sans">
         {/* Navbar */}
         <Navbar />
 
         {/* Hero Section */}
         <Hero />
 
-        {/* Timeline Section */}
+        {/* Subtle Section Divider */}
+        <div className="relative py-12">
+          <div className="absolute inset-0 flex items-center max-w-4xl mx-auto px-6">
+            <div className="w-full h-px bg-gradient-to-r from-transparent via-blue-200/50 to-transparent dark:via-blue-700/30"></div>
+          </div>
+          <div className="relative flex justify-center">
+            <div className="w-3 h-3 bg-gradient-to-r from-blue-400 to-teal-400 rounded-full shadow-lg"></div>
+          </div>
+        </div>
+
+        {/* Projects Section - Showcase work immediately after hero */}
+        <Projects />
+
+        {/* Subtle Section Divider */}
+        <div className="relative py-12">
+          <div className="absolute inset-0 flex items-center max-w-4xl mx-auto px-6">
+            <div className="w-full h-px bg-gradient-to-r from-transparent via-teal-200/50 to-transparent dark:via-teal-700/30"></div>
+          </div>
+          <div className="relative flex justify-center">
+            <div className="w-3 h-3 bg-gradient-to-r from-teal-400 to-blue-400 rounded-full shadow-lg"></div>
+          </div>
+        </div>
+
+        {/* Skills Swiper Carousel Section - Technical competence after they're engaged */}
+        <SkillsSwiper />
+
+        {/* Subtle Section Divider */}
+        <div className="relative py-12">
+          <div className="absolute inset-0 flex items-center max-w-4xl mx-auto px-6">
+            <div className="w-full h-px bg-gradient-to-r from-transparent via-blue-200/50 to-transparent dark:via-blue-700/30"></div>
+          </div>
+          <div className="relative flex justify-center">
+            <div className="w-3 h-3 bg-gradient-to-r from-blue-400 to-teal-400 rounded-full shadow-lg"></div>
+          </div>
+        </div>
+
+        {/* Timeline Section - Experience & Education for credibility */}
         <Timeline />
 
-        {/* Skills Carousel Section */}
-        <SkillsCarousel />
-
-        {/* Projects Section */}
-        <Projects />
+        {/* Subtle Section Divider */}
+        <div className="relative py-12">
+          <div className="absolute inset-0 flex items-center max-w-4xl mx-auto px-6">
+            <div className="w-full h-px bg-gradient-to-r from-transparent via-teal-200/50 to-transparent dark:via-teal-700/30"></div>
+          </div>
+          <div className="relative flex justify-center">
+            <div className="w-3 h-3 bg-gradient-to-r from-teal-400 to-blue-400 rounded-full shadow-lg"></div>
+          </div>
+        </div>
 
         {/* Contact Section */}
         <Contact />

@@ -8,7 +8,7 @@ export default function Navbar() {
 
     useEffect(() => {
         const handleScroll = () => {
-            const sections = ["hero", "about", "projects", "contact"];
+            const sections = ["hero", "projects", "skills", "about", "contact"];
             let currentSection = "";
             let maxVisibleArea = 0;
 
@@ -56,7 +56,7 @@ export default function Navbar() {
                 setPillStyle({
                     width,
                     left,
-                    opacity: ["about", "projects", "contact"].includes(activeSection) ? 1 : 0
+                    opacity: ["projects", "skills", "about", "contact"].includes(activeSection) ? 1 : 0
                 });
             } else {
                 setPillStyle({ width: 0, left: 0, opacity: 0 });
@@ -116,7 +116,7 @@ export default function Navbar() {
                                 }}
                             />
                             
-                            {["about", "projects", "contact"].map((section) => (
+                            {["projects", "skills", "about", "contact"].map((section) => (
                                 <button
                                     key={section}
                                     ref={(el) => navRefs.current[section] = el}
