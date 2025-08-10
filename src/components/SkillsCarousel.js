@@ -79,7 +79,7 @@ export default function SkillsCarousel() {
             ? 'opacity-100 translate-y-0' 
             : 'opacity-0 translate-y-8'
         }`}>
-          <h2 className="text-4xl sm:text-5xl font-bold mb-12 sm:mb-16 text-center bg-gradient-to-r from-purple-300 via-pink-400 to-purple-500 bg-clip-text text-transparent tracking-tight">
+          <h2 className="text-4xl sm:text-5xl font-bold mb-12 sm:mb-16 text-center bg-gradient-to-r from-blue-300 via-teal-400 to-blue-500 bg-clip-text text-transparent tracking-tight">
             Technical Skills
           </h2>
         </div>
@@ -90,19 +90,19 @@ export default function SkillsCarousel() {
             : 'opacity-0 translate-y-8'
         }`} style={{ transitionDelay: '200ms' }}>
           {/* Skills Display */}
-          <div className="bg-white dark:bg-zinc-900/50 border border-gray-200 dark:border-zinc-700 rounded-xl p-8 sm:p-10 relative overflow-hidden group hover:bg-gradient-to-br hover:from-purple-500/10 hover:to-pink-500/10 hover:border-purple-400/30 transition-all duration-500 shadow-lg hover:shadow-xl hover:shadow-purple-500/20">
-            <div className="absolute -inset-1 bg-gradient-to-r from-purple-500 via-pink-500 to-purple-500 rounded-xl opacity-0 group-hover:opacity-20 transition-opacity duration-500 -z-10 blur-sm"></div>
+          <div className="bg-white dark:bg-zinc-900/50 border border-gray-200 dark:border-zinc-700 rounded-xl p-8 sm:p-10 relative overflow-hidden group hover:bg-gradient-to-br hover:from-blue-500/10 hover:to-teal-500/10 hover:border-blue-400/30 transition-all duration-500 shadow-lg hover:shadow-xl hover:shadow-blue-500/20">
+            <div className="absolute -inset-1 bg-gradient-to-r from-blue-500 via-teal-500 to-blue-500 rounded-xl opacity-0 group-hover:opacity-20 transition-opacity duration-500 -z-10 blur-sm"></div>
             
             <div className="relative z-10">
               {/* Skills Grid */}
               <div className="grid grid-cols-5 gap-8 sm:gap-12">
                 {getCurrentSkills().map((skill, index) => (
                   <div key={`${currentIndex}-${index}`} className="flex flex-col items-center group/skill hover:scale-110 transition-all duration-300">
-                    <div className="relative p-4 sm:p-5 rounded-2xl bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 group-hover/skill:bg-purple-500/20 group-hover/skill:border-purple-400/30 shadow-lg group-hover/skill:shadow-xl group-hover/skill:shadow-purple-500/20 transition-all duration-500 backdrop-blur-sm">
+                    <div className="relative p-4 sm:p-5 rounded-2xl bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 group-hover/skill:bg-blue-500/20 group-hover/skill:border-blue-400/30 shadow-lg group-hover/skill:shadow-xl group-hover/skill:shadow-blue-500/20 transition-all duration-500 backdrop-blur-sm">
                       <skill.Icon className={`w-10 h-10 sm:w-14 sm:h-14 ${skill.color} group-hover/skill:scale-110 transition-transform duration-300`} />
-                      <div className="absolute -inset-1 bg-gradient-to-r from-purple-500 via-pink-500 to-purple-500 rounded-2xl opacity-0 group-hover/skill:opacity-20 transition-opacity duration-500 -z-10 blur-sm"></div>
+                      <div className="absolute -inset-1 bg-gradient-to-r from-blue-500 via-teal-500 to-blue-500 rounded-2xl opacity-0 group-hover/skill:opacity-20 transition-opacity duration-500 -z-10 blur-sm"></div>
                     </div>
-                    <span className="mt-3 sm:mt-4 text-sm sm:text-base font-medium text-zinc-600 dark:text-zinc-300 group-hover/skill:text-purple-600 dark:group-hover/skill:text-purple-300 transition-colors duration-300 text-center tracking-wide">
+                    <span className="mt-3 sm:mt-4 text-sm sm:text-base font-medium text-zinc-600 dark:text-zinc-300 group-hover/skill:text-blue-600 dark:group-hover/skill:text-blue-300 transition-colors duration-300 text-center tracking-wide">
                       {skill.name}
                     </span>
                   </div>
@@ -115,7 +115,7 @@ export default function SkillsCarousel() {
           <div className="flex items-center justify-center mt-8 space-x-6">
             <button
               onClick={prevPage}
-              className="group p-3 rounded-xl bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 hover:bg-purple-500/20 hover:border-purple-500/30 text-zinc-500 dark:text-zinc-400 hover:text-purple-600 dark:hover:text-purple-300 transition-all duration-300 hover:scale-110 backdrop-blur-sm"
+              className="group p-3 rounded-xl bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 hover:bg-blue-500/20 hover:border-blue-500/30 text-zinc-500 dark:text-zinc-400 hover:text-blue-600 dark:hover:text-blue-300 transition-all duration-300 hover:scale-110 backdrop-blur-sm"
             >
               <ChevronLeft className="w-6 h-6 group-hover:scale-110 transition-transform duration-300" />
             </button>
@@ -128,8 +128,8 @@ export default function SkillsCarousel() {
                   onClick={() => setCurrentIndex(index)}
                   className={`w-3 h-3 rounded-full transition-all duration-300 hover:scale-110 ${
                     index === currentIndex
-                      ? 'bg-purple-500 shadow-lg shadow-purple-500/50'
-                      : 'bg-zinc-400 dark:bg-zinc-600 hover:bg-purple-500 dark:hover:bg-purple-400'
+                      ? 'bg-blue-500 shadow-lg shadow-blue-500/50'
+                      : 'bg-zinc-400 dark:bg-zinc-600 hover:bg-blue-500 dark:hover:bg-blue-400'
                   }`}
                 />
               ))}
@@ -137,7 +137,7 @@ export default function SkillsCarousel() {
             
             <button
               onClick={nextPage}
-              className="group p-3 rounded-xl bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 hover:bg-purple-500/20 hover:border-purple-500/30 text-zinc-500 dark:text-zinc-400 hover:text-purple-600 dark:hover:text-purple-300 transition-all duration-300 hover:scale-110 backdrop-blur-sm"
+              className="group p-3 rounded-xl bg-gray-100 dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 hover:bg-blue-500/20 hover:border-blue-500/30 text-zinc-500 dark:text-zinc-400 hover:text-blue-600 dark:hover:text-blue-300 transition-all duration-300 hover:scale-110 backdrop-blur-sm"
             >
               <ChevronRight className="w-6 h-6 group-hover:scale-110 transition-transform duration-300" />
             </button>

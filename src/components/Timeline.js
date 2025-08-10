@@ -37,24 +37,24 @@ const TimelineItem = ({ experience, index, isLast }) => {
     >
     {/* Timeline Line - Only show if not the last item */}
     {!isLast && (
-      <div className="absolute left-6 top-12 w-0.5 transition-all duration-500 bg-zinc-300 dark:bg-zinc-600/50 group-hover:bg-gradient-to-b group-hover:from-purple-500/50 group-hover:to-pink-500/50" style={{ height: 'calc(100% - 1rem)' }}></div>
+      <div className="absolute left-6 top-12 w-0.5 transition-all duration-500 bg-zinc-300 dark:bg-zinc-600/50 group-hover:bg-gradient-to-b group-hover:from-blue-500/50 group-hover:to-teal-500/50" style={{ height: 'calc(100% - 1rem)' }}></div>
     )}
     
     {/* Timeline Node */}
-    <div className="absolute left-5 top-6 w-3 h-3 rounded-full transition-all duration-500 z-10 bg-zinc-400 dark:bg-zinc-600 group-hover:bg-purple-500 group-hover:shadow-md group-hover:shadow-purple-500/30"></div>
+    <div className="absolute left-5 top-6 w-3 h-3 rounded-full transition-all duration-500 z-10 bg-zinc-400 dark:bg-zinc-600 group-hover:bg-blue-500 group-hover:shadow-md group-hover:shadow-blue-500/30"></div>
     
     {/* Content Card */}
-    <div className="ml-16 p-6 rounded-xl border transition-all duration-500 bg-white dark:bg-zinc-900/50 border-gray-200 dark:border-zinc-700 group-hover:bg-gradient-to-br group-hover:from-purple-500/10 group-hover:to-pink-500/10 group-hover:border-purple-400/30 group-hover:shadow-xl group-hover:shadow-purple-500/20">
+    <div className="ml-16 p-6 rounded-xl border transition-all duration-500 bg-white dark:bg-zinc-900/50 border-gray-200 dark:border-zinc-700 group-hover:bg-gradient-to-br group-hover:from-blue-500/10 group-hover:to-teal-500/10 group-hover:border-blue-400/30 group-hover:shadow-xl group-hover:shadow-blue-500/20">
       <div className="flex items-start justify-between mb-3">
         <div>
-          <h3 className="text-lg font-semibold transition-colors duration-300 text-zinc-900 dark:text-white group-hover:text-purple-600 dark:group-hover:text-purple-300">
+          <h3 className="text-lg font-semibold transition-colors duration-300 text-zinc-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-300">
             {experience.role}
           </h3>
-          <p className="text-sm font-medium transition-colors duration-300 text-zinc-600 dark:text-zinc-300 group-hover:text-pink-600 dark:group-hover:text-pink-300">
+          <p className="text-sm font-medium transition-colors duration-300 text-zinc-600 dark:text-zinc-300 group-hover:text-teal-600 dark:group-hover:text-teal-300">
             {experience.company}
           </p>
         </div>
-        <div className="p-2 rounded-lg transition-all duration-300 bg-gray-100 dark:bg-zinc-800 text-zinc-500 dark:text-zinc-400 group-hover:bg-purple-500/20 group-hover:text-purple-600 dark:group-hover:text-purple-300">
+        <div className="p-2 rounded-lg transition-all duration-300 bg-gray-100 dark:bg-zinc-800 text-zinc-500 dark:text-zinc-400 group-hover:bg-blue-500/20 group-hover:text-blue-600 dark:group-hover:text-blue-300">
           {experience.icon}
         </div>
       </div>
@@ -79,7 +79,7 @@ const TimelineItem = ({ experience, index, isLast }) => {
         {experience.skills.map((skill, skillIndex) => (
           <span
             key={skillIndex}
-            className="px-2 py-1 text-xs rounded-full transition-all duration-300 bg-gray-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 border border-gray-300 dark:border-zinc-700 group-hover:bg-purple-500/20 group-hover:text-purple-600 dark:group-hover:text-purple-300 group-hover:border-purple-500/30"
+            className="px-2 py-1 text-xs rounded-full transition-all duration-300 bg-gray-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 border border-gray-300 dark:border-zinc-700 group-hover:bg-blue-500/20 group-hover:text-blue-600 dark:group-hover:text-blue-300 group-hover:border-blue-500/30"
           >
             {skill}
           </span>
@@ -170,7 +170,7 @@ export default function Timeline() {
   return (
     <section id="about" className="py-16 sm:py-24">
       <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
-        <h2 className="text-4xl sm:text-5xl font-bold mb-12 sm:mb-16 text-center bg-gradient-to-r from-purple-300 via-pink-400 to-purple-500 bg-clip-text text-transparent tracking-tight">
+        <h2 className="text-4xl sm:text-5xl font-bold mb-12 sm:mb-16 text-center bg-gradient-to-r from-blue-300 via-teal-400 to-blue-500 bg-clip-text text-transparent tracking-tight">
           Experience & Education
         </h2>
         

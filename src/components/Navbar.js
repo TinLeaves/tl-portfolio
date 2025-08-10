@@ -98,7 +98,7 @@ export default function Navbar() {
                 <div className="flex justify-between items-center">
                     <button 
                         onClick={() => scrollToSection("hero")}
-                        className="text-xl font-bold bg-gradient-to-r from-purple-300 via-pink-400 to-purple-500 bg-clip-text text-transparent tracking-tight hover:scale-105 transition-transform duration-300 focus:outline-none focus:ring-0"
+                        className="text-xl font-bold bg-gradient-to-r from-blue-300 via-teal-400 to-blue-500 bg-clip-text text-transparent tracking-tight hover:scale-105 transition-transform duration-300 focus:outline-none focus:ring-0"
                     >
                         TL Project
                     </button>
@@ -106,7 +106,7 @@ export default function Navbar() {
                         <div className="relative flex gap-1">
                             {/* Animated background pill */}
                             <div 
-                                className="absolute bg-purple-500/15 rounded-xl transition-all duration-500 ease-out"
+                                className="absolute bg-blue-500/15 rounded-xl transition-all duration-500 ease-out"
                                 style={{
                                     width: `${pillStyle.width}px`,
                                     height: '36px',
@@ -123,8 +123,8 @@ export default function Navbar() {
                                     onClick={() => scrollToSection(section)}
                                     className={`relative px-4 py-2 text-sm font-medium rounded-xl transition-colors duration-300 focus:outline-none focus:ring-0 z-10 ${
                                         activeSection === section
-                                            ? "text-purple-600 dark:text-purple-300"
-                                            : "text-zinc-600 dark:text-zinc-300 hover:text-purple-600 dark:hover:text-purple-300"
+                                            ? "text-blue-600 dark:text-blue-300"
+                                            : "text-zinc-600 dark:text-zinc-300 hover:text-blue-600 dark:hover:text-blue-300"
                                     }`}
                                 >
                                     {section.charAt(0).toUpperCase() + section.slice(1)}

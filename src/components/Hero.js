@@ -58,14 +58,14 @@ export default function Hero() {
                   className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-500"
                 />
               </div>
-              <div className="absolute -inset-1 bg-gradient-to-r from-purple-500 via-pink-500 to-purple-500 rounded-2xl opacity-20 group-hover:opacity-30 transition-opacity duration-500 -z-10 blur-sm"></div>
+              <div className="absolute -inset-1 bg-gradient-to-r from-blue-500 via-teal-500 to-blue-500 rounded-2xl opacity-20 group-hover:opacity-30 transition-opacity duration-500 -z-10 blur-sm"></div>
             </div>
           </div>
 
           {/* Content Section */}
           <div className="space-y-6 sm:space-y-8 text-center lg:text-left order-2 lg:order-1">
             <div className="space-y-4">
-              <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold mb-4 bg-gradient-to-r from-purple-300 via-pink-400 to-purple-500 bg-clip-text text-transparent tracking-tight leading-tight">
+              <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold mb-4 bg-gradient-to-r from-blue-300 via-teal-400 to-blue-500 bg-clip-text text-transparent tracking-tight leading-tight">
                 Steven Lai
               </h1>
               <div className="text-xl sm:text-2xl text-zinc-600 dark:text-zinc-300 font-light tracking-wide min-h-[2.5rem]">
@@ -90,7 +90,7 @@ export default function Hero() {
             <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center lg:justify-start pt-4">
               <a
                 href="#projects"
-                className="group relative flex items-center justify-center gap-3 bg-gradient-to-r from-purple-500 to-pink-500 px-8 py-4 rounded-2xl hover:from-purple-400 hover:to-pink-400 transition-all duration-500 text-base font-medium shadow-lg hover:shadow-purple-500/30 hover:shadow-2xl hover:scale-105 transform overflow-hidden"
+                className="group relative flex items-center justify-center gap-3 bg-gradient-to-r from-blue-500 to-teal-500 px-8 py-4 rounded-2xl hover:from-blue-400 hover:to-teal-400 transition-all duration-500 text-base font-medium shadow-lg hover:shadow-blue-500/30 hover:shadow-2xl hover:scale-105 transform overflow-hidden"
               >
                 <span className="absolute inset-0 bg-white/10 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700 skew-x-12"></span>
                 <span className="relative z-10">View Projects</span>
@@ -99,10 +99,10 @@ export default function Hero() {
               <a
                 href="/Steven_Lai_Resume.pdf"
                 target="_blank"
-                className="group relative flex items-center justify-center gap-3 border border-zinc-300 dark:border-zinc-600 px-8 py-4 rounded-2xl hover:bg-gray-100 dark:hover:bg-zinc-800/50 hover:border-purple-400/50 transition-all duration-500 text-base backdrop-blur-sm overflow-hidden hover:shadow-lg hover:shadow-purple-500/10"
+                className="group relative flex items-center justify-center gap-3 border border-zinc-300 dark:border-zinc-600 px-8 py-4 rounded-2xl hover:bg-gray-100 dark:hover:bg-zinc-800/50 hover:border-blue-400/50 transition-all duration-500 text-base backdrop-blur-sm overflow-hidden hover:shadow-lg hover:shadow-blue-500/10"
               >
-                <span className="absolute inset-0 bg-gradient-to-r from-purple-500/10 to-pink-500/10 translate-y-[100%] group-hover:translate-y-0 transition-transform duration-500"></span>
-                <span className="relative z-10 group-hover:text-purple-200 transition-colors duration-300">Download Resume</span>
+                <span className="absolute inset-0 bg-gradient-to-r from-blue-500/10 to-teal-500/10 translate-y-[100%] group-hover:translate-y-0 transition-transform duration-500"></span>
+                <span className="relative z-10 group-hover:text-blue-200 transition-colors duration-300">Download Resume</span>
               </a>
             </div>
 
@@ -110,19 +110,19 @@ export default function Hero() {
             <div className="flex gap-4 text-zinc-500 dark:text-zinc-400 justify-center lg:justify-start pt-2">
               <a
                 href="https://github.com/TinLeaves" target="_blank"
-                className="group hover:text-purple-600 dark:hover:text-purple-300 transition-all duration-300 p-3 hover:bg-purple-500/10 rounded-xl border border-transparent hover:border-purple-500/20 backdrop-blur-sm"
+                className="group hover:text-blue-600 dark:hover:text-blue-300 transition-all duration-300 p-3 hover:bg-blue-500/10 rounded-xl border border-transparent hover:border-blue-500/20 backdrop-blur-sm"
               >
                 <IoLogoGithub className="w-6 h-6 group-hover:scale-110 transition-transform duration-300" />
               </a>
               <a
                 href="https://www.linkedin.com/in/steven-lai-sl1/" target="_blank"
-                className="group hover:text-purple-600 dark:hover:text-purple-300 transition-all duration-300 p-3 hover:bg-purple-500/10 rounded-xl border border-transparent hover:border-purple-500/20 backdrop-blur-sm"
+                className="group hover:text-blue-600 dark:hover:text-blue-300 transition-all duration-300 p-3 hover:bg-blue-500/10 rounded-xl border border-transparent hover:border-blue-500/20 backdrop-blur-sm"
               >
                 <IoLogoLinkedin className="w-6 h-6 group-hover:scale-110 transition-transform duration-300" />
               </a>
               <a
                 href="mailto:tinleaves.0@gmail.com"
-                className="group hover:text-purple-600 dark:hover:text-purple-300 transition-all duration-300 p-3 hover:bg-purple-500/10 rounded-xl border border-transparent hover:border-purple-500/20 backdrop-blur-sm"
+                className="group hover:text-blue-600 dark:hover:text-blue-300 transition-all duration-300 p-3 hover:bg-blue-500/10 rounded-xl border border-transparent hover:border-blue-500/20 backdrop-blur-sm"
               >
                 <IoMailSharp className="w-6 h-6 group-hover:scale-110 transition-transform duration-300" />
               </a>
