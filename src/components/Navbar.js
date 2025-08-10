@@ -1,9 +1,12 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
+import { Menu, X } from "lucide-react";
+import ThemeToggle from "./ThemeToggle";
 
 export default function Navbar() {
     const [activeSection, setActiveSection] = useState("");
     const [pillStyle, setPillStyle] = useState({ width: 0, left: 0, opacity: 0 });
+    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const navRefs = useRef({});
 
     useEffect(() => {
@@ -89,20 +92,52 @@ export default function Navbar() {
             });
 
             window.history.pushState(null, "", `#${sectionId}`);
+            setIsMobileMenuOpen(false); // Close mobile menu after navigation
         }
     };
+
+    const toggleMobileMenu = () => {
+        setIsMobileMenuOpen(!isMobileMenuOpen);
+    };
+
+    // Close mobile menu when clicking outside
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (isMobileMenuOpen && !event.target.closest('.mobile-nav-container')) {
+                setIsMobileMenuOpen(false);
+            }
+        };
+
+        document.addEventListener('click', handleClickOutside);
+        return () => document.removeEventListener('click', handleClickOutside);
+    }, [isMobileMenuOpen]);
+
+    // Close mobile menu on scroll
+    useEffect(() => {
+        const handleScroll = () => {
+            if (isMobileMenuOpen) {
+                setIsMobileMenuOpen(false);
+            }
+        };
+
+        window.addEventListener('scroll', handleScroll);
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, [isMobileMenuOpen]);
 
     return (
         <nav className="fixed top-0 w-full bg-white/70 dark:bg-zinc-950/70 backdrop-blur-xl z-50 border-b border-gray-200 dark:border-white/5 shadow-lg">
             <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-5">
                 <div className="flex justify-between items-center">
+                    {/* Logo */}
                     <button 
                         onClick={() => scrollToSection("hero")}
                         className="text-xl font-bold bg-gradient-to-r from-blue-300 via-teal-400 to-blue-500 bg-clip-text text-transparent tracking-tight hover:scale-105 transition-transform duration-300 focus:outline-none focus:ring-0"
                     >
                         TL Project
                     </button>
-                    <div className="flex items-center gap-4">
+
+                    {/* Desktop Navigation */}
+                    <div className="hidden md:flex items-center gap-4">
                         <div className="relative flex gap-1">
                             {/* Animated background pill */}
                             <div 
@@ -125,6 +160,56 @@ export default function Navbar() {
                                         activeSection === section
                                             ? "text-blue-600 dark:text-blue-300"
                                             : "text-zinc-600 dark:text-zinc-300 hover:text-blue-600 dark:hover:text-blue-300"
+                                    }`}
+                                >
+                                    {section.charAt(0).toUpperCase() + section.slice(1)}
+                                </button>
+                            ))}
+                        </div>
+                        <ThemeToggle />
+                    </div>
+
+                    {/* Mobile Menu Controls */}
+                    <div className="md:hidden mobile-nav-container">
+                        <button
+                            onClick={toggleMobileMenu}
+                            className="p-2 rounded-xl bg-gray-100/80 dark:bg-zinc-800/50 border border-gray-300 dark:border-zinc-700 hover:border-blue-500 dark:hover:border-blue-400 transition-all duration-300 focus:outline-none focus:ring-0"
+                            aria-label="Toggle mobile menu"
+                        >
+                            <div className="relative w-6 h-6">
+                                <Menu 
+                                    className={`absolute inset-0 w-6 h-6 text-zinc-600 dark:text-zinc-300 transition-all duration-300 ${
+                                        isMobileMenuOpen ? 'opacity-0 rotate-90 scale-0' : 'opacity-100 rotate-0 scale-100'
+                                    }`} 
+                                />
+                                <X 
+                                    className={`absolute inset-0 w-6 h-6 text-zinc-600 dark:text-zinc-300 transition-all duration-300 ${
+                                        isMobileMenuOpen ? 'opacity-100 rotate-0 scale-100' : 'opacity-0 -rotate-90 scale-0'
+                                    }`} 
+                                />
+                            </div>
+                        </button>
+                    </div>
+                </div>
+
+                {/* Full-width Mobile Menu Dropdown */}
+                <div 
+                    className={`md:hidden absolute top-full left-0 w-full bg-white/95 dark:bg-zinc-950/95 backdrop-blur-xl border-b border-gray-200 dark:border-zinc-700 shadow-xl overflow-hidden transition-all duration-300 transform ${
+                        isMobileMenuOpen 
+                            ? 'opacity-100 translate-y-0 max-h-64' 
+                            : 'opacity-0 -translate-y-4 max-h-0 pointer-events-none'
+                    }`}
+                >
+                    <div className="px-6 sm:px-8 lg:px-12 py-4">
+                        <div className="space-y-1">
+                            {["projects", "skills", "about", "contact"].map((section) => (
+                                <button
+                                    key={section}
+                                    onClick={() => scrollToSection(section)}
+                                    className={`w-full text-left px-4 py-4 text-base font-medium rounded-xl transition-all duration-200 focus:outline-none focus:ring-0 ${
+                                        activeSection === section
+                                            ? "bg-blue-500/15 text-blue-600 dark:text-blue-300 border-l-4 border-blue-500"
+                                            : "text-zinc-700 dark:text-zinc-300 hover:bg-blue-500/10 hover:text-blue-600 dark:hover:text-blue-300"
                                     }`}
                                 >
                                     {section.charAt(0).toUpperCase() + section.slice(1)}
