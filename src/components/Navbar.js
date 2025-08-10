@@ -126,12 +126,12 @@ export default function Navbar() {
 
     return (
         <nav className="fixed top-0 w-full bg-white/70 dark:bg-zinc-950/70 backdrop-blur-xl z-50 border-b border-gray-200 dark:border-white/5 shadow-lg">
-            <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-5">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 py-3 sm:py-4 lg:py-5">
                 <div className="flex justify-between items-center">
                     {/* Logo */}
                     <button 
                         onClick={() => scrollToSection("hero")}
-                        className="text-xl font-bold bg-gradient-to-r from-blue-300 via-teal-400 to-blue-500 bg-clip-text text-transparent tracking-tight hover:scale-105 transition-transform duration-300 focus:outline-none focus:ring-0"
+                        className="text-lg sm:text-xl font-bold bg-gradient-to-r from-blue-300 via-teal-400 to-blue-500 bg-clip-text text-transparent tracking-tight hover:scale-105 transition-transform duration-300 focus:outline-none focus:ring-0"
                     >
                         TL Project
                     </button>
@@ -200,7 +200,7 @@ export default function Navbar() {
                             : 'opacity-0 -translate-y-4 max-h-0 pointer-events-none'
                     }`}
                 >
-                    <div className="px-6 sm:px-8 lg:px-12 py-4">
+                    <div className="px-4 sm:px-6 lg:px-8 xl:px-12 py-3 sm:py-4">
                         <div className="space-y-1">
                             {["projects", "skills", "about", "contact"].map((section) => (
                                 <button
