@@ -41,90 +41,6 @@ const TimelineItem = ({ experience, index, isLast, setItemRef, visibleItems, lin
   // Use simplified mobile layout on touch devices
   const isMobile = isTouchDevice && isMobileOrTablet;
 
-  // Mobile layout - simpler, more space for content
-  if (isMobile) {
-    return (
-      <div 
-        ref={combinedRef}
-        className="relative group transition-all duration-300"
-        style={{
-          opacity: progress,
-          transform: `translateY(${(1 - progress) * 20}px)`
-        }}
-      >
-        {/* Mobile Content Card - Full Width */}
-        <div className="relative p-4 sm:p-5 rounded-xl border transition-all duration-300 bg-white dark:bg-zinc-900/50 border-gray-200 dark:border-zinc-700 shadow-sm">
-          {/* Mobile Timeline Indicator - Top of Card */}
-          <div className="flex items-center gap-3 mb-4">
-            <div 
-              className="w-2 h-2 rounded-full border transition-all duration-300"
-              style={{
-                backgroundColor: isItemVisible ? '#3b82f6' : '#9ca3af',
-                borderColor: isItemVisible ? '#1d4ed8' : '#6b7280',
-                boxShadow: isItemVisible ? '0 0 6px rgba(59, 130, 246, 0.3)' : 'none'
-              }}
-            ></div>
-            <div className="h-px bg-gradient-to-r from-blue-400/50 to-transparent flex-1"></div>
-          </div>
-
-          <div className="flex items-start justify-between mb-3">
-            <div>
-              <h3 className="text-base sm:text-lg font-semibold text-zinc-900 dark:text-white">
-                {experience.role}
-              </h3>
-              <p className="text-sm font-medium text-zinc-600 dark:text-zinc-300">
-                {experience.company}
-              </p>
-            </div>
-            <div className="p-2 rounded-lg bg-gray-100 dark:bg-zinc-800 text-zinc-500 dark:text-zinc-400">
-              {experience.icon}
-            </div>
-          </div>
-          
-          <div className="flex items-center gap-4 text-xs text-zinc-500 dark:text-zinc-400 mb-3">
-            <div className="flex items-center gap-1">
-              <Calendar className="w-3 h-3" />
-              <span>{experience.period}</span>
-            </div>
-            <div className="flex items-center gap-1">
-              <MapPin className="w-3 h-3" />
-              <span>{experience.location}</span>
-            </div>
-          </div>
-          
-          <p className="text-sm text-zinc-600 dark:text-zinc-300 leading-relaxed mb-3">
-            {experience.description}
-          </p>
-          
-          {/* Skills */}
-          <div className="flex flex-wrap gap-2 mb-3">
-            {experience.skills.map((skill, skillIndex) => (
-              <span
-                key={skillIndex}
-                className="px-2 py-1 text-xs rounded-full bg-gray-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 border border-gray-300 dark:border-zinc-700"
-              >
-                {skill}
-              </span>
-            ))}
-          </div>
-          
-          {/* Achievements */}
-          {experience.achievements && experience.achievements.length > 0 && (
-            <div className="text-xs space-y-1 text-zinc-500 dark:text-zinc-400">
-              {experience.achievements.map((achievement, achievementIndex) => (
-                <div key={achievementIndex} className="flex items-start gap-2">
-                  <Award className="w-3 h-3 mt-0.5 flex-shrink-0 text-yellow-500" />
-                  <span>{achievement}</span>
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
-      </div>
-    );
-  }
-
-  // Desktop layout - original timeline design
   return (
     <div 
       ref={combinedRef}
@@ -134,8 +50,8 @@ const TimelineItem = ({ experience, index, isLast, setItemRef, visibleItems, lin
         transform: `translateY(${(1 - progress) * 40}px) scale(${0.9 + progress * 0.1})`
       }}
     >
-    {/* Timeline Line */}
-    <div className="absolute left-6 top-12 w-0.5 overflow-hidden" style={{ height: 'calc(100% - 1rem)' }}>
+    {/* Timeline Line - Hidden on mobile/tablet */}
+    <div className="absolute left-6 top-12 w-0.5 overflow-hidden hidden lg:block" style={{ height: 'calc(100% - 1rem)' }}>
       <div 
         className="w-full bg-gradient-to-b from-blue-500 to-teal-500 transition-all duration-700 origin-top"
         style={{
@@ -152,9 +68,9 @@ const TimelineItem = ({ experience, index, isLast, setItemRef, visibleItems, lin
       />
     </div>
     
-    {/* Timeline Node */}
+    {/* Timeline Node - Hidden on mobile/tablet */}
     <div 
-      className="absolute left-5 top-6 w-3 h-3 rounded-full transition-all duration-500 z-10 border-2"
+      className="absolute left-5 top-6 w-3 h-3 rounded-full transition-all duration-500 z-10 border-2 hidden lg:block"
       style={{
         backgroundColor: isItemVisible ? '#3b82f6' : '#9ca3af',
         borderColor: isItemVisible ? '#1d4ed8' : '#6b7280',
@@ -164,18 +80,34 @@ const TimelineItem = ({ experience, index, isLast, setItemRef, visibleItems, lin
       }}
     ></div>
     
-    {/* Content Card */}
-    <div className="ml-16 p-6 rounded-xl border transition-all duration-500 bg-white dark:bg-zinc-900/50 border-gray-200 dark:border-zinc-700 group-hover:bg-gradient-to-br group-hover:from-blue-500/10 group-hover:to-teal-500/10 group-hover:border-blue-400/30 group-hover:shadow-xl group-hover:shadow-blue-500/20">
+    {/* Content Card - Responsive margin and conditional highlighting */}
+    <div className={`ml-0 lg:ml-16 p-4 sm:p-5 lg:p-6 rounded-xl border transition-all duration-500 ${
+      isMobile 
+        ? 'bg-gradient-to-br from-blue-500/5 to-teal-500/5 dark:from-blue-500/10 dark:to-teal-500/10 border-blue-400/30 dark:border-blue-400/50 shadow-lg shadow-blue-500/10' 
+        : 'bg-white dark:bg-zinc-900/50 border-gray-200 dark:border-zinc-700 group-hover:bg-gradient-to-br group-hover:from-blue-500/10 group-hover:to-teal-500/10 group-hover:border-blue-400/30 group-hover:shadow-xl group-hover:shadow-blue-500/20'
+    }`}>
       <div className="flex items-start justify-between mb-3">
         <div>
-          <h3 className="text-lg font-semibold transition-colors duration-300 text-zinc-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-300">
+          <h3 className={`text-lg font-semibold transition-colors duration-300 ${
+            isMobile 
+              ? 'text-blue-700 dark:text-blue-300' 
+              : 'text-zinc-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-300'
+          }`}>
             {experience.role}
           </h3>
-          <p className="text-sm font-medium transition-colors duration-300 text-zinc-600 dark:text-zinc-300 group-hover:text-teal-600 dark:group-hover:text-teal-300">
+          <p className={`text-sm font-medium transition-colors duration-300 ${
+            isMobile 
+              ? 'text-teal-600 dark:text-teal-300' 
+              : 'text-zinc-600 dark:text-zinc-300 group-hover:text-teal-600 dark:group-hover:text-teal-300'
+          }`}>
             {experience.company}
           </p>
         </div>
-        <div className="p-2 rounded-lg transition-all duration-300 bg-gray-100 dark:bg-zinc-800 text-zinc-500 dark:text-zinc-400 group-hover:bg-blue-500/20 group-hover:text-blue-600 dark:group-hover:text-blue-300">
+        <div className={`p-2 rounded-lg transition-all duration-300 ${
+          isMobile 
+            ? 'bg-blue-500/20 text-blue-600 dark:text-blue-300' 
+            : 'bg-gray-100 dark:bg-zinc-800 text-zinc-500 dark:text-zinc-400 group-hover:bg-blue-500/20 group-hover:text-blue-600 dark:group-hover:text-blue-300'
+        }`}>
           {experience.icon}
         </div>
       </div>
@@ -200,7 +132,11 @@ const TimelineItem = ({ experience, index, isLast, setItemRef, visibleItems, lin
         {experience.skills.map((skill, skillIndex) => (
           <span
             key={skillIndex}
-            className="px-2 py-1 text-xs rounded-full transition-all duration-300 bg-gray-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 border border-gray-300 dark:border-zinc-700 group-hover:bg-blue-500/20 group-hover:text-blue-600 dark:group-hover:text-blue-300 group-hover:border-blue-500/30"
+            className={`px-2 py-1 text-xs rounded-full transition-all duration-300 border ${
+              isMobile 
+                ? 'bg-blue-500/20 text-blue-600 dark:text-blue-300 border-blue-500/30' 
+                : 'bg-gray-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 border-gray-300 dark:border-zinc-700 group-hover:bg-blue-500/20 group-hover:text-blue-600 dark:group-hover:text-blue-300 group-hover:border-blue-500/30'
+            }`}
           >
             {skill}
           </span>

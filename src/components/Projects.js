@@ -2,8 +2,31 @@ import { useState, useEffect, useRef } from 'react';
 import { ExternalLink, Github, Code, Globe, Tag } from 'lucide-react';
 import { useIndividualScrollAnimation, useTimelineAnimation } from '../hooks/useScrollAnimation';
 
+// Device detection hook
+function useDeviceDetection() {
+  const [isTouchDevice, setIsTouchDevice] = useState(false);
+  const [isMobileOrTablet, setIsMobileOrTablet] = useState(false);
+
+  useEffect(() => {
+    const hasTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+    setIsTouchDevice(hasTouch);
+
+    const updateScreenSize = () => {
+      setIsMobileOrTablet(window.innerWidth < 1024);
+    };
+
+    updateScreenSize();
+    window.addEventListener('resize', updateScreenSize);
+    
+    return () => window.removeEventListener('resize', updateScreenSize);
+  }, []);
+
+  return { isTouchDevice, isMobileOrTablet };
+}
+
 const ProjectItem = ({ project, index, isLast, setItemRef, visibleItems, lineProgress }) => {
   const { elementRef: itemRef, isVisible, progress } = useIndividualScrollAnimation(0.3);
+  const { isTouchDevice, isMobileOrTablet } = useDeviceDetection();
   
   // Combine the refs for both individual animation and timeline tracking
   const combinedRef = (el) => {
@@ -14,6 +37,9 @@ const ProjectItem = ({ project, index, isLast, setItemRef, visibleItems, linePro
   // Get the line progress for this item (for the line connecting to next item)
   const currentLineProgress = lineProgress[index] || 0;
   const isItemVisible = visibleItems.has(index);
+  
+  // Use simplified mobile layout on touch devices
+  const isMobile = isTouchDevice && isMobileOrTablet;
 
   const getProjectIcon = (category) => {
     switch (category) {
@@ -39,8 +65,8 @@ const ProjectItem = ({ project, index, isLast, setItemRef, visibleItems, linePro
         transform: `translateY(${(1 - progress) * 40}px) scale(${0.9 + progress * 0.1})`
       }}
     >
-    {/* Timeline Line */}
-    <div className="absolute left-6 top-12 w-0.5 overflow-hidden" style={{ height: 'calc(100% - 1rem)' }}>
+    {/* Timeline Line - Hidden on mobile/tablet */}
+    <div className="absolute left-6 top-12 w-0.5 overflow-hidden hidden lg:block" style={{ height: 'calc(100% - 1rem)' }}>
       <div 
         className="w-full bg-gradient-to-b from-blue-500 to-teal-500 transition-all duration-700 origin-top"
         style={{
@@ -57,9 +83,9 @@ const ProjectItem = ({ project, index, isLast, setItemRef, visibleItems, linePro
       />
     </div>
     
-    {/* Timeline Node */}
+    {/* Timeline Node - Hidden on mobile/tablet */}
     <div 
-      className="absolute left-5 top-6 w-3 h-3 rounded-full transition-all duration-500 z-10 border-2"
+      className="absolute left-5 top-6 w-3 h-3 rounded-full transition-all duration-500 z-10 border-2 hidden lg:block"
       style={{
         backgroundColor: isItemVisible ? '#3b82f6' : '#9ca3af',
         borderColor: isItemVisible ? '#1d4ed8' : '#6b7280',
@@ -69,8 +95,12 @@ const ProjectItem = ({ project, index, isLast, setItemRef, visibleItems, linePro
       }}
     ></div>
     
-    {/* Content Card */}
-    <div className="ml-16 p-6 rounded-xl border transition-all duration-500 bg-white dark:bg-zinc-900/50 border-gray-200 dark:border-zinc-700 group-hover:bg-gradient-to-br group-hover:from-blue-500/10 group-hover:to-teal-500/10 group-hover:border-blue-400/30 group-hover:shadow-xl group-hover:shadow-blue-500/20">
+    {/* Content Card - Responsive margin and conditional highlighting */}
+    <div className={`ml-0 lg:ml-16 p-4 sm:p-5 lg:p-6 rounded-xl border transition-all duration-500 ${
+      isMobile 
+        ? 'bg-gradient-to-br from-blue-500/5 to-teal-500/5 dark:from-blue-500/10 dark:to-teal-500/10 border-blue-400/30 dark:border-blue-400/50 shadow-lg shadow-blue-500/10' 
+        : 'bg-white dark:bg-zinc-900/50 border-gray-200 dark:border-zinc-700 group-hover:bg-gradient-to-br group-hover:from-blue-500/10 group-hover:to-teal-500/10 group-hover:border-blue-400/30 group-hover:shadow-xl group-hover:shadow-blue-500/20'
+    }`}>
       <div className="flex items-start justify-between mb-3">
         <div className="flex-1">
           {project.viewLink && project.viewLink !== "#" ? (
@@ -80,20 +110,36 @@ const ProjectItem = ({ project, index, isLast, setItemRef, visibleItems, linePro
               rel="noopener noreferrer"
               className="cursor-pointer"
             >
-              <h3 className="text-lg font-semibold transition-colors duration-300 text-zinc-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-300 hover:text-blue-600 dark:hover:text-blue-300">
+              <h3 className={`text-lg font-semibold transition-colors duration-300 ${
+                isMobile 
+                  ? 'text-blue-700 dark:text-blue-300' 
+                  : 'text-zinc-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-300 hover:text-blue-600 dark:hover:text-blue-300'
+              }`}>
                 {project.title}
               </h3>
             </a>
           ) : (
-            <h3 className="text-lg font-semibold transition-colors duration-300 text-zinc-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-300">
+            <h3 className={`text-lg font-semibold transition-colors duration-300 ${
+              isMobile 
+                ? 'text-blue-700 dark:text-blue-300' 
+                : 'text-zinc-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-300'
+            }`}>
               {project.title}
             </h3>
           )}
-          <p className="text-sm font-medium transition-colors duration-300 text-zinc-600 dark:text-zinc-300 group-hover:text-teal-600 dark:group-hover:text-teal-300">
+          <p className={`text-sm font-medium transition-colors duration-300 ${
+            isMobile 
+              ? 'text-teal-600 dark:text-teal-300' 
+              : 'text-zinc-600 dark:text-zinc-300 group-hover:text-teal-600 dark:group-hover:text-teal-300'
+          }`}>
             {project.category}
           </p>
         </div>
-        <div className="p-2 rounded-lg transition-all duration-300 bg-gray-100 dark:bg-zinc-800 text-zinc-500 dark:text-zinc-400 group-hover:bg-blue-500/20 group-hover:text-blue-600 dark:group-hover:text-blue-300">
+        <div className={`p-2 rounded-lg transition-all duration-300 ${
+          isMobile 
+            ? 'bg-blue-500/20 text-blue-600 dark:text-blue-300' 
+            : 'bg-gray-100 dark:bg-zinc-800 text-zinc-500 dark:text-zinc-400 group-hover:bg-blue-500/20 group-hover:text-blue-600 dark:group-hover:text-blue-300'
+        }`}>
           {getProjectIcon(project.category)}
         </div>
       </div>
@@ -107,7 +153,11 @@ const ProjectItem = ({ project, index, isLast, setItemRef, visibleItems, linePro
         {project.technologies.map((tech, techIndex) => (
           <span
             key={techIndex}
-            className="px-2 py-1 text-xs rounded-full transition-all duration-300 bg-gray-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 border border-gray-300 dark:border-zinc-700 group-hover:bg-blue-500/20 group-hover:text-blue-600 dark:group-hover:text-blue-300 group-hover:border-blue-500/30"
+            className={`px-2 py-1 text-xs rounded-full transition-all duration-300 border ${
+              isMobile 
+                ? 'bg-blue-500/20 text-blue-600 dark:text-blue-300 border-blue-500/30' 
+                : 'bg-gray-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 border-gray-300 dark:border-zinc-700 group-hover:bg-blue-500/20 group-hover:text-blue-600 dark:group-hover:text-blue-300 group-hover:border-blue-500/30'
+            }`}
           >
             {tech}
           </span>
