@@ -2,8 +2,31 @@ import { Calendar, MapPin, ExternalLink, Award, Code, BookOpen, Briefcase, Gradu
 import { useState, useEffect, useRef } from 'react';
 import { useIndividualScrollAnimation, useTimelineAnimation } from '../hooks/useScrollAnimation';
 
+// Device detection hook
+function useDeviceDetection() {
+  const [isTouchDevice, setIsTouchDevice] = useState(false);
+  const [isMobileOrTablet, setIsMobileOrTablet] = useState(false);
+
+  useEffect(() => {
+    const hasTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+    setIsTouchDevice(hasTouch);
+
+    const updateScreenSize = () => {
+      setIsMobileOrTablet(window.innerWidth < 1024);
+    };
+
+    updateScreenSize();
+    window.addEventListener('resize', updateScreenSize);
+    
+    return () => window.removeEventListener('resize', updateScreenSize);
+  }, []);
+
+  return { isTouchDevice, isMobileOrTablet };
+}
+
 const TimelineItem = ({ experience, index, isLast, setItemRef, visibleItems, lineProgress }) => {
   const { elementRef: itemRef, isVisible, progress } = useIndividualScrollAnimation(0.3);
+  const { isTouchDevice, isMobileOrTablet } = useDeviceDetection();
   
   // Combine the refs for both individual animation and timeline tracking
   const combinedRef = (el) => {
@@ -14,7 +37,94 @@ const TimelineItem = ({ experience, index, isLast, setItemRef, visibleItems, lin
   // Get the line progress for this item (for the line connecting to next item)
   const currentLineProgress = lineProgress[index] || 0;
   const isItemVisible = visibleItems.has(index);
+  
+  // Use simplified mobile layout on touch devices
+  const isMobile = isTouchDevice && isMobileOrTablet;
 
+  // Mobile layout - simpler, more space for content
+  if (isMobile) {
+    return (
+      <div 
+        ref={combinedRef}
+        className="relative group transition-all duration-300"
+        style={{
+          opacity: progress,
+          transform: `translateY(${(1 - progress) * 20}px)`
+        }}
+      >
+        {/* Mobile Content Card - Full Width */}
+        <div className="relative p-4 sm:p-5 rounded-xl border transition-all duration-300 bg-white dark:bg-zinc-900/50 border-gray-200 dark:border-zinc-700 shadow-sm">
+          {/* Mobile Timeline Indicator - Top of Card */}
+          <div className="flex items-center gap-3 mb-4">
+            <div 
+              className="w-2 h-2 rounded-full border transition-all duration-300"
+              style={{
+                backgroundColor: isItemVisible ? '#3b82f6' : '#9ca3af',
+                borderColor: isItemVisible ? '#1d4ed8' : '#6b7280',
+                boxShadow: isItemVisible ? '0 0 6px rgba(59, 130, 246, 0.3)' : 'none'
+              }}
+            ></div>
+            <div className="h-px bg-gradient-to-r from-blue-400/50 to-transparent flex-1"></div>
+          </div>
+
+          <div className="flex items-start justify-between mb-3">
+            <div>
+              <h3 className="text-base sm:text-lg font-semibold text-zinc-900 dark:text-white">
+                {experience.role}
+              </h3>
+              <p className="text-sm font-medium text-zinc-600 dark:text-zinc-300">
+                {experience.company}
+              </p>
+            </div>
+            <div className="p-2 rounded-lg bg-gray-100 dark:bg-zinc-800 text-zinc-500 dark:text-zinc-400">
+              {experience.icon}
+            </div>
+          </div>
+          
+          <div className="flex items-center gap-4 text-xs text-zinc-500 dark:text-zinc-400 mb-3">
+            <div className="flex items-center gap-1">
+              <Calendar className="w-3 h-3" />
+              <span>{experience.period}</span>
+            </div>
+            <div className="flex items-center gap-1">
+              <MapPin className="w-3 h-3" />
+              <span>{experience.location}</span>
+            </div>
+          </div>
+          
+          <p className="text-sm text-zinc-600 dark:text-zinc-300 leading-relaxed mb-3">
+            {experience.description}
+          </p>
+          
+          {/* Skills */}
+          <div className="flex flex-wrap gap-2 mb-3">
+            {experience.skills.map((skill, skillIndex) => (
+              <span
+                key={skillIndex}
+                className="px-2 py-1 text-xs rounded-full bg-gray-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 border border-gray-300 dark:border-zinc-700"
+              >
+                {skill}
+              </span>
+            ))}
+          </div>
+          
+          {/* Achievements */}
+          {experience.achievements && experience.achievements.length > 0 && (
+            <div className="text-xs space-y-1 text-zinc-500 dark:text-zinc-400">
+              {experience.achievements.map((achievement, achievementIndex) => (
+                <div key={achievementIndex} className="flex items-start gap-2">
+                  <Award className="w-3 h-3 mt-0.5 flex-shrink-0 text-yellow-500" />
+                  <span>{achievement}</span>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
+    );
+  }
+
+  // Desktop layout - original timeline design
   return (
     <div 
       ref={combinedRef}
