@@ -69,12 +69,12 @@ export default function Hero() {
                 Steven Lai
               </h1>
               <div className="text-xl sm:text-2xl text-zinc-600 dark:text-zinc-300 font-light tracking-wide min-h-[2.5rem]">
-                <TypewriterText 
+                <TypewriterText
                   texts={[
-                    "Full-Stack Developer",
-                    "AI Integration Specialist", 
-                    "Modern Web Developer",
-                    "React & Next.js Expert"
+                    "Crafting End-to-End Web Solutions",
+                    "Designing Scalable Database Architectures",
+                    "Bringing Data to Life in the Browser",
+                    "Building Modern Apps from Backend to Frontend"
                   ]}
                   speed={80}
                   deleteSpeed={40}
@@ -82,7 +82,7 @@ export default function Hero() {
                 />
               </div>
               <p className="text-base sm:text-lg text-zinc-500 dark:text-zinc-500 font-medium">
-                Specializing in AI Integration & Modern Web Applications
+                 Full-stack developer with a strong foundation in database design and integration.
               </p>
             </div>
 

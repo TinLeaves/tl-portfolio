@@ -218,6 +218,17 @@ export default function Projects() {
             technologies: ["JavaScript", "jQuery", "Bootstrap", "API"]
         },
         {
+            title: "Don't Froget - Habit & Mood Tracker",
+            description:
+                "A full-stack habit and mood tracking application built for QDS Hacks 2024. Helps students track their daily habits, goals, and emotions with a calendar-based interface. Built with React/TypeScript frontend and Spring Boot backend with MySQL database. Features user registration, habit logging, mood tracking, and email contact forms.",
+            videoId: "7qAyc2Xym8Y",
+            imageUrl: null,
+            viewLink: "https://devpost.com/software/don-t-froget?ref_content=my-projects-tab&ref_feature=my_projects",
+            sourceLink: "https://github.com/thebiggest0/QDS-group-11",
+            category: "Full-Stack",
+            technologies: ["React", "TypeScript", "Spring Boot", "MySQL", "JPA"]
+        },
+        {
             title: "AI-Powered Notebook",
             description:
                 "A smart note-taking app with AI-driven text summarization and sentiment analysis. Built with JavaScript (frontend) and a backend powered by Flask and Django. Utilizes a BERT model from Hugging Face for NLP.",
