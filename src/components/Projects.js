@@ -1,28 +1,8 @@
 import { useState, useEffect, useRef } from 'react';
 import { ExternalLink, Github, Code, Globe, Tag } from 'lucide-react';
 import { useIndividualScrollAnimation, useTimelineAnimation } from '../hooks/useScrollAnimation';
-
-// Device detection hook
-function useDeviceDetection() {
-  const [isTouchDevice, setIsTouchDevice] = useState(false);
-  const [isMobileOrTablet, setIsMobileOrTablet] = useState(false);
-
-  useEffect(() => {
-    const hasTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
-    setIsTouchDevice(hasTouch);
-
-    const updateScreenSize = () => {
-      setIsMobileOrTablet(window.innerWidth < 1024);
-    };
-
-    updateScreenSize();
-    window.addEventListener('resize', updateScreenSize);
-    
-    return () => window.removeEventListener('resize', updateScreenSize);
-  }, []);
-
-  return { isTouchDevice, isMobileOrTablet };
-}
+import { useDeviceDetection } from '../utils/deviceUtils';
+import SectionTitle from './ui/SectionTitle';
 
 const ProjectItem = ({ project, index, isLast, setItemRef, visibleItems, lineProgress }) => {
   const { elementRef: itemRef, isVisible, progress } = useIndividualScrollAnimation(0.3);
@@ -307,9 +287,7 @@ export default function Projects() {
     return (
         <section id="projects" className="py-16 sm:py-24">
             <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
-                <h2 className="text-4xl sm:text-5xl font-bold mb-12 sm:mb-16 text-center bg-gradient-to-r from-blue-300 via-teal-400 to-blue-500 bg-clip-text text-transparent tracking-tight">
-                    Featured Projects
-                </h2>
+                <SectionTitle>Featured Projects</SectionTitle>
                 
                 <div className="max-w-4xl mx-auto" ref={containerRef}>
                     <div className="space-y-8">

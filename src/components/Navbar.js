@@ -1,6 +1,8 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
 import { Menu, X } from "lucide-react";
+import { NAVIGATION_SECTIONS } from '../utils/constants';
+import { scrollToSection } from '../utils/scrollUtils';
 
 export default function Navbar() {
     const [activeSection, setActiveSection] = useState("");
@@ -10,7 +12,7 @@ export default function Navbar() {
 
     useEffect(() => {
         const handleScroll = () => {
-            const sections = ["hero", "projects", "skills", "about", "contact"];
+            const sections = ["hero", ...NAVIGATION_SECTIONS];
             let currentSection = "";
             let maxVisibleArea = 0;
 
@@ -58,7 +60,7 @@ export default function Navbar() {
                 setPillStyle({
                     width,
                     left,
-                    opacity: ["projects", "skills", "about", "contact"].includes(activeSection) ? 1 : 0
+                    opacity: NAVIGATION_SECTIONS.includes(activeSection) ? 1 : 0
                 });
             } else {
                 setPillStyle({ width: 0, left: 0, opacity: 0 });
@@ -82,17 +84,9 @@ export default function Navbar() {
         };
     }, [activeSection]);
 
-    const scrollToSection = (sectionId) => {
-        const section = document.getElementById(sectionId);
-        if (section) {
-            section.scrollIntoView({
-                behavior: "smooth",
-                block: "start",
-            });
-
-            window.history.pushState(null, "", `#${sectionId}`);
-            setIsMobileMenuOpen(false); // Close mobile menu after navigation
-        }
+    const handleSectionClick = (sectionId) => {
+        scrollToSection(sectionId);
+        setIsMobileMenuOpen(false); // Close mobile menu after navigation
     };
 
     const toggleMobileMenu = () => {
@@ -129,7 +123,7 @@ export default function Navbar() {
                 <div className="flex justify-between items-center">
                     {/* Logo */}
                     <button 
-                        onClick={() => scrollToSection("hero")}
+                        onClick={() => handleSectionClick("hero")}
                         className="text-lg sm:text-xl font-bold bg-gradient-to-r from-blue-300 via-teal-400 to-blue-500 bg-clip-text text-transparent tracking-tight hover:scale-105 transition-transform duration-300 focus:outline-none focus:ring-0"
                     >
                         TL Project
@@ -150,11 +144,11 @@ export default function Navbar() {
                                 }}
                             />
                             
-                            {["projects", "skills", "about", "contact"].map((section) => (
+                            {NAVIGATION_SECTIONS.map((section) => (
                                 <button
                                     key={section}
                                     ref={(el) => navRefs.current[section] = el}
-                                    onClick={() => scrollToSection(section)}
+                                    onClick={() => handleSectionClick(section)}
                                     className={`relative px-4 py-2 text-sm font-medium rounded-xl transition-colors duration-300 focus:outline-none focus:ring-0 z-10 ${
                                         activeSection === section
                                             ? "text-blue-600 dark:text-blue-300"
@@ -200,10 +194,10 @@ export default function Navbar() {
                 >
                     <div className="px-4 sm:px-6 lg:px-8 xl:px-12 py-3 sm:py-4">
                         <div className="space-y-1">
-                            {["projects", "skills", "about", "contact"].map((section) => (
+                            {NAVIGATION_SECTIONS.map((section) => (
                                 <button
                                     key={section}
-                                    onClick={() => scrollToSection(section)}
+                                    onClick={() => handleSectionClick(section)}
                                     className={`w-full text-left px-4 py-4 text-base font-medium rounded-xl transition-all duration-200 focus:outline-none focus:ring-0 ${
                                         activeSection === section
                                             ? "bg-blue-500/15 text-blue-600 dark:text-blue-300 border-l-4 border-blue-500"

@@ -9,6 +9,8 @@ import Footer from "@/components/Footer";
 import { ThemeProvider } from "@/contexts/ThemeContext";
 import { PageLoadingSpinner, useLoadingState } from "@/components/LoadingStates";
 import Head from 'next/head';
+import SectionDivider from '@/components/ui/SectionDivider';
+import { PERSONAL_INFO, SEO_CONFIG } from '@/utils/constants';
 
 export default function Home() {
   const isLoading = useLoadingState(1500);
@@ -82,54 +84,22 @@ export default function Home() {
         {/* Hero Section */}
         <Hero />
 
-        {/* Subtle Section Divider */}
-        <div className="relative py-12">
-          <div className="absolute inset-0 flex items-center max-w-4xl mx-auto px-6">
-            <div className="w-full h-px bg-gradient-to-r from-transparent via-blue-200/50 to-transparent dark:via-blue-700/30"></div>
-          </div>
-          <div className="relative flex justify-center">
-            <div className="w-3 h-3 bg-gradient-to-r from-blue-400 to-teal-400 rounded-full shadow-lg"></div>
-          </div>
-        </div>
+        <SectionDivider variant="blueTeal" />
 
         {/* Projects Section - Showcase work immediately after hero */}
         <Projects />
 
-        {/* Subtle Section Divider */}
-        <div className="relative py-12">
-          <div className="absolute inset-0 flex items-center max-w-4xl mx-auto px-6">
-            <div className="w-full h-px bg-gradient-to-r from-transparent via-teal-200/50 to-transparent dark:via-teal-700/30"></div>
-          </div>
-          <div className="relative flex justify-center">
-            <div className="w-3 h-3 bg-gradient-to-r from-teal-400 to-blue-400 rounded-full shadow-lg"></div>
-          </div>
-        </div>
+        <SectionDivider variant="tealBlue" />
 
         {/* Skills Swiper Carousel Section - Technical competence after they're engaged */}
         <SkillsSwiper />
 
-        {/* Subtle Section Divider */}
-        <div className="relative py-12">
-          <div className="absolute inset-0 flex items-center max-w-4xl mx-auto px-6">
-            <div className="w-full h-px bg-gradient-to-r from-transparent via-blue-200/50 to-transparent dark:via-blue-700/30"></div>
-          </div>
-          <div className="relative flex justify-center">
-            <div className="w-3 h-3 bg-gradient-to-r from-blue-400 to-teal-400 rounded-full shadow-lg"></div>
-          </div>
-        </div>
+        <SectionDivider variant="blueTeal" />
 
         {/* Timeline Section - Experience & Education for credibility */}
         <Timeline />
 
-        {/* Subtle Section Divider */}
-        <div className="relative py-12">
-          <div className="absolute inset-0 flex items-center max-w-4xl mx-auto px-6">
-            <div className="w-full h-px bg-gradient-to-r from-transparent via-teal-200/50 to-transparent dark:via-teal-700/30"></div>
-          </div>
-          <div className="relative flex justify-center">
-            <div className="w-3 h-3 bg-gradient-to-r from-teal-400 to-blue-400 rounded-full shadow-lg"></div>
-          </div>
-        </div>
+        <SectionDivider variant="tealBlue" />
 
         {/* Contact Section */}
         <Contact />

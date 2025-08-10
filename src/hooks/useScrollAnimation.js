@@ -1,28 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
-
-// Detect if device is touch-enabled and screen size
-function useDeviceDetection() {
-  const [isTouchDevice, setIsTouchDevice] = useState(false);
-  const [isMobileOrTablet, setIsMobileOrTablet] = useState(false);
-
-  useEffect(() => {
-    // Detect touch capability
-    const hasTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
-    setIsTouchDevice(hasTouch);
-
-    // Detect screen size - include tablets (up to 1024px)
-    const updateScreenSize = () => {
-      setIsMobileOrTablet(window.innerWidth < 1024); // lg breakpoint - includes tablets
-    };
-
-    updateScreenSize();
-    window.addEventListener('resize', updateScreenSize);
-    
-    return () => window.removeEventListener('resize', updateScreenSize);
-  }, []);
-
-  return { isTouchDevice, isMobileOrTablet };
-}
+import { useDeviceDetection } from '../utils/deviceUtils';
+import { getScrollProgress } from '../utils/scrollUtils';
 
 export function useScrollAnimation(threshold = 0.1) {
   const [isVisible, setIsVisible] = useState(false);
@@ -48,23 +26,11 @@ export function useScrollAnimation(threshold = 0.1) {
           
           // Start tracking scroll progress when element becomes visible
           const updateScrollProgress = () => {
-            const rect = element.getBoundingClientRect();
-            const elementTop = rect.top;
-            const elementHeight = rect.height;
-            const windowHeight = window.innerHeight;
-            
-            // Calculate how much of the element has been scrolled into view
-            const startTrigger = windowHeight - elementHeight * 0.2; // Start animating when 20% visible
-            const endTrigger = windowHeight * 0.3; // Finish animating when element reaches 30% from top
-            
-            if (elementTop <= startTrigger && elementTop >= endTrigger) {
-              const progress = 1 - ((elementTop - endTrigger) / (startTrigger - endTrigger));
-              setScrollProgress(Math.max(0, Math.min(1, progress)));
-            } else if (elementTop < endTrigger) {
-              setScrollProgress(1);
-            } else {
-              setScrollProgress(0);
-            }
+            const progress = getScrollProgress(element, {
+              startThreshold: 0.2,
+              endThreshold: 0.3
+            });
+            setScrollProgress(progress);
           };
 
           // Update on scroll
