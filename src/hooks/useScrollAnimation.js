@@ -1,13 +1,45 @@
 import { useState, useEffect, useRef } from 'react';
 
+// Detect if device is touch-enabled and screen size
+function useDeviceDetection() {
+  const [isTouchDevice, setIsTouchDevice] = useState(false);
+  const [isMobileOrTablet, setIsMobileOrTablet] = useState(false);
+
+  useEffect(() => {
+    // Detect touch capability
+    const hasTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+    setIsTouchDevice(hasTouch);
+
+    // Detect screen size - include tablets (up to 1024px)
+    const updateScreenSize = () => {
+      setIsMobileOrTablet(window.innerWidth < 1024); // lg breakpoint - includes tablets
+    };
+
+    updateScreenSize();
+    window.addEventListener('resize', updateScreenSize);
+    
+    return () => window.removeEventListener('resize', updateScreenSize);
+  }, []);
+
+  return { isTouchDevice, isMobileOrTablet };
+}
+
 export function useScrollAnimation(threshold = 0.1) {
   const [isVisible, setIsVisible] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
   const elementRef = useRef(null);
+  const { isTouchDevice, isMobileOrTablet } = useDeviceDetection();
 
   useEffect(() => {
     const element = elementRef.current;
     if (!element) return;
+
+    // If touch device on mobile/tablet, immediately set to visible and full progress
+    if (isTouchDevice && isMobileOrTablet) {
+      setIsVisible(true);
+      setScrollProgress(1);
+      return;
+    }
 
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -52,7 +84,7 @@ export function useScrollAnimation(threshold = 0.1) {
     return () => {
       observer.disconnect();
     };
-  }, [threshold]);
+  }, [threshold, isTouchDevice, isMobileOrTablet]);
 
   return { elementRef, isVisible, scrollProgress };
 }
@@ -62,10 +94,18 @@ export function useIndividualScrollAnimation(threshold = 0.3) {
   const [isVisible, setIsVisible] = useState(false);
   const [progress, setProgress] = useState(0);
   const elementRef = useRef(null);
+  const { isTouchDevice, isMobileOrTablet } = useDeviceDetection();
 
   useEffect(() => {
     const element = elementRef.current;
     if (!element) return;
+
+    // If touch device on mobile/tablet, immediately set to visible and full progress
+    if (isTouchDevice && isMobileOrTablet) {
+      setIsVisible(true);
+      setProgress(1);
+      return;
+    }
 
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -111,7 +151,7 @@ export function useIndividualScrollAnimation(threshold = 0.3) {
     return () => {
       observer.disconnect();
     };
-  }, [threshold]);
+  }, [threshold, isTouchDevice, isMobileOrTablet]);
 
   return { elementRef, isVisible, progress };
 }
@@ -122,6 +162,7 @@ export function useTimelineAnimation(totalItems, threshold = 0.1) {
   const [lineProgress, setLineProgress] = useState({});
   const containerRef = useRef(null);
   const itemRefs = useRef([]);
+  const { isTouchDevice, isMobileOrTablet } = useDeviceDetection();
 
   const setItemRef = (index) => (ref) => {
     if (ref) {
@@ -132,6 +173,18 @@ export function useTimelineAnimation(totalItems, threshold = 0.1) {
   useEffect(() => {
     const container = containerRef.current;
     if (!container || itemRefs.current.length === 0) return;
+
+    // If touch device on mobile/tablet, immediately set all items to visible and full progress
+    if (isTouchDevice && isMobileOrTablet) {
+      const allItems = new Set(Array.from({ length: totalItems }, (_, i) => i));
+      const allProgress = {};
+      for (let i = 0; i < totalItems; i++) {
+        allProgress[i] = 1;
+      }
+      setVisibleItems(allItems);
+      setLineProgress(allProgress);
+      return;
+    }
 
     const observers = [];
 
@@ -195,7 +248,7 @@ export function useTimelineAnimation(totalItems, threshold = 0.1) {
     return () => {
       observers.forEach(observer => observer.disconnect());
     };
-  }, [totalItems, threshold]);
+  }, [totalItems, threshold, isTouchDevice, isMobileOrTablet]);
 
   return { containerRef, setItemRef, visibleItems, lineProgress };
 }

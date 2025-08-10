@@ -101,11 +101,11 @@ export default function SkillsSwiper() {
               {skills.map((skill, index) => (
                 <SwiperSlide key={skill.name}>
                   <div className="group flex flex-col items-center p-3 sm:p-4 cursor-pointer">
-                    <div className="relative w-28 h-28 sm:w-36 sm:h-36 lg:w-44 lg:h-44 rounded-2xl bg-white/90 dark:bg-zinc-800/90 border border-gray-200 dark:border-zinc-600 transition-all duration-500 backdrop-blur-sm overflow-hidden flex items-center justify-center group-hover:scale-105 group-hover:bg-gradient-to-br group-hover:from-blue-500/10 group-hover:to-teal-500/10 group-hover:border-blue-400/50">
-                      <div className="absolute -inset-1 bg-gradient-to-r from-blue-500 via-teal-500 to-blue-500 rounded-2xl opacity-0 group-hover:opacity-20 transition-opacity duration-500 -z-10 blur-sm"></div>
-                      <skill.Icon className={`w-12 h-12 sm:w-16 sm:h-16 lg:w-20 lg:h-20 ${skill.color} group-hover:scale-110 transition-transform duration-300`} />
+                    <div className="relative w-28 h-28 sm:w-36 sm:h-36 lg:w-44 lg:h-44 rounded-2xl bg-gradient-to-br from-blue-500/5 to-teal-500/5 dark:from-blue-500/10 dark:to-teal-500/10 border border-blue-400/30 dark:border-blue-400/50 transition-all duration-500 backdrop-blur-sm overflow-hidden flex items-center justify-center group-hover:scale-105 group-hover:from-blue-500/10 group-hover:to-teal-500/10 group-hover:border-blue-400/60 shadow-lg shadow-blue-500/10">
+                      <div className="absolute -inset-1 bg-gradient-to-r from-blue-500 via-teal-500 to-blue-500 rounded-2xl opacity-15 group-hover:opacity-25 transition-opacity duration-500 -z-10 blur-sm"></div>
+                      <skill.Icon className={`w-12 h-12 sm:w-16 sm:h-16 lg:w-20 lg:h-20 ${skill.color} group-hover:scale-110 transition-transform duration-300 drop-shadow-sm`} />
                     </div>
-                    <span className="mt-3 sm:mt-4 text-sm sm:text-base lg:text-lg font-semibold text-zinc-800 dark:text-zinc-200 group-hover:text-blue-600 dark:group-hover:text-blue-300 transition-colors duration-300 text-center leading-tight">
+                    <span className="mt-3 sm:mt-4 text-sm sm:text-base lg:text-lg font-semibold text-blue-700 dark:text-blue-300 group-hover:text-blue-600 dark:group-hover:text-blue-200 transition-colors duration-300 text-center leading-tight">
                       {skill.name}
                     </span>
                   </div>
@@ -128,7 +128,7 @@ export default function SkillsSwiper() {
           display: flex;
           justify-content: center;
           align-items: center;
-          opacity: 0.4;
+          opacity: 1;
           transition: opacity 0.5s ease;
         }
         
@@ -138,7 +138,7 @@ export default function SkillsSwiper() {
         
         .skills-swiper .swiper-slide-prev,
         .skills-swiper .swiper-slide-next {
-          opacity: 0.7;
+          opacity: 1;
         }
         
         /* Hide default navigation */

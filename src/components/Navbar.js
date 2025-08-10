@@ -1,7 +1,6 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
 import { Menu, X } from "lucide-react";
-import ThemeToggle from "./ThemeToggle";
 
 export default function Navbar() {
     const [activeSection, setActiveSection] = useState("");
@@ -137,7 +136,7 @@ export default function Navbar() {
                     </button>
 
                     {/* Desktop Navigation */}
-                    <div className="hidden md:flex items-center gap-4">
+                    <div className="hidden md:flex items-center">
                         <div className="relative flex gap-1">
                             {/* Animated background pill */}
                             <div 
@@ -166,7 +165,6 @@ export default function Navbar() {
                                 </button>
                             ))}
                         </div>
-                        <ThemeToggle />
                     </div>
 
                     {/* Mobile Menu Controls */}
