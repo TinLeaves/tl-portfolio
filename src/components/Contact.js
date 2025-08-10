@@ -6,10 +6,40 @@ import { useScrollAnimation } from '../hooks/useScrollAnimation';
 
 export default function Contact() {
     const [showContactDetails, setShowContactDetails] = useState(false);
+    const [animatedButtons, setAnimatedButtons] = useState(new Set());
     const { elementRef: sectionRef, isVisible, scrollProgress } = useScrollAnimation(0.1);
 
     const handleButtonClick = () => {
-        setShowContactDetails(prevState => !prevState);
+        setShowContactDetails(prevState => {
+            const newState = !prevState;
+            if (newState) {
+                // Clear previous animations
+                setAnimatedButtons(new Set());
+                
+                // Start smooth scroll to center the contact section immediately
+                setTimeout(() => {
+                    const contactSection = sectionRef.current;
+                    if (contactSection) {
+                        const rect = contactSection.getBoundingClientRect();
+                        const sectionTop = window.pageYOffset + rect.top;
+                        const sectionHeight = rect.height;
+                        const windowHeight = window.innerHeight;
+                        const scrollTo = sectionTop - (windowHeight - sectionHeight) / 2;
+                        
+                        window.scrollTo({
+                            top: scrollTo,
+                            behavior: 'smooth'
+                        });
+                    }
+                }, 150);
+                
+                // Start staggered animations
+                setTimeout(() => setAnimatedButtons(new Set([0])), 150);
+                setTimeout(() => setAnimatedButtons(new Set([0, 1])), 300);
+                setTimeout(() => setAnimatedButtons(new Set([0, 1, 2])), 450);
+            }
+            return newState;
+        });
     };
     const [isCopied, setIsCopied] = useState(false);
 
@@ -65,7 +95,7 @@ export default function Contact() {
                                 href="https://github.com/TinLeaves"
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="group relative flex items-center justify-between p-6 bg-white dark:bg-zinc-900/50 border border-gray-200 dark:border-zinc-700 rounded-xl hover:bg-gradient-to-br hover:from-blue-500/10 hover:to-teal-500/10 hover:scale-105 transition-all duration-300 hover:border-blue-400/30 shadow-lg hover:shadow-xl hover:shadow-blue-500/20 backdrop-blur-sm overflow-hidden"
+                                className={`group relative flex items-center justify-between p-6 bg-white dark:bg-zinc-900/50 border border-gray-200 dark:border-zinc-700 rounded-xl hover:bg-gradient-to-br hover:from-blue-500/10 hover:to-teal-500/10 hover:scale-105 transition-all duration-500 hover:border-blue-400/30 shadow-lg hover:shadow-xl hover:shadow-blue-500/20 backdrop-blur-sm overflow-hidden transform ${animatedButtons.has(0) ? 'translate-y-0 opacity-100' : '-translate-y-4 opacity-0'}`}
                             >
                                 <div className="absolute -inset-1 bg-gradient-to-r from-blue-500 via-teal-500 to-blue-500 rounded-xl opacity-0 group-hover:opacity-20 transition-opacity duration-500 -z-10 blur-sm"></div>
                                 <div className="flex items-center gap-4 relative z-10">
@@ -79,7 +109,7 @@ export default function Contact() {
                                 href="https://www.linkedin.com/in/steven-lai-sl1/"
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="group relative flex items-center justify-between p-6 bg-white dark:bg-zinc-900/50 border border-gray-200 dark:border-zinc-700 rounded-xl hover:bg-gradient-to-br hover:from-blue-500/10 hover:to-teal-500/10 hover:scale-105 transition-all duration-300 hover:border-blue-400/30 shadow-lg hover:shadow-xl hover:shadow-blue-500/20 backdrop-blur-sm overflow-hidden"
+                                className={`group relative flex items-center justify-between p-6 bg-white dark:bg-zinc-900/50 border border-gray-200 dark:border-zinc-700 rounded-xl hover:bg-gradient-to-br hover:from-blue-500/10 hover:to-teal-500/10 hover:scale-105 transition-all duration-500 hover:border-blue-400/30 shadow-lg hover:shadow-xl hover:shadow-blue-500/20 backdrop-blur-sm overflow-hidden transform ${animatedButtons.has(1) ? 'translate-y-0 opacity-100' : '-translate-y-4 opacity-0'}`}
                             >
                                 <div className="absolute -inset-1 bg-gradient-to-r from-blue-500 via-teal-500 to-blue-500 rounded-xl opacity-0 group-hover:opacity-20 transition-opacity duration-500 -z-10 blur-sm"></div>
                                 <div className="flex items-center gap-4 relative z-10">
@@ -89,7 +119,7 @@ export default function Contact() {
                             </a>
 
                             {/* Email Card */}
-                            <div className="group relative flex items-center justify-between p-6 bg-white dark:bg-zinc-900/50 border border-gray-200 dark:border-zinc-700 rounded-xl hover:bg-gradient-to-br hover:from-blue-500/10 hover:to-teal-500/10 hover:scale-105 transition-all duration-300 hover:border-blue-400/30 shadow-lg hover:shadow-xl hover:shadow-blue-500/20 backdrop-blur-sm overflow-hidden">
+                            <div className={`group relative flex items-center justify-between p-6 bg-white dark:bg-zinc-900/50 border border-gray-200 dark:border-zinc-700 rounded-xl hover:bg-gradient-to-br hover:from-blue-500/10 hover:to-teal-500/10 hover:scale-105 transition-all duration-500 hover:border-blue-400/30 shadow-lg hover:shadow-xl hover:shadow-blue-500/20 backdrop-blur-sm overflow-hidden transform ${animatedButtons.has(2) ? 'translate-y-0 opacity-100' : '-translate-y-4 opacity-0'}`}>
                                 <div className="absolute -inset-1 bg-gradient-to-r from-blue-500 via-teal-500 to-blue-500 rounded-xl opacity-0 group-hover:opacity-20 transition-opacity duration-500 -z-10 blur-sm"></div>
                                 <div className="flex items-center gap-4 relative z-10">
                                     <IoMailSharp size={30} className="text-zinc-500 dark:text-zinc-400 group-hover:text-blue-600 dark:group-hover:text-blue-300 group-hover:scale-110 transition-all duration-300" />
