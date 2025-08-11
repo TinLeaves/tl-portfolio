@@ -20,8 +20,8 @@ const ProjectItem = ({ project, index, isLast, setItemRef, visibleItems, linePro
   const currentLineProgress = lineProgress[index] || 0;
   const isItemVisible = visibleItems.has(index);
   
-  // Use simplified mobile layout on touch devices
-  const isMobile = isTouchDevice && isMobileOrTablet;
+  // Enable viewport highlighting for all devices
+  // Remove permanent mobile highlighting
 
   const getProjectIcon = (category) => {
     switch (category) {
@@ -84,11 +84,9 @@ const ProjectItem = ({ project, index, isLast, setItemRef, visibleItems, linePro
     
     {/* Content Card - Responsive margin and conditional highlighting */}
     <div className={`ml-0 lg:ml-16 p-4 sm:p-5 lg:p-6 rounded-xl border transition-all duration-500 ${
-      isMobile 
-        ? 'bg-gradient-to-br from-blue-500/5 to-teal-500/5 dark:from-blue-500/10 dark:to-teal-500/10 border-blue-400/30 dark:border-blue-400/50 shadow-lg shadow-blue-500/10' 
-        : isHighlighted
-          ? 'bg-gradient-to-br from-blue-500/10 to-teal-500/10 border-blue-400/30 shadow-xl shadow-blue-500/20'
-          : 'bg-white dark:bg-zinc-900/50 border-gray-200 dark:border-zinc-700 group-hover:bg-gradient-to-br group-hover:from-blue-500/10 group-hover:to-teal-500/10 group-hover:border-blue-400/30 group-hover:shadow-xl group-hover:shadow-blue-500/20'
+      isHighlighted
+        ? 'bg-gradient-to-br from-blue-500/10 to-teal-500/10 border-blue-400/30 shadow-xl shadow-blue-500/20'
+        : 'bg-white dark:bg-zinc-900/50 border-gray-200 dark:border-zinc-700 group-hover:bg-gradient-to-br group-hover:from-blue-500/10 group-hover:to-teal-500/10 group-hover:border-blue-400/30 group-hover:shadow-xl group-hover:shadow-blue-500/20'
     }`}>
       <div className="flex items-start justify-between mb-3">
         <div className="flex-1">
@@ -100,42 +98,34 @@ const ProjectItem = ({ project, index, isLast, setItemRef, visibleItems, linePro
               className="cursor-pointer"
             >
               <h3 className={`text-lg font-semibold transition-colors duration-300 ${
-                isMobile 
-                  ? 'text-blue-700 dark:text-blue-300' 
-                  : isHighlighted
-                    ? 'text-blue-600 dark:text-blue-300'
-                    : 'text-zinc-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-300 hover:text-blue-600 dark:hover:text-blue-300'
+                isHighlighted
+                  ? 'text-blue-600 dark:text-blue-300'
+                  : 'text-zinc-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-300 hover:text-blue-600 dark:hover:text-blue-300'
               }`}>
                 {project.title}
               </h3>
             </a>
           ) : (
             <h3 className={`text-lg font-semibold transition-colors duration-300 ${
-              isMobile 
-                ? 'text-blue-700 dark:text-blue-300' 
-                : isHighlighted
-                  ? 'text-blue-600 dark:text-blue-300'
-                  : 'text-zinc-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-300'
+              isHighlighted
+                ? 'text-blue-600 dark:text-blue-300'
+                : 'text-zinc-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-300'
             }`}>
               {project.title}
             </h3>
           )}
           <p className={`text-sm font-medium transition-colors duration-300 ${
-            isMobile 
-              ? 'text-teal-600 dark:text-teal-300' 
-              : isHighlighted
-                ? 'text-teal-600 dark:text-teal-300'
-                : 'text-zinc-600 dark:text-zinc-300 group-hover:text-teal-600 dark:group-hover:text-teal-300'
+            isHighlighted
+              ? 'text-teal-600 dark:text-teal-300'
+              : 'text-zinc-600 dark:text-zinc-300 group-hover:text-teal-600 dark:group-hover:text-teal-300'
           }`}>
             {project.category}
           </p>
         </div>
         <div className={`p-2 rounded-lg transition-all duration-300 ${
-          isMobile 
-            ? 'bg-blue-500/20 text-blue-600 dark:text-blue-300' 
-            : isHighlighted
-              ? 'bg-blue-500/20 text-blue-600 dark:text-blue-300'
-              : 'bg-gray-100 dark:bg-zinc-800 text-zinc-500 dark:text-zinc-400 group-hover:bg-blue-500/20 group-hover:text-blue-600 dark:group-hover:text-blue-300'
+          isHighlighted
+            ? 'bg-blue-500/20 text-blue-600 dark:text-blue-300'
+            : 'bg-gray-100 dark:bg-zinc-800 text-zinc-500 dark:text-zinc-400 group-hover:bg-blue-500/20 group-hover:text-blue-600 dark:group-hover:text-blue-300'
         }`}>
           {getProjectIcon(project.category)}
         </div>
@@ -151,11 +141,9 @@ const ProjectItem = ({ project, index, isLast, setItemRef, visibleItems, linePro
           <span
             key={techIndex}
             className={`px-2 py-1 text-xs rounded-full transition-all duration-300 border ${
-              isMobile 
-                ? 'bg-blue-500/20 text-blue-600 dark:text-blue-300 border-blue-500/30' 
-                : isHighlighted
-                  ? 'bg-blue-500/20 text-blue-600 dark:text-blue-300 border-blue-500/30'
-                  : 'bg-gray-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 border-gray-300 dark:border-zinc-700 group-hover:bg-blue-500/20 group-hover:text-blue-600 dark:group-hover:text-blue-300 group-hover:border-blue-500/30'
+              isHighlighted
+                ? 'bg-blue-500/20 text-blue-600 dark:text-blue-300 border-blue-500/30'
+                : 'bg-gray-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 border-gray-300 dark:border-zinc-700 group-hover:bg-blue-500/20 group-hover:text-blue-600 dark:group-hover:text-blue-300 group-hover:border-blue-500/30'
             }`}
           >
             {tech}

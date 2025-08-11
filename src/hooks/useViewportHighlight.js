@@ -20,11 +20,7 @@ export function useViewportHighlight(itemCount, threshold = 0.1) {
   };
 
   useEffect(() => {
-    // On touch devices, don't use viewport highlighting
-    if (isTouchDevice && isMobileOrTablet) {
-      setHighlightedIndex(-1);
-      return;
-    }
+    // Enable viewport highlighting on all devices including touch/mobile
 
     const updateHighlightedCard = () => {
       let maxVisibility = 0;
@@ -119,7 +115,7 @@ export function useViewportHighlight(itemCount, threshold = 0.1) {
       window.removeEventListener('resize', updateHighlightedCard);
       observers.forEach(observer => observer.disconnect());
     };
-  }, [itemCount, threshold, highlightedIndex, isTouchDevice, isMobileOrTablet]);
+  }, [itemCount, threshold, highlightedIndex]);
 
   return { containerRef, setItemRef, highlightedIndex };
 }
