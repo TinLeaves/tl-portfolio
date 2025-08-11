@@ -39,9 +39,9 @@ export default function Skills3DCarousel() {
     setCurrentIndex((prevIndex) => (prevIndex - 1 + skills.length) % skills.length);
   };
 
-  // Auto-rotate carousel
+  // Auto-rotate carousel with proper UI/UX timing
   useEffect(() => {
-    const interval = setInterval(nextSlide, 3000);
+    const interval = setInterval(nextSlide, 2500); // 2.5 seconds - proper UX timing
     return () => clearInterval(interval);
   }, []);
 

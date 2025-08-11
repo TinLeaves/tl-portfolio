@@ -4,6 +4,7 @@ import { EffectCoverflow, Navigation, Autoplay } from 'swiper/modules';
 import { FaNodeJs, FaJava, FaReact, FaBootstrap, FaGitAlt, FaFigma } from "react-icons/fa";
 import { SiNextdotjs, SiTailwindcss, SiPython, SiMysql, SiMongodb, SiJavascript, SiTypescript, SiPostgresql, SiKotlin, SiR, SiExpress, SiJquery, SiNpm, SiJira } from "react-icons/si";
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { FaRegHandPointUp } from "react-icons/fa";
 import { useScrollAnimation } from '../hooks/useScrollAnimation';
 
 // Device detection hook (same logic as in useScrollAnimation)
@@ -39,9 +40,63 @@ export default function SkillsSwiper() {
   const { elementRef: sectionRef, isVisible, scrollProgress } = useScrollAnimation(0.1);
   const { isTouchDevice, isMobileOrTablet } = useDeviceDetection();
   const swiperRef = useRef(null);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [showIndicator, setShowIndicator] = useState(false);
+  const [userHasInteracted, setUserHasInteracted] = useState(false);
+  const [fingerControlled, setFingerControlled] = useState(false);
+  const [inactivityTimer, setInactivityTimer] = useState(null);
   
-  // Determine if we should use permanent highlighting
-  const usePermanentHighlight = isTouchDevice && isMobileOrTablet;
+  // Show indicator with delay when component becomes visible
+  useEffect(() => {
+    if (isVisible && !userHasInteracted) {
+      // Add slight delay to prevent flashing
+      const timeout = setTimeout(() => {
+        setShowIndicator(true);
+        setFingerControlled(true);
+      }, 500); // 500ms delay
+      
+      return () => clearTimeout(timeout);
+    }
+  }, [isVisible, userHasInteracted]);
+  
+  // Finger-controlled auto advance
+  useEffect(() => {
+    if (!fingerControlled || userHasInteracted) return;
+    
+    const interval = setInterval(() => {
+      if (swiperRef.current && swiperRef.current.swiper && fingerControlled && !userHasInteracted) {
+        swiperRef.current.swiper.slideNext();
+      }
+    }, 2500); // Synchronized with UI/UX standards - 2.5 seconds
+    
+    return () => clearInterval(interval);
+  }, [fingerControlled, userHasInteracted]);
+  
+  // Reset finger control after inactivity with smooth transition
+  const resetInactivityTimer = () => {
+    if (inactivityTimer) {
+      clearTimeout(inactivityTimer);
+    }
+    const timer = setTimeout(() => {
+      // Gradual state reset with longer delays to prevent flashing
+      setTimeout(() => setUserHasInteracted(false), 100);
+      setTimeout(() => setFingerControlled(true), 300);
+      setTimeout(() => setShowIndicator(true), 800); // Longer delay before showing
+    }, 4000); // Longer inactivity timeout - 4 seconds
+    setInactivityTimer(timer);
+  };
+  
+  // Clean up timer on unmount
+  useEffect(() => {
+    return () => {
+      if (inactivityTimer) {
+        clearTimeout(inactivityTimer);
+      }
+    };
+  }, [inactivityTimer]);
+  
+  // Remove permanent highlighting on mobile - center card should always be highlighted
+  const usePermanentHighlight = false;
 
   const skills = [
     { Icon: SiJavascript, name: "JavaScript", color: "text-yellow-400" },
@@ -95,9 +150,10 @@ export default function SkillsSwiper() {
               slidesPerView={3}
               spaceBetween={0}
               loop={true}
-              autoplay={{
-                delay: 3000,
-                disableOnInteraction: false,
+              speed={300}
+              autoplay={fingerControlled && !userHasInteracted ? false : {
+                delay: 2500,
+                disableOnInteraction: true,
                 pauseOnMouseEnter: true,
               }}
               coverflowEffect={{
@@ -113,6 +169,82 @@ export default function SkillsSwiper() {
                 prevEl: '.swiper-button-prev',
               }}
               modules={[EffectCoverflow, Navigation, Autoplay]}
+              onSlideChange={(swiper) => {
+                setActiveIndex(swiper.realIndex);
+                // If slide changed but finger isn't controlling, user is interacting
+                if (!fingerControlled) {
+                  setUserHasInteracted(true);
+                  setShowIndicator(false);
+                  setFingerControlled(false);
+                  resetInactivityTimer();
+                }
+              }}
+              onTouchStart={() => {
+                setUserHasInteracted(true);
+                setShowIndicator(false);
+                setFingerControlled(false);
+                resetInactivityTimer();
+              }}
+              onSliderMove={() => {
+                setUserHasInteracted(true);
+                setShowIndicator(false);
+                setFingerControlled(false);
+                resetInactivityTimer();
+              }}
+              onTouchMove={() => {
+                setUserHasInteracted(true);
+                setShowIndicator(false);
+                setFingerControlled(false);
+                resetInactivityTimer();
+              }}
+              onTouchEnd={() => {
+                resetInactivityTimer();
+              }}
+              onSwiper={(swiper) => {
+                // Additional interaction detection
+                const originalSlideNext = swiper.slideNext;
+                const originalSlidePrev = swiper.slidePrev;
+                
+                swiper.slideNext = function(...args) {
+                  if (!fingerControlled) {
+                    setUserHasInteracted(true);
+                    setShowIndicator(false);
+                    setFingerControlled(false);
+                    resetInactivityTimer();
+                  }
+                  return originalSlideNext.apply(this, args);
+                };
+                
+                swiper.slidePrev = function(...args) {
+                  if (!fingerControlled) {
+                    setUserHasInteracted(true);
+                    setShowIndicator(false);
+                    setFingerControlled(false);
+                    resetInactivityTimer();
+                  }
+                  return originalSlidePrev.apply(this, args);
+                };
+
+                // Add mouse interaction detection
+                swiper.el.addEventListener('mouseenter', () => {
+                  if (showIndicator) {
+                    setUserHasInteracted(true);
+                    setShowIndicator(false);
+                    setFingerControlled(false);
+                    resetInactivityTimer();
+                  }
+                });
+
+                // Add keyboard interaction detection
+                swiper.el.addEventListener('keydown', () => {
+                  if (showIndicator) {
+                    setUserHasInteracted(true);
+                    setShowIndicator(false);
+                    setFingerControlled(false);
+                    resetInactivityTimer();
+                  }
+                });
+              }}
               breakpoints={{
                 640: {
                   slidesPerView: 3,
@@ -127,31 +259,34 @@ export default function SkillsSwiper() {
               className="skills-swiper"
             >
               {skills.map((skill, index) => {
-                // Define styles based on device type
-                const cardBaseStyles = usePermanentHighlight
-                  ? "relative w-28 h-28 sm:w-36 sm:h-36 lg:w-44 lg:h-44 rounded-2xl bg-gradient-to-br from-blue-500/10 to-teal-500/10 dark:from-blue-500/15 dark:to-teal-500/15 border border-blue-400/50 dark:border-blue-400/60 transition-all duration-500 backdrop-blur-sm overflow-hidden flex items-center justify-center shadow-lg shadow-blue-500/20"
+                // Check if this is the center/active slide
+                const isActive = index === activeIndex;
+                
+                // Always apply highlight styles to active slide
+                const cardBaseStyles = isActive 
+                  ? "relative w-28 h-28 sm:w-36 sm:h-36 lg:w-44 lg:h-44 rounded-2xl bg-gradient-to-br from-blue-500/10 to-teal-500/10 dark:from-blue-500/15 dark:to-teal-500/15 border border-blue-400/50 dark:border-blue-400/60 transition-all duration-500 backdrop-blur-sm overflow-hidden flex items-center justify-center shadow-lg shadow-blue-500/20 scale-105"
                   : "relative w-28 h-28 sm:w-36 sm:h-36 lg:w-44 lg:h-44 rounded-2xl bg-white/90 dark:bg-zinc-800/90 border border-gray-200 dark:border-zinc-600 transition-all duration-500 backdrop-blur-sm overflow-hidden flex items-center justify-center group-hover:scale-105 group-hover:bg-gradient-to-br group-hover:from-blue-500/10 group-hover:to-teal-500/10 group-hover:border-blue-400/50";
                 
-                const glowStyles = usePermanentHighlight
+                const glowStyles = isActive
                   ? "absolute -inset-1 bg-gradient-to-r from-blue-500 via-teal-500 to-blue-500 rounded-2xl opacity-20 transition-opacity duration-500 -z-10 blur-sm"
                   : "absolute -inset-1 bg-gradient-to-r from-blue-500 via-teal-500 to-blue-500 rounded-2xl opacity-0 group-hover:opacity-20 transition-opacity duration-500 -z-10 blur-sm";
                 
-                const iconStyles = usePermanentHighlight
-                  ? `w-12 h-12 sm:w-16 sm:h-16 lg:w-20 lg:h-20 ${skill.color} transition-transform duration-300 drop-shadow-sm`
+                const iconStyles = isActive
+                  ? `w-12 h-12 sm:w-16 sm:h-16 lg:w-20 lg:h-20 ${skill.color} scale-110 transition-transform duration-300 drop-shadow-sm`
                   : `w-12 h-12 sm:w-16 sm:h-16 lg:w-20 lg:h-20 ${skill.color} group-hover:scale-110 transition-transform duration-300`;
                 
-                const textStyles = usePermanentHighlight
+                const textStyles = isActive
                   ? "mt-3 sm:mt-4 text-sm sm:text-base lg:text-lg font-semibold text-blue-700 dark:text-blue-300 transition-colors duration-300 text-center leading-tight"
                   : "mt-3 sm:mt-4 text-sm sm:text-base lg:text-lg font-semibold text-zinc-800 dark:text-zinc-200 group-hover:text-blue-600 dark:group-hover:text-blue-300 transition-colors duration-300 text-center leading-tight";
 
                 return (
                   <SwiperSlide key={skill.name}>
                     <div className="group flex flex-col items-center p-3 sm:p-4 cursor-pointer">
-                      <div className={cardBaseStyles}>
-                        <div className={glowStyles}></div>
-                        <skill.Icon className={iconStyles} />
+                      <div className={`${cardBaseStyles} skill-card`}>
+                        <div className={`${glowStyles} skill-glow`}></div>
+                        <skill.Icon className={`${iconStyles} skill-icon`} />
                       </div>
-                      <span className={textStyles}>
+                      <span className={`${textStyles} skill-text`}>
                         {skill.name}
                       </span>
                     </div>
@@ -160,6 +295,40 @@ export default function SkillsSwiper() {
               })}
             </Swiper>
 
+          </div>
+          
+          {/* Swipe Indicator - always present but finger hidden when user interacts */}
+          <div className="flex items-center justify-center mt-6">
+            <div className="relative w-64 h-8 flex items-center justify-center overflow-hidden">
+              {/* Finger - controls the carousel */}
+              <div className="absolute left-0 right-0 flex items-center justify-center" style={{
+                opacity: showIndicator && fingerControlled && !userHasInteracted ? 1 : 0,
+                transition: 'opacity 0.5s ease-in-out',
+                pointerEvents: 'none',
+                zIndex: 2
+              }}>
+                <FaRegHandPointUp className="w-6 h-6 text-blue-500 dark:text-blue-400 drop-shadow-sm" style={{
+                  animation: showIndicator && fingerControlled && !userHasInteracted ? 'fingerMove 2.5s ease-in-out infinite' : 'none',
+                  transform: showIndicator && fingerControlled && !userHasInteracted ? 'translateX(40px)' : 'translateX(40px) scale(0)',
+                  transition: 'transform 0.3s ease-out'
+                }} />
+              </div>
+              {/* Trail that follows behind finger */}
+              <div className="absolute left-0 right-0 flex items-center justify-center" style={{
+                opacity: showIndicator && fingerControlled && !userHasInteracted ? 1 : 0,
+                transition: 'opacity 0.5s ease-in-out',
+                pointerEvents: 'none',
+                zIndex: 1
+              }}>
+                <div className="h-1 bg-gradient-to-l from-blue-500/80 via-blue-400/60 to-transparent rounded-full" style={{
+                  animation: showIndicator && fingerControlled && !userHasInteracted ? 'trailFollow 2.5s ease-in-out infinite' : 'none',
+                  width: '0px',
+                  transformOrigin: 'left center',
+                  transform: showIndicator && fingerControlled && !userHasInteracted ? 'translateX(40px)' : 'translateX(40px) scaleX(0)',
+                  transition: 'transform 0.3s ease-out'
+                }}></div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -175,7 +344,7 @@ export default function SkillsSwiper() {
           display: flex;
           justify-content: center;
           align-items: center;
-          opacity: ${usePermanentHighlight ? '1' : '0.4'};
+          opacity: 0.4;
           transition: opacity 0.5s ease;
         }
         
@@ -183,9 +352,88 @@ export default function SkillsSwiper() {
           opacity: 1;
         }
         
+        /* Initial show and hide animation - cycles every 10 seconds */
+        @keyframes initialShowHide {
+          0% { opacity: 0; transform: scale(0.8); }
+          10% { opacity: 1; transform: scale(1); }
+          50% { opacity: 1; transform: scale(1); }
+          60% { opacity: 0; transform: scale(0.8); }
+          100% { opacity: 0; transform: scale(0.8); }
+        }
+        
+        @keyframes fingerMove {
+          0% { transform: translateX(40px); opacity: 1; }
+          40% { transform: translateX(40px); opacity: 1; }
+          60% { transform: translateX(-40px); opacity: 1; }
+          100% { transform: translateX(-40px); opacity: 1; }
+        }
+        
+        @keyframes trailFollow {
+          0% { 
+            transform: translateX(40px);
+            width: 0px;
+            opacity: 0;
+          }
+          40% { 
+            transform: translateX(40px);
+            width: 0px;
+            opacity: 0;
+          }
+          42% { 
+            transform: translateX(35px);
+            width: 5px;
+            opacity: 0.4;
+          }
+          45% { 
+            transform: translateX(25px);
+            width: 15px;
+            opacity: 0.6;
+          }
+          50% { 
+            transform: translateX(10px);
+            width: 30px;
+            opacity: 0.8;
+          }
+          55% { 
+            transform: translateX(-10px);
+            width: 50px;
+            opacity: 0.6;
+          }
+          60% { 
+            transform: translateX(-25px);
+            width: 65px;
+            opacity: 0.4;
+          }
+          62% { 
+            transform: translateX(-30px);
+            width: 50px;
+            opacity: 0.3;
+          }
+          65% { 
+            transform: translateX(-35px);
+            width: 30px;
+            opacity: 0.2;
+          }
+          68% { 
+            transform: translateX(-38px);
+            width: 15px;
+            opacity: 0.1;
+          }
+          70% { 
+            transform: translateX(-40px);
+            width: 0px;
+            opacity: 0;
+          }
+          100% { 
+            transform: translateX(-40px);
+            width: 0px;
+            opacity: 0;
+          }
+        }
+        
         .skills-swiper .swiper-slide-prev,
         .skills-swiper .swiper-slide-next {
-          opacity: ${usePermanentHighlight ? '1' : '0.7'};
+          opacity: 0.7;
         }
         
         /* Hide default navigation */

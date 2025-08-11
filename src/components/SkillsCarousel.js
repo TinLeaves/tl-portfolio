@@ -47,9 +47,9 @@ export default function SkillsCarousel() {
     setCurrentIndex((prev) => (prev - 1 + totalPages) % totalPages);
   };
 
-  // Auto-advance carousel
+  // Auto-advance carousel with proper UI/UX timing
   useEffect(() => {
-    const interval = setInterval(nextPage, 4000);
+    const interval = setInterval(nextPage, 2500); // 2.5 seconds - proper UX timing
     return () => clearInterval(interval);
   }, []);
 
