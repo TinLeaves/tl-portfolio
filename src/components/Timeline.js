@@ -173,13 +173,13 @@ export default function Timeline() {
       company: "PrevueHR",
       period: "September 2024 – December 2024",
       location: "Vancouver, BC",
-      description: "Built AI-powered chatbot that streamlined candidate evaluations with 100% on-time delivery using Java. Integrated multiple APIs and automated data processing pipelines for enhanced system efficiency.",
+      description: "Industry-sponsored capstone project in partnership between BCIT and PrevueHR, developing AI-powered solutions for candidate evaluation and HR automation using Java.",
       skills: ["Java", "AI Integration", "API Development", "Data Processing", "Agile Development"],
       achievements: [
         "Built AI-powered chatbot with 100% on-time delivery",
         "Integrated multiple APIs for system efficiency",
         "Automated data processing pipelines",
-        "Collaborated in Agile sprints with comprehensive code reviews"
+        "Collaborated in 4-member Agile development team with comprehensive code reviews"
       ],
       icon: <Briefcase className="w-5 h-5" />
     },
