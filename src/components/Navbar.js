@@ -3,6 +3,7 @@ import { useState, useEffect, useRef } from "react";
 import { Menu, X } from "lucide-react";
 import { NAVIGATION_SECTIONS } from '../utils/constants';
 import { scrollToSection } from '../utils/scrollUtils';
+import ThemeToggle from './ThemeToggle';
 
 export default function Navbar() {
     const [activeSection, setActiveSection] = useState("");
@@ -130,7 +131,7 @@ export default function Navbar() {
                     </button>
 
                     {/* Desktop Navigation */}
-                    <div className="hidden md:flex items-center">
+                    <div className="hidden md:flex items-center gap-4">
                         <div className="relative flex gap-1">
                             {/* Animated background pill */}
                             <div 
@@ -159,10 +160,16 @@ export default function Navbar() {
                                 </button>
                             ))}
                         </div>
+                        
+                        {/* Theme Toggle */}
+                        <ThemeToggle />
                     </div>
 
                     {/* Mobile Menu Controls */}
-                    <div className="md:hidden mobile-nav-container">
+                    <div className="md:hidden mobile-nav-container flex items-center gap-3">
+                        {/* Theme Toggle for Mobile */}
+                        <ThemeToggle />
+                        
                         <button
                             onClick={toggleMobileMenu}
                             className="p-2 rounded-xl bg-gray-100/80 dark:bg-zinc-800/50 border border-gray-300 dark:border-zinc-700 hover:border-blue-500 dark:hover:border-blue-400 transition-all duration-300 focus:outline-none focus:ring-0"

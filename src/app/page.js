@@ -77,7 +77,7 @@ export default function Home() {
         />
       </Head>
       
-      <div className="min-h-screen bg-gradient-to-b from-white via-blue-50/30 via-teal-50/20 to-white dark:from-zinc-950 dark:via-blue-950/20 dark:via-teal-950/10 dark:to-zinc-950 text-zinc-900 dark:text-zinc-100 font-sans">
+      <div className="min-h-screen bg-white dark:bg-black text-gray-900 dark:text-gray-100 font-sans">
         {/* Navbar */}
         <Navbar />
 

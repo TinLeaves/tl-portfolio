@@ -4,7 +4,7 @@
 
 :root {
   --background: #ffffff;
-  --foreground: #171717;
+  --foreground: #111827;
   --background-secondary: #f9fafb;
   --background-tertiary: #f3f4f6;
   --border-primary: #e5e7eb;
@@ -12,23 +12,12 @@
 }
 
 [data-theme="dark"] {
-  --background: #0a0a0a;
-  --foreground: #ededed;
+  --background: #000000;
+  --foreground: #f3f4f6;
   --background-secondary: #18181b;
   --background-tertiary: #27272a;
   --border-primary: rgba(255, 255, 255, 0.1);
   --border-secondary: rgba(255, 255, 255, 0.05);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-    --background-secondary: #18181b;
-    --background-tertiary: #27272a;
-    --border-primary: rgba(255, 255, 255, 0.1);
-    --border-secondary: rgba(255, 255, 255, 0.05);
-  }
 }
 
 body {
