@@ -249,7 +249,7 @@ export default function Projects() {
                 "A business intelligence dashboard built using Power BI, analyzing sales trends from the Azure AdventureWorks Contoso dataset. Includes interactive visualizations for revenue, profit, and customer segmentation.",
             videoId: "M73to21g43E",
             imageUrl: null,
-            viewLink: "#",
+            viewLink: "https://youtu.be/M73to21g43E",
             sourceLink: "#",
             category: "Data Analytics",
             technologies: ["Power BI", "Data Analysis", "Business Intelligence"]

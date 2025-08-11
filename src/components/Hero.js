@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, Download } from 'lucide-react';
 import ParticleBackground from './ParticleBackground';
 import Button from './ui/Button';
 import SocialLinks from './ui/SocialLinks';
@@ -70,6 +70,7 @@ export default function Hero() {
                 target="_blank"
                 variant="secondary"
                 size="medium"
+                icon={Download}
                 className="text-sm sm:text-base px-6 sm:px-8 py-3 sm:py-4 rounded-xl sm:rounded-2xl"
               >
                 Download Resume

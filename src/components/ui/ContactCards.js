@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Clipboard } from 'lucide-react';
+import { Clipboard, Check } from 'lucide-react';
 import { IoLogoGithub, IoLogoLinkedin, IoMailSharp } from "react-icons/io5";
 import { PERSONAL_INFO } from '../../utils/constants';
 
@@ -78,13 +78,18 @@ export function EmailCard({ animated = false, animationIndex = 0, visibleItems =
       <div className="flex items-center gap-4 relative z-10">
         <button
           onClick={copyEmailToClipboard}
-          className="group/btn p-2 rounded-lg text-zinc-600 dark:text-zinc-300 hover:text-blue-600 dark:hover:text-blue-300 hover:bg-blue-500/20 transition-all duration-300"
+          className={`group/btn p-2 rounded-lg transition-all duration-300 ${
+            isCopied 
+              ? 'text-blue-600 dark:text-blue-400 bg-blue-500/20 scale-110' 
+              : 'text-zinc-600 dark:text-zinc-300 hover:text-blue-600 dark:hover:text-blue-300 hover:bg-blue-500/20'
+          }`}
         >
-          <Clipboard size={20} className="group-hover/btn:scale-110 transition-transform duration-300" />
+          {isCopied ? (
+            <Check size={20} className="animate-pulse" />
+          ) : (
+            <Clipboard size={20} className="group-hover/btn:scale-110 transition-transform duration-300" />
+          )}
         </button>
-        {isCopied && (
-          <span className="text-sm text-blue-400 font-medium">Copied!</span>
-        )}
       </div>
     </ContactCard>
   );
