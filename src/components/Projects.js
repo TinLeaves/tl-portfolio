@@ -1,17 +1,19 @@
 import { useState, useEffect, useRef } from 'react';
 import { ExternalLink, Github, Code, Globe, Tag } from 'lucide-react';
 import { useIndividualScrollAnimation, useTimelineAnimation } from '../hooks/useScrollAnimation';
+import { useViewportHighlight } from '../hooks/useViewportHighlight';
 import { useDeviceDetection } from '../utils/deviceUtils';
 import SectionTitle from './ui/SectionTitle';
 
-const ProjectItem = ({ project, index, isLast, setItemRef, visibleItems, lineProgress }) => {
+const ProjectItem = ({ project, index, isLast, setItemRef, visibleItems, lineProgress, isHighlighted, setHighlightRef }) => {
   const { elementRef: itemRef, isVisible, progress } = useIndividualScrollAnimation(0.3);
   const { isTouchDevice, isMobileOrTablet } = useDeviceDetection();
   
-  // Combine the refs for both individual animation and timeline tracking
+  // Combine the refs for individual animation, timeline tracking, and highlighting
   const combinedRef = (el) => {
     itemRef.current = el;
     setItemRef(index)(el);
+    setHighlightRef(index)(el);
   };
   
   // Get the line progress for this item (for the line connecting to next item)
@@ -39,7 +41,7 @@ const ProjectItem = ({ project, index, isLast, setItemRef, visibleItems, linePro
   return (
     <div 
       ref={combinedRef}
-      className="relative group transition-all duration-500 hover:scale-105"
+      className="relative group transition-all duration-500"
       style={{
         opacity: progress,
         transform: `translateY(${(1 - progress) * 40}px) scale(${0.9 + progress * 0.1})`
@@ -48,10 +50,15 @@ const ProjectItem = ({ project, index, isLast, setItemRef, visibleItems, linePro
     {/* Timeline Line - Hidden on mobile/tablet */}
     <div className="absolute left-6 top-12 w-0.5 overflow-hidden hidden lg:block" style={{ height: 'calc(100% - 1rem)' }}>
       <div 
-        className="w-full bg-gradient-to-b from-blue-500 to-teal-500 transition-all duration-700 origin-top"
+        className={`w-full transition-all duration-700 origin-top ${
+          isHighlighted 
+            ? 'bg-gradient-to-b from-cyan-400 to-blue-500' 
+            : 'bg-gradient-to-b from-blue-500 to-teal-500'
+        }`}
         style={{
           height: `${currentLineProgress * 100}%`,
-          opacity: isItemVisible ? 1 : 0
+          opacity: isItemVisible ? 1 : 0,
+          boxShadow: isHighlighted ? '0 0 8px rgba(14, 165, 233, 0.6)' : 'none'
         }}
       />
       <div 
@@ -65,12 +72,12 @@ const ProjectItem = ({ project, index, isLast, setItemRef, visibleItems, linePro
     
     {/* Timeline Node - Hidden on mobile/tablet */}
     <div 
-      className="absolute left-5 top-6 w-3 h-3 rounded-full transition-all duration-500 z-10 border-2 hidden lg:block"
+      className="absolute left-5 top-6 w-3 h-3 rounded-full transition-all duration-700 z-10 border-2 hidden lg:block"
       style={{
-        backgroundColor: isItemVisible ? '#3b82f6' : '#9ca3af',
-        borderColor: isItemVisible ? '#1d4ed8' : '#6b7280',
-        boxShadow: isItemVisible ? '0 0 12px rgba(59, 130, 246, 0.5)' : 'none',
-        transform: `scale(${isItemVisible ? 1.2 : 1})`,
+        backgroundColor: isHighlighted ? '#0ea5e9' : isItemVisible ? '#3b82f6' : '#9ca3af',
+        borderColor: isHighlighted ? '#0284c7' : isItemVisible ? '#1d4ed8' : '#6b7280',
+        boxShadow: isHighlighted ? '0 0 20px rgba(14, 165, 233, 0.8)' : isItemVisible ? '0 0 12px rgba(59, 130, 246, 0.5)' : 'none',
+        transform: `scale(${isHighlighted ? 1.4 : isItemVisible ? 1.2 : 1})`,
         opacity: progress > 0.1 ? 1 : 0
       }}
     ></div>
@@ -79,7 +86,9 @@ const ProjectItem = ({ project, index, isLast, setItemRef, visibleItems, linePro
     <div className={`ml-0 lg:ml-16 p-4 sm:p-5 lg:p-6 rounded-xl border transition-all duration-500 ${
       isMobile 
         ? 'bg-gradient-to-br from-blue-500/5 to-teal-500/5 dark:from-blue-500/10 dark:to-teal-500/10 border-blue-400/30 dark:border-blue-400/50 shadow-lg shadow-blue-500/10' 
-        : 'bg-white dark:bg-zinc-900/50 border-gray-200 dark:border-zinc-700 group-hover:bg-gradient-to-br group-hover:from-blue-500/10 group-hover:to-teal-500/10 group-hover:border-blue-400/30 group-hover:shadow-xl group-hover:shadow-blue-500/20'
+        : isHighlighted
+          ? 'bg-gradient-to-br from-blue-500/10 to-teal-500/10 border-blue-400/30 shadow-xl shadow-blue-500/20'
+          : 'bg-white dark:bg-zinc-900/50 border-gray-200 dark:border-zinc-700 group-hover:bg-gradient-to-br group-hover:from-blue-500/10 group-hover:to-teal-500/10 group-hover:border-blue-400/30 group-hover:shadow-xl group-hover:shadow-blue-500/20'
     }`}>
       <div className="flex items-start justify-between mb-3">
         <div className="flex-1">
@@ -93,7 +102,9 @@ const ProjectItem = ({ project, index, isLast, setItemRef, visibleItems, linePro
               <h3 className={`text-lg font-semibold transition-colors duration-300 ${
                 isMobile 
                   ? 'text-blue-700 dark:text-blue-300' 
-                  : 'text-zinc-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-300 hover:text-blue-600 dark:hover:text-blue-300'
+                  : isHighlighted
+                    ? 'text-blue-600 dark:text-blue-300'
+                    : 'text-zinc-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-300 hover:text-blue-600 dark:hover:text-blue-300'
               }`}>
                 {project.title}
               </h3>
@@ -102,7 +113,9 @@ const ProjectItem = ({ project, index, isLast, setItemRef, visibleItems, linePro
             <h3 className={`text-lg font-semibold transition-colors duration-300 ${
               isMobile 
                 ? 'text-blue-700 dark:text-blue-300' 
-                : 'text-zinc-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-300'
+                : isHighlighted
+                  ? 'text-blue-600 dark:text-blue-300'
+                  : 'text-zinc-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-300'
             }`}>
               {project.title}
             </h3>
@@ -110,7 +123,9 @@ const ProjectItem = ({ project, index, isLast, setItemRef, visibleItems, linePro
           <p className={`text-sm font-medium transition-colors duration-300 ${
             isMobile 
               ? 'text-teal-600 dark:text-teal-300' 
-              : 'text-zinc-600 dark:text-zinc-300 group-hover:text-teal-600 dark:group-hover:text-teal-300'
+              : isHighlighted
+                ? 'text-teal-600 dark:text-teal-300'
+                : 'text-zinc-600 dark:text-zinc-300 group-hover:text-teal-600 dark:group-hover:text-teal-300'
           }`}>
             {project.category}
           </p>
@@ -118,7 +133,9 @@ const ProjectItem = ({ project, index, isLast, setItemRef, visibleItems, linePro
         <div className={`p-2 rounded-lg transition-all duration-300 ${
           isMobile 
             ? 'bg-blue-500/20 text-blue-600 dark:text-blue-300' 
-            : 'bg-gray-100 dark:bg-zinc-800 text-zinc-500 dark:text-zinc-400 group-hover:bg-blue-500/20 group-hover:text-blue-600 dark:group-hover:text-blue-300'
+            : isHighlighted
+              ? 'bg-blue-500/20 text-blue-600 dark:text-blue-300'
+              : 'bg-gray-100 dark:bg-zinc-800 text-zinc-500 dark:text-zinc-400 group-hover:bg-blue-500/20 group-hover:text-blue-600 dark:group-hover:text-blue-300'
         }`}>
           {getProjectIcon(project.category)}
         </div>
@@ -136,7 +153,9 @@ const ProjectItem = ({ project, index, isLast, setItemRef, visibleItems, linePro
             className={`px-2 py-1 text-xs rounded-full transition-all duration-300 border ${
               isMobile 
                 ? 'bg-blue-500/20 text-blue-600 dark:text-blue-300 border-blue-500/30' 
-                : 'bg-gray-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 border-gray-300 dark:border-zinc-700 group-hover:bg-blue-500/20 group-hover:text-blue-600 dark:group-hover:text-blue-300 group-hover:border-blue-500/30'
+                : isHighlighted
+                  ? 'bg-blue-500/20 text-blue-600 dark:text-blue-300 border-blue-500/30'
+                  : 'bg-gray-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 border-gray-300 dark:border-zinc-700 group-hover:bg-blue-500/20 group-hover:text-blue-600 dark:group-hover:text-blue-300 group-hover:border-blue-500/30'
             }`}
           >
             {tech}
@@ -283,6 +302,7 @@ export default function Projects() {
     ];
 
     const { containerRef, setItemRef, visibleItems, lineProgress } = useTimelineAnimation(projects.length, 0.3);
+    const { setItemRef: setHighlightRef, highlightedIndex } = useViewportHighlight(projects.length, 0.3);
 
     return (
         <section id="projects" className="py-16 sm:py-24">
@@ -300,6 +320,8 @@ export default function Projects() {
                                 setItemRef={setItemRef}
                                 visibleItems={visibleItems}
                                 lineProgress={lineProgress}
+                                isHighlighted={highlightedIndex === index}
+                                setHighlightRef={setHighlightRef}
                             />
                         ))}
                     </div>

@@ -1,6 +1,7 @@
 import { Calendar, MapPin, ExternalLink, Award, Code, BookOpen, Briefcase, GraduationCap } from 'lucide-react';
 import { useState, useEffect, useRef } from 'react';
 import { useIndividualScrollAnimation, useTimelineAnimation } from '../hooks/useScrollAnimation';
+import { useViewportHighlight } from '../hooks/useViewportHighlight';
 
 // Device detection hook
 function useDeviceDetection() {
@@ -24,14 +25,15 @@ function useDeviceDetection() {
   return { isTouchDevice, isMobileOrTablet };
 }
 
-const TimelineItem = ({ experience, index, isLast, setItemRef, visibleItems, lineProgress }) => {
+const TimelineItem = ({ experience, index, isLast, setItemRef, visibleItems, lineProgress, isHighlighted, setHighlightRef }) => {
   const { elementRef: itemRef, isVisible, progress } = useIndividualScrollAnimation(0.3);
   const { isTouchDevice, isMobileOrTablet } = useDeviceDetection();
   
-  // Combine the refs for both individual animation and timeline tracking
+  // Combine the refs for individual animation, timeline tracking, and highlighting
   const combinedRef = (el) => {
     itemRef.current = el;
     setItemRef(index)(el);
+    setHighlightRef(index)(el);
   };
   
   // Get the line progress for this item (for the line connecting to next item)
@@ -84,21 +86,27 @@ const TimelineItem = ({ experience, index, isLast, setItemRef, visibleItems, lin
     <div className={`ml-0 lg:ml-16 p-4 sm:p-5 lg:p-6 rounded-xl border transition-all duration-500 ${
       isMobile 
         ? 'bg-gradient-to-br from-blue-500/5 to-teal-500/5 dark:from-blue-500/10 dark:to-teal-500/10 border-blue-400/30 dark:border-blue-400/50 shadow-lg shadow-blue-500/10' 
-        : 'bg-white dark:bg-zinc-900/50 border-gray-200 dark:border-zinc-700 group-hover:bg-gradient-to-br group-hover:from-blue-500/10 group-hover:to-teal-500/10 group-hover:border-blue-400/30 group-hover:shadow-xl group-hover:shadow-blue-500/20'
+        : isHighlighted
+          ? 'bg-gradient-to-br from-blue-500/10 to-teal-500/10 border-blue-400/30 shadow-xl shadow-blue-500/20'
+          : 'bg-white dark:bg-zinc-900/50 border-gray-200 dark:border-zinc-700 group-hover:bg-gradient-to-br group-hover:from-blue-500/10 group-hover:to-teal-500/10 group-hover:border-blue-400/30 group-hover:shadow-xl group-hover:shadow-blue-500/20'
     }`}>
       <div className="flex items-start justify-between mb-3">
         <div>
           <h3 className={`text-lg font-semibold transition-colors duration-300 ${
             isMobile 
               ? 'text-blue-700 dark:text-blue-300' 
-              : 'text-zinc-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-300'
+              : isHighlighted
+                ? 'text-blue-600 dark:text-blue-300'
+                : 'text-zinc-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-300'
           }`}>
             {experience.role}
           </h3>
           <p className={`text-sm font-medium transition-colors duration-300 ${
             isMobile 
               ? 'text-teal-600 dark:text-teal-300' 
-              : 'text-zinc-600 dark:text-zinc-300 group-hover:text-teal-600 dark:group-hover:text-teal-300'
+              : isHighlighted
+                ? 'text-teal-600 dark:text-teal-300'
+                : 'text-zinc-600 dark:text-zinc-300 group-hover:text-teal-600 dark:group-hover:text-teal-300'
           }`}>
             {experience.company}
           </p>
@@ -106,7 +114,9 @@ const TimelineItem = ({ experience, index, isLast, setItemRef, visibleItems, lin
         <div className={`p-2 rounded-lg transition-all duration-300 ${
           isMobile 
             ? 'bg-blue-500/20 text-blue-600 dark:text-blue-300' 
-            : 'bg-gray-100 dark:bg-zinc-800 text-zinc-500 dark:text-zinc-400 group-hover:bg-blue-500/20 group-hover:text-blue-600 dark:group-hover:text-blue-300'
+            : isHighlighted
+              ? 'bg-blue-500/20 text-blue-600 dark:text-blue-300'
+              : 'bg-gray-100 dark:bg-zinc-800 text-zinc-500 dark:text-zinc-400 group-hover:bg-blue-500/20 group-hover:text-blue-600 dark:group-hover:text-blue-300'
         }`}>
           {experience.icon}
         </div>
@@ -135,7 +145,9 @@ const TimelineItem = ({ experience, index, isLast, setItemRef, visibleItems, lin
             className={`px-2 py-1 text-xs rounded-full transition-all duration-300 border ${
               isMobile 
                 ? 'bg-blue-500/20 text-blue-600 dark:text-blue-300 border-blue-500/30' 
-                : 'bg-gray-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 border-gray-300 dark:border-zinc-700 group-hover:bg-blue-500/20 group-hover:text-blue-600 dark:group-hover:text-blue-300 group-hover:border-blue-500/30'
+                : isHighlighted
+                  ? 'bg-blue-500/20 text-blue-600 dark:text-blue-300 border-blue-500/30'
+                  : 'bg-gray-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 border-gray-300 dark:border-zinc-700 group-hover:bg-blue-500/20 group-hover:text-blue-600 dark:group-hover:text-blue-300 group-hover:border-blue-500/30'
             }`}
           >
             {skill}
@@ -145,7 +157,11 @@ const TimelineItem = ({ experience, index, isLast, setItemRef, visibleItems, lin
       
       {/* Achievements */}
       {experience.achievements && experience.achievements.length > 0 && (
-        <div className="text-xs space-y-1 text-zinc-500 dark:text-zinc-400 group-hover:text-zinc-600 dark:group-hover:text-zinc-300 transition-colors duration-300">
+        <div className={`text-xs space-y-1 transition-colors duration-300 ${
+          isHighlighted
+            ? 'text-zinc-600 dark:text-zinc-300'
+            : 'text-zinc-500 dark:text-zinc-400 group-hover:text-zinc-600 dark:group-hover:text-zinc-300'
+        }`}>
           {experience.achievements.map((achievement, achievementIndex) => (
             <div key={achievementIndex} className="flex items-start gap-2">
               <Award className="w-3 h-3 mt-0.5 flex-shrink-0 text-yellow-500" />
@@ -225,6 +241,7 @@ export default function Timeline() {
   ];
 
   const { containerRef, setItemRef, visibleItems, lineProgress } = useTimelineAnimation(experiences.length, 0.3);
+  const { setItemRef: setHighlightRef, highlightedIndex } = useViewportHighlight(experiences.length, 0.3);
 
   return (
     <section id="about" className="py-16 sm:py-24">
@@ -244,6 +261,8 @@ export default function Timeline() {
                 setItemRef={setItemRef}
                 visibleItems={visibleItems}
                 lineProgress={lineProgress}
+                isHighlighted={highlightedIndex === index}
+                setHighlightRef={setHighlightRef}
               />
             ))}
           </div>
