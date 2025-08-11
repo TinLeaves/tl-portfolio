@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
-import { Menu, X } from "lucide-react";
-import { NAVIGATION_SECTIONS } from '../utils/constants';
+import { Menu, X, Download } from "lucide-react";
+import { NAVIGATION_SECTIONS, PERSONAL_INFO } from '../utils/constants';
 import { scrollToSection } from '../utils/scrollUtils';
 import ThemeToggle from './ThemeToggle';
 
@@ -195,7 +195,7 @@ export default function Navbar() {
                 <div 
                     className={`md:hidden absolute top-full left-0 w-full bg-white/95 dark:bg-zinc-950/95 backdrop-blur-xl border-b border-gray-200 dark:border-zinc-700 shadow-xl overflow-hidden transition-all duration-300 transform ${
                         isMobileMenuOpen 
-                            ? 'opacity-100 translate-y-0 max-h-64' 
+                            ? 'opacity-100 translate-y-0 max-h-80' 
                             : 'opacity-0 -translate-y-4 max-h-0 pointer-events-none'
                     }`}
                 >
@@ -214,6 +214,18 @@ export default function Navbar() {
                                     {section.charAt(0).toUpperCase() + section.slice(1)}
                                 </button>
                             ))}
+                            
+                            {/* Download Resume Button */}
+                            <a
+                                href={PERSONAL_INFO.resume}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                onClick={() => setIsMobileMenuOpen(false)}
+                                className="w-full flex items-center justify-between px-4 py-4 text-base font-medium rounded-xl transition-all duration-200 focus:outline-none focus:ring-0 text-zinc-700 dark:text-zinc-300 hover:bg-blue-500/10 hover:text-blue-600 dark:hover:text-blue-300"
+                            >
+                                Resume
+                                <Download className="w-5 h-5" />
+                            </a>
                         </div>
                     </div>
                 </div>
